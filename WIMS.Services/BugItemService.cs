@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,15 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddBugItem (BugItemCreate model)
+        public async Task<bool> AddBugItem (BugItemCreate model,IdentityUser user)
         {
             BugItem item = new BugItem
             {
                 Description = model.Description,
-                Size = model.Size
+                Size = model.Size,
+                CreatorId = user.Id,
+                OwnerId = user.Id,
+                OwnerName = user.UserName
             };
             await _context.BugItems.AddAsync(item);
             int changes = await _context.SaveChangesAsync();
@@ -34,11 +38,13 @@ namespace WIMS.Services
         public async Task<IEnumerable<WorkItemListItem>> GetBugItems()
         {
             List<BugItem> items = await _context.BugItems.ToListAsync();
+            
             IEnumerable<WorkItemListItem> listItems = items.Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
-                Size = i.Size
+                Size = i.Size,
+                OwnerName = i.OwnerName
             });
             return listItems;
         }

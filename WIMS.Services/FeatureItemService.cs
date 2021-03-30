@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,15 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddFeatureItem(FeatureItemCreate model)
+        public async Task<bool> AddFeatureItem(FeatureItemCreate model, IdentityUser user)
         {
             FeatureItem item = new FeatureItem
             {
                 Description = model.Description,
-                Size = model.Size
+                Size = model.Size,
+                CreatorId = user.Id,
+                OwnerId = user.Id,
+                OwnerName = user.UserName
             };
             await _context.FeatureItems.AddAsync(item);
             int changes = await _context.SaveChangesAsync();
@@ -36,7 +40,8 @@ namespace WIMS.Services
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
-                Size = i.Size
+                Size = i.Size,
+                OwnerName = i.OwnerName
             });
             return listItems;
         }

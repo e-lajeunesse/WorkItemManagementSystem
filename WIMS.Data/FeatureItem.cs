@@ -15,7 +15,8 @@ namespace WIMS.Data
         public int DaysPending { get; set; }
         public bool IsComplete { get; set; }
         public DateTime DateCompleted { get; set; }
-        public Guid CreatorId { get; set; }
-        public Guid OwnderId { get; set; }
+        public string CreatorId { get; set; }
+        public string OwnerId { get; set; }
+        public string OwnerName { get; set; }
     }
 }

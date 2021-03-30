@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace WIMS.Data
@@ -10,12 +11,29 @@ namespace WIMS.Data
         [Key]
         public int ItemId { get; set; }
         public string Description { get; set; }
+        public string Type
+        {
+            get
+            {
+                return this.GetType().ToString();
+            }
+        }
         public Size Size { get; set; }
         public DateTime DateCreated { get; set; }
- //       public int DaysPending { get; set; }
-        public bool IsComplete { get; set; }
-//        public DateTime DateCompleted { get; set; }
-/*        public Guid CreatorId { get; set; }
-        public Guid OwnderId { get; set; }*/
+        public int DaysPending 
+        {
+            get 
+            {
+                double days = (DateCreated - DateTime.Now).TotalDays;
+                return (int)days;
+            }
+        }
+        public bool IsComplete { get; set; } = false;
+        public DateTime DateCompleted { get; set; }
+        public string CreatorId { get; set; }
+
+        
+        public string OwnerId { get; set; }
+        public string OwnerName { get; set; }
     }
 }

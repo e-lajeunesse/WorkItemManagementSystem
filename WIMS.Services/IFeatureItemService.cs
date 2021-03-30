@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace WIMS.Services
 {
     public interface IFeatureItemService
     {
-        Task<bool> AddFeatureItem(FeatureItemCreate model);
+        Task<bool> AddFeatureItem(FeatureItemCreate model, IdentityUser user);
         Task<IEnumerable<WorkItemListItem>> GetFeatureItems();
     }
 }

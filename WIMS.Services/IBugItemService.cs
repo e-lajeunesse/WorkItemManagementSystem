@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace WIMS.Services
 {
     public interface IBugItemService
     {
-        Task<bool> AddBugItem (BugItemCreate model);
+        Task<bool> AddBugItem (BugItemCreate model, IdentityUser user);
         Task<IEnumerable<WorkItemListItem>> GetBugItems();
     }
 }
