@@ -14,5 +14,6 @@ namespace WIMS.MVC.Data
         {
         }
         public DbSet<BugItem> BugItems { get; set; }
+        public DbSet<FeatureItem> FeatureItems { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace WIMS.MVC
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IBugItemService, BugItemService>();
+            services.AddScoped<IFeatureItemService, FeatureItemService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

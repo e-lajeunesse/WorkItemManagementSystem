@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WIMS.Data
 {
-    public enum Size { sm, md, lg, xl}
+    public enum Size { SM, MD, LG, XL}
     public interface IWorkItem
     {
         int ItemId { get; set; }

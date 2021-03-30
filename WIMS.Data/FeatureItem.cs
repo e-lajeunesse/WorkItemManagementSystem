@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace WIMS.Data
 {
     public class FeatureItem : IWorkItem
     {
+        [Key]
         public int ItemId { get; set; }
         public string Description { get; set; }
         public Size Size { get; set; }
