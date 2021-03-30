@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WIMS.MVC.Data;
+using WIMS.Services;
 
 namespace WIMS.MVC
 {
@@ -32,6 +33,7 @@ namespace WIMS.MVC
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IBugItemService, BugItemService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

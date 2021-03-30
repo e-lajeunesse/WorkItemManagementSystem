@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WIMS.Data;
 
 namespace WIMS.MVC.Data
 {
@@ -12,5 +13,6 @@ namespace WIMS.MVC.Data
             : base(options)
         {
         }
+        public DbSet<BugItem> BugItems { get; set; }
     }
 }
