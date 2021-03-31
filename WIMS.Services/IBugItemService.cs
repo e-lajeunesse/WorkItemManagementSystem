@@ -12,7 +12,7 @@ namespace WIMS.Services
 {
     public interface IBugItemService
     {
-        Task<bool> AddBugItem (BugItemCreate model, IdentityUser user);
+        Task<bool> AddBugItem (BugItemCreate model, string userId);
         Task<IEnumerable<WorkItemListItem>> GetBugItems();
     }
 }

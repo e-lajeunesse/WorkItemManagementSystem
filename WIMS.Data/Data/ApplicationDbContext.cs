@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,4 +17,7 @@ namespace WIMS.MVC.Data
         public DbSet<BugItem> BugItems { get; set; }
         public DbSet<FeatureItem> FeatureItems { get; set; }
     }
+
+
+
 }

@@ -28,12 +28,12 @@ namespace WIMS.Data
                 return (int)days;
             }
         }
-        public bool IsComplete { get; set; } = false;
+        public bool IsComplete { get; set; }
         public DateTime DateCompleted { get; set; }
         public string CreatorId { get; set; }
-
         
-        public string OwnerId { get; set; }
-        public string OwnerName { get; set; }
+        [ForeignKey(nameof(ApplicationUser))]
+        public string ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

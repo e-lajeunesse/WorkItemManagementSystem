@@ -20,15 +20,16 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddBugItem (BugItemCreate model,IdentityUser user)
+        public async Task<bool> AddBugItem (BugItemCreate model,string userId)
         {
             BugItem item = new BugItem
             {
                 Description = model.Description,
                 Size = model.Size,
-                CreatorId = user.Id,
-                OwnerId = user.Id,
-                OwnerName = user.UserName
+                IsComplete = false,
+                CreatorId = userId,
+                ApplicationUserId = userId,
+                
             };
             await _context.BugItems.AddAsync(item);
             int changes = await _context.SaveChangesAsync();
@@ -37,16 +38,16 @@ namespace WIMS.Services
 
         public async Task<IEnumerable<WorkItemListItem>> GetBugItems()
         {
-            List<BugItem> items = await _context.BugItems.ToListAsync();
             
-            IEnumerable<WorkItemListItem> listItems = items.Select(i => new WorkItemListItem
+            
+            return await _context.BugItems.Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
                 Size = i.Size,
-                OwnerName = i.OwnerName
-            });
-            return listItems;
+                OwnerName = i.ApplicationUser.UserName
+            }).ToListAsync();
+            
         }
     }
 }

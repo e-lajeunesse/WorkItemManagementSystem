@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WIMS.Data;
 using WIMS.Models;
 using WIMS.Models.BugItemModels;
 using WIMS.Models.FeatureItemModels;
+using WIMS.MVC.Data;
 using WIMS.Services;
 
 namespace WIMS.MVC.Controllers
@@ -16,10 +18,10 @@ namespace WIMS.MVC.Controllers
     {
         private readonly IBugItemService _bugService;
         private readonly IFeatureItemService _featureService;
-        private readonly UserManager<IdentityUser> _userManager;
-        
-        
-        public WorkItemController(IBugItemService bugService,IFeatureItemService featureService,UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+        public WorkItemController(IBugItemService bugService, IFeatureItemService featureService, UserManager<ApplicationUser> userManager)
         {
             _bugService = bugService;
             _featureService = featureService;
@@ -34,8 +36,7 @@ namespace WIMS.MVC.Controllers
             List<WorkItemListItem> bugItemList = bugItems.ToList();
             IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItems();
             List<WorkItemListItem> featureItemList = featureItems.ToList();
-            bugItemList.AddRange(featureItemList);
-           
+            bugItemList.AddRange(featureItemList);           
             return View(bugItemList);
         }
 
@@ -59,7 +60,7 @@ namespace WIMS.MVC.Controllers
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
 /*            string ownerName = user.Result.UserName;
             var userId = _userManager.GetUserId(HttpContext.User);*/
-            bool wasAdded = await _bugService.AddBugItem(model, user);
+            bool wasAdded = await _bugService.AddBugItem(model, user.Id);
             if (wasAdded)
             {
                 return RedirectToAction("Index");
@@ -87,7 +88,7 @@ namespace WIMS.MVC.Controllers
                 return View(model);
             }
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
-            bool wasAdded = await _featureService.AddFeatureItem(model,user);
+            bool wasAdded = await _featureService.AddFeatureItem(model,user.Id);
             if (wasAdded)
             {
                 return RedirectToAction("Index");

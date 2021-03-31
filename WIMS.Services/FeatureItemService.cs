@@ -19,15 +19,16 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddFeatureItem(FeatureItemCreate model, IdentityUser user)
+        public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId)
         {
             FeatureItem item = new FeatureItem
             {
                 Description = model.Description,
                 Size = model.Size,
-                CreatorId = user.Id,
-                OwnerId = user.Id,
-                OwnerName = user.UserName
+                IsComplete = false,
+                CreatorId = userId,
+                ApplicationUserId = userId,
+                
             };
             await _context.FeatureItems.AddAsync(item);
             int changes = await _context.SaveChangesAsync();
@@ -35,15 +36,15 @@ namespace WIMS.Services
         }
         public async Task<IEnumerable<WorkItemListItem>> GetFeatureItems()
         {
-            List<FeatureItem> items = await _context.FeatureItems.ToListAsync();
-            IEnumerable<WorkItemListItem> listItems = items.Select(i => new WorkItemListItem
+            
+            return await _context.FeatureItems.Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
                 Size = i.Size,
-                OwnerName = i.OwnerName
-            });
-            return listItems;
+                OwnerName = i.ApplicationUser.UserName
+            }).ToListAsync();
+            
         }
     }
 }

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WIMS.Data\WIMS.Data.csproj" />
     <ProjectReference Include="..\WIMS.Services\WIMS.Services.csproj" />
   </ItemGroup>
 

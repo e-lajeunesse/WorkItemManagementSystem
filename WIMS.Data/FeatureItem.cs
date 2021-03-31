@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace WIMS.Data
@@ -16,7 +17,9 @@ namespace WIMS.Data
         public bool IsComplete { get; set; }
         public DateTime DateCompleted { get; set; }
         public string CreatorId { get; set; }
-        public string OwnerId { get; set; }
-        public string OwnerName { get; set; }
+
+        [ForeignKey(nameof(ApplicationUser))]
+        public string ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
