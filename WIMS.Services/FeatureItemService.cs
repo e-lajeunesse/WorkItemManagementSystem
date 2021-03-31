@@ -19,14 +19,15 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId)
+        public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string userName)
         {
             FeatureItem item = new FeatureItem
             {
                 Description = model.Description,
                 Size = model.Size,
+                DateCreated = DateTime.Now,
                 IsComplete = false,
-                CreatorId = userId,
+                CreatorName = userName,
                 ApplicationUserId = userId,
                 
             };
@@ -41,7 +42,9 @@ namespace WIMS.Services
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
+                Type = i.Type,
                 Size = i.Size,
+                DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.UserName
             }).ToListAsync();
             

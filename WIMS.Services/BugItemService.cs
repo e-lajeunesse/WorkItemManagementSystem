@@ -20,14 +20,15 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> AddBugItem (BugItemCreate model,string userId)
+        public async Task<bool> AddBugItem (BugItemCreate model,string userId, string userName)
         {
             BugItem item = new BugItem
             {
                 Description = model.Description,
                 Size = model.Size,
                 IsComplete = false,
-                CreatorId = userId,
+                DateCreated = DateTime.Now,
+                CreatorName = userName,
                 ApplicationUserId = userId,
                 
             };
@@ -44,7 +45,9 @@ namespace WIMS.Services
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
+                Type = i.Type,
                 Size = i.Size,
+                DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.UserName
             }).ToListAsync();
             
