@@ -1,0 +1,43 @@
+﻿@model WIMS.Models.FeatureItemModels.FeatureItemEdit
+
+@{
+    ViewData["Title"] = "EditFeatureItem";
+}
+
+<h1>EditFeatureItem</h1>
+
+<h4>FeatureItemEdit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditFeatureItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+               @* <label asp-for="ItemId" class="control-label"></label>*@
+                <input asp-for="ItemId" type="hidden" class="form-control" />
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

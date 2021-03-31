@@ -10,8 +10,6 @@ namespace WIMS.Models
         public int ItemId { get; set; }
         public Size Size { get; set; }
         public ItemType Type { get;set; }
-
-
         public string Description { get; set; }
         public string OwnerName { get; set; }
         public int DaysPending { get; set; }

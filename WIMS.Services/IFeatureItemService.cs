@@ -13,5 +13,8 @@ namespace WIMS.Services
     {
         Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string userName);
         Task<IEnumerable<WorkItemListItem>> GetFeatureItems();
+        Task<FeatureItemDetail> GetFeatureItemById(int id);
+        Task<bool> EditFeatureItem(FeatureItemEdit model);
+        Task<bool> DeleteFeatureItem(int itemId);
     }
 }
