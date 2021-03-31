@@ -11,26 +11,21 @@ namespace WIMS.Data
         [Key]
         public int ItemId { get; set; }
         public string Description { get; set; }
-        public string Type
-        {
-            get
-            {
-                return this.GetType().ToString();
-            }
-        }
+        public ItemType Type => ItemType.Bug;        
         public Size Size { get; set; }
         public DateTime DateCreated { get; set; }
         public int DaysPending 
         {
             get 
             {
-                double days = (DateCreated - DateTime.Now).TotalDays;
+                double days = (DateTime.Now - DateCreated).TotalDays;
                 return (int)days;
             }
         }
         public bool IsComplete { get; set; }
         public DateTime DateCompleted { get; set; }
-        public string CreatorId { get; set; }
+        
+        public string CreatorName { get; set; }
         
         [ForeignKey(nameof(ApplicationUser))]
         public string ApplicationUserId { get; set; }

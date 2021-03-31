@@ -20,10 +20,16 @@
                 @Html.DisplayNameFor(model => model.Size)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OwnerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysPending)
             </th>
             <th></th>
         </tr>
@@ -38,10 +44,16 @@
                 @Html.DisplayFor(modelItem => item.Size)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OwnerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DaysPending)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
