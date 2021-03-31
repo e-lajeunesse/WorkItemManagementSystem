@@ -52,5 +52,39 @@ namespace WIMS.Services
             }).ToListAsync();
             
         }
+
+        public async Task<BugItemDetail> GetBugItemById(int id)
+        {
+            BugItem item = await _context.BugItems.SingleAsync(i => i.ItemId == id);
+            return new BugItemDetail
+            {
+                ItemId = item.ItemId,
+                Description = item.Description,
+                Type = item.Type,
+                Size = item.Size,
+                DateCreated = item.DateCreated,
+                DaysPending = item.DaysPending,
+                CreatorName = item.CreatorName,
+                ApplicationUserId = item.ApplicationUserId,
+                User = item.ApplicationUser
+            };
+        }
+
+        public async Task<bool> EditBugItem(BugItemEdit model)
+        {
+            BugItem itemToEdit = await _context.BugItems.SingleAsync(i => i.ItemId == model.ItemId);
+            itemToEdit.Description = model.Description;
+            itemToEdit.Size = model.Size;
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        public async Task<bool> DeleteBugItem(int itemId)
+        {
+            BugItem itemToDelete = await _context.BugItems.SingleAsync(i => i.ItemId == itemId);
+            _context.BugItems.Remove(itemToDelete);
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
     }
 }

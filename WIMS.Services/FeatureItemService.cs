@@ -36,8 +36,7 @@ namespace WIMS.Services
             return changes == 1;
         }
         public async Task<IEnumerable<WorkItemListItem>> GetFeatureItems()
-        {
-            
+        {            
             return await _context.FeatureItems.Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
@@ -46,8 +45,40 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.UserName
-            }).ToListAsync();
-            
+            }).ToListAsync();            
+        }
+
+        public async Task<FeatureItemDetail> GetFeatureItemById(int id)
+        {
+            FeatureItem item = await _context.FeatureItems.SingleAsync(i => i.ItemId == id);
+            return new FeatureItemDetail
+            {
+                ItemId = item.ItemId,
+                Description = item.Description,
+                Type = item.Type,
+                Size = item.Size,
+                DateCreated = item.DateCreated,
+                DaysPending = item.DaysPending,
+                CreatorName = item.CreatorName,
+                User = item.ApplicationUser
+            };
+        }
+
+        public async Task<bool> EditFeatureItem(FeatureItemEdit model)
+        {
+            FeatureItem itemToEdit = await _context.FeatureItems.SingleAsync(i => i.ItemId == model.ItemId);
+            itemToEdit.Description = model.Description;
+            itemToEdit.Size = model.Size;
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        public async Task<bool> DeleteFeatureItem(int itemId)
+        {
+            FeatureItem itemToDelete = await _context.FeatureItems.SingleAsync(i => i.ItemId == itemId);
+            _context.FeatureItems.Remove(itemToDelete);
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
         }
     }
 }
