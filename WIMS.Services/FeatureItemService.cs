@@ -19,6 +19,8 @@ namespace WIMS.Services
         {
             _context = context;
         }
+
+        // Creates new feature item
         public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string userName)
         {
             FeatureItem item = new FeatureItem
@@ -35,6 +37,8 @@ namespace WIMS.Services
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
+
+        //Gets all feature items
         public async Task<IEnumerable<WorkItemListItem>> GetFeatureItems()
         {            
             return await _context.FeatureItems.Select(i => new WorkItemListItem
@@ -48,6 +52,22 @@ namespace WIMS.Services
             }).ToListAsync();            
         }
 
+        //Gets all feature items for specific user        
+        public async Task<IEnumerable<WorkItemListItem>> GetFeatureItemsByUser(string userId)
+        {
+            ApplicationUser user = await _context.Users.FindAsync(userId);
+            return user.FeatureItems.Select(i => new WorkItemListItem
+            {
+                ItemId = i.ItemId,
+                Description = i.Description,
+                Type = i.Type,
+                Size = i.Size,
+                DaysPending = i.DaysPending,
+                OwnerName = user.UserName
+            });
+        }
+
+        // Gets feature item by item id
         public async Task<FeatureItemDetail> GetFeatureItemById(int id)
         {
             FeatureItem item = await _context.FeatureItems.SingleAsync(i => i.ItemId == id);
@@ -65,6 +85,7 @@ namespace WIMS.Services
             };
         }
 
+        //Edits feature item
         public async Task<bool> EditFeatureItem(FeatureItemEdit model)
         {
             FeatureItem itemToEdit = await _context.FeatureItems.SingleAsync(i => i.ItemId == model.ItemId);
@@ -74,6 +95,7 @@ namespace WIMS.Services
             return changes == 1;
         }
 
+        //Deletes feature item
         public async Task<bool> DeleteFeatureItem(int itemId)
         {
             FeatureItem itemToDelete = await _context.FeatureItems.SingleAsync(i => i.ItemId == itemId);

@@ -35,6 +35,7 @@ namespace WIMS.MVC
                 .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IBugItemService, BugItemService>();
             services.AddScoped<IFeatureItemService, FeatureItemService>();
