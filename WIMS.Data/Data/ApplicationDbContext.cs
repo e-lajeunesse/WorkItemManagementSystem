@@ -13,9 +13,12 @@ namespace WIMS.MVC.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
         public DbSet<BugItem> BugItems { get; set; }
         public DbSet<FeatureItem> FeatureItems { get; set; }
+
+
     }
 
 

@@ -32,6 +32,7 @@ namespace WIMS.Services
                 ApplicationUserId = userId,
                 
             };
+            
             await _context.BugItems.AddAsync(item);
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
@@ -41,7 +42,7 @@ namespace WIMS.Services
         {
             
             
-            return await _context.BugItems.Select(i => new WorkItemListItem
+            return await _context.BugItems.Include(i => i.ApplicationUser).Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
@@ -56,7 +57,8 @@ namespace WIMS.Services
         public async Task<BugItemDetail> GetBugItemById(int id)
         {
             BugItem item = await _context.BugItems.SingleAsync(i => i.ItemId == id);
-            return new BugItemDetail
+            //_context.Entry(item).Reference(BugItem => BugItem.ApplicationUser).Load();
+            BugItemDetail detail = new BugItemDetail
             {
                 ItemId = item.ItemId,
                 Description = item.Description,
@@ -66,8 +68,9 @@ namespace WIMS.Services
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
                 ApplicationUserId = item.ApplicationUserId,
-                User = item.ApplicationUser
+                UserName = item.ApplicationUser.UserName
             };
+            return detail;
         }
 
         public async Task<bool> EditBugItem(BugItemEdit model)

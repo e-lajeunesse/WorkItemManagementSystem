@@ -65,7 +65,15 @@
                     @Html.ActionLink("Edit Feature", "EditFeatureItem", new { id = item.ItemId })
                 }
                 |
-                @Html.ActionLink("Details", "Details", new { id = item.ItemId }) |
+                @if (item.Type == WIMS.Data.ItemType.Bug)
+                {
+                    @Html.ActionLink("Details", "BugItemDetails", new { id = item.ItemId })
+                }
+                else
+                {
+                    @Html.ActionLink("Details","FeatureItemDetails",new { id=item.ItemId})
+                }
+
                 @if (item.Type == WIMS.Data.ItemType.Bug)
                 {
                     @Html.ActionLink("Delete Bug", "DeleteBugItem", new { id = item.ItemId })
@@ -74,6 +82,7 @@
                 {
                     @Html.ActionLink("Delete Feature", "DeleteFeatureItem", new { id = item.ItemId })
                 }
+                
             </td>
         </tr>
 }
