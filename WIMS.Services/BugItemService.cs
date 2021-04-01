@@ -20,6 +20,8 @@ namespace WIMS.Services
         {
             _context = context;
         }
+
+        //Creates new bug item
         public async Task<bool> AddBugItem (BugItemCreate model,string userId, string userName)
         {
             BugItem item = new BugItem
@@ -38,9 +40,9 @@ namespace WIMS.Services
             return changes == 1;
         }
 
+        // Gets all Bug Items
         public async Task<IEnumerable<WorkItemListItem>> GetBugItems()
-        {
-            
+        {          
             
             return await _context.BugItems.Include(i => i.ApplicationUser).Select(i => new WorkItemListItem
             {
@@ -50,10 +52,25 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.UserName
-            }).ToListAsync();
-            
+            }).ToListAsync();            
         }
 
+        // Gets all Bug Items for User
+        public async Task<IEnumerable<WorkItemListItem>> GetBugItemsByUser(string userId)
+        {
+            ApplicationUser user = await _context.Users.FindAsync(userId);
+            return user.BugItems.Select(i => new WorkItemListItem
+            {
+                ItemId = i.ItemId,
+                Description = i.Description,
+                Type = i.Type,
+                Size = i.Size,
+                DaysPending = i.DaysPending,
+                OwnerName = user.UserName
+            });
+        }
+
+        // Gets Bug Item by item Id
         public async Task<BugItemDetail> GetBugItemById(int id)
         {
             BugItem item = await _context.BugItems.SingleAsync(i => i.ItemId == id);
@@ -73,6 +90,7 @@ namespace WIMS.Services
             return detail;
         }
 
+        // Edit Bug Item
         public async Task<bool> EditBugItem(BugItemEdit model)
         {
             BugItem itemToEdit = await _context.BugItems.SingleAsync(i => i.ItemId == model.ItemId);
@@ -82,6 +100,7 @@ namespace WIMS.Services
             return changes == 1;
         }
 
+        // Delete Bug Item
         public async Task<bool> DeleteBugItem(int itemId)
         {
             BugItem itemToDelete = await _context.BugItems.SingleAsync(i => i.ItemId == itemId);

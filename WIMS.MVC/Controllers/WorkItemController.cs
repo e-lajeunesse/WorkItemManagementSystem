@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using WIMS.Services;
 
 namespace WIMS.MVC.Controllers
 {
+    [Authorize]
     public class WorkItemController : Controller
     {
         private readonly IBugItemService _bugService;
@@ -31,10 +33,10 @@ namespace WIMS.MVC.Controllers
         //GET: /WorkItem
         public async Task<IActionResult> Index()
         {
-            
-            IEnumerable<WorkItemListItem> bugItems =  await _bugService.GetBugItems();
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            IEnumerable<WorkItemListItem> bugItems = await _bugService.GetBugItemsByUser(user.Id);
             List<WorkItemListItem> bugItemList = bugItems.ToList();
-            IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItems();
+            IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
             List<WorkItemListItem> featureItemList = featureItems.ToList();
             bugItemList.AddRange(featureItemList);           
             return View(bugItemList);
