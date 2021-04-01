@@ -30,7 +30,9 @@ namespace WIMS.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -45,6 +47,8 @@ namespace WIMS.MVC
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
+
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

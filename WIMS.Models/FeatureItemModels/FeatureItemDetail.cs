@@ -21,6 +21,6 @@ namespace WIMS.Models.FeatureItemModels
         public string ApplicationUserId { get; set; }
 
         [Display(Name ="Assigned To")]
-        public ApplicationUser User { get; set; }
+        public string UserName { get; set; }
     }
 }

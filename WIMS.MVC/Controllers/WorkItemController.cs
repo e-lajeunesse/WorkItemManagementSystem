@@ -69,6 +69,14 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
+        //GET: WorkItem/Detail
+        [ActionName("BugItemDetails")]
+        public async Task<IActionResult> BugItemDetails(int id)
+        {
+            BugItemDetail bugItem = await _bugService.GetBugItemById(id);
+            return View(bugItem);
+        }
+
         //GET: WorkItem/Delete/BugItem
         [ActionName("DeleteBugItem")]
         public IActionResult DeleteBugItem(int id)
@@ -129,7 +137,7 @@ namespace WIMS.MVC.Controllers
         }
 
 
-        //Feature Item Methods
+        // Feature Item Methods
 
         //GET: WorkItem/CreateFeatureItem
         public IActionResult CreateFeatureItem()
@@ -154,6 +162,14 @@ namespace WIMS.MVC.Controllers
             }
             ModelState.AddModelError("", "Unable to add feature");
             return View(model);
+        }
+
+        //GET: WorkItem/FeatureItemDetails
+        [ActionName("FeatureItemDetails")]
+        public async Task<IActionResult> FeatureItemDetails(int id)
+        {
+            FeatureItemDetail featureItem = await _featureService.GetFeatureItemById(id);
+            return View(featureItem);
         }
 
         //GET: WorkItem/EditFeatureItem

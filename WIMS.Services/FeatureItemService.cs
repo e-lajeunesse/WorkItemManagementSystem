@@ -60,7 +60,8 @@ namespace WIMS.Services
                 DateCreated = item.DateCreated,
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
-                User = item.ApplicationUser
+                ApplicationUserId = item.ApplicationUserId,
+                UserName = item.ApplicationUser.UserName
             };
         }
 
