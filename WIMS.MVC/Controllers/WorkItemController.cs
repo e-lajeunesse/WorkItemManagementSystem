@@ -117,7 +117,6 @@ namespace WIMS.MVC.Controllers
         //POST: WorkItem/EditBugItem
         [ActionName("EditBugItem")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBugItem(int id, BugItemEdit model)
         {
             if (!ModelState.IsValid)
