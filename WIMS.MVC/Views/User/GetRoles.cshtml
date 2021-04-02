@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+   
+
+@{
+    ViewBag.Title = "All User Roles";
+}
+
+<h1>All Roles</h1>
+
+
+@if (Model.Any())
+{
+    <a class="btn btn-primary" style="width:auto" asp-controller="User" asp-action="CreateRole">Create New Role</a>
+    foreach (var role in Model)
+    {
+        <div class="card w-75 my-2">
+            <div class="card-header">
+                Role Id: @role.Id
+            </div>
+            <div class="card-body row">
+                <h5 class="card-title col-8">@role.Name</h5>
+                <a class="btn btn-primary mx-1" style="width:auto" asp-controller="User" 
+                   asp-action="EditRole" asp-route-id="@role.Id">Edit Role
+                </a>
+                <a class="btn btn-primary mx-1" style="width:auto" asp-controller="User" asp-action="DeleteRole">Delete Role</a>
+            </div>
+@*            <div class="card-footer">
+                <a>Edit</a>
+                <a>Delete</a>
+            </div>*@
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Roles have been created yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Click below to create a Role</h5>
+
+            <a class="btn btn-primary" style="width:auto" asp-controller="User" asp-action="CreateRole">Create Role</a>
+        </div>
+    </div>
+}
+@*<script>
+    const button = document.querySelector("#button");
+    button.addEventListener("click", () => { alert("Test") });
+</script>*@

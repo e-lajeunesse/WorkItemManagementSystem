@@ -10,7 +10,7 @@
     <a asp-action="CreateBugItem">Add New Bug</a>
     <a asp-action="CreateFeatureItem">Add New Feature</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -52,7 +52,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.OwnerName)
             </td>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.DaysPending)
             </td>
             <td>
@@ -71,20 +71,24 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Details","FeatureItemDetails",new { id=item.ItemId})
+                    @Html.ActionLink("Details", "FeatureItemDetails", new { id = item.ItemId })
                 }
 
                 @if (item.Type == WIMS.Data.ItemType.Bug)
                 {
-                    @Html.ActionLink("Delete Bug", "DeleteBugItem", new { id = item.ItemId })
+
+                    //@Html.ActionLink("Delete Bug", "DeleteBugItem", new { id = item.ItemId })
+                    <a href='@Url.Action("DeleteBugItem", "WorkItem", new { id = item.ItemId })' class="btn-sm btn-primary">Delete Bug</a>
+
                 }
                 else
                 {
                     @Html.ActionLink("Delete Feature", "DeleteFeatureItem", new { id = item.ItemId })
                 }
-                
+
             </td>
         </tr>
+        
 }
     </tbody>
 </table>
