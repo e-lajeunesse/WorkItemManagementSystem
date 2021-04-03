@@ -21,7 +21,7 @@ namespace WIMS.Services
         }
 
         // Creates new feature item
-        public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string userName)
+        public async Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string fullName)
         {
             FeatureItem item = new FeatureItem
             {
@@ -29,7 +29,7 @@ namespace WIMS.Services
                 Size = model.Size,
                 DateCreated = DateTime.Now,
                 IsComplete = false,
-                CreatorName = userName,
+                CreatorName = fullName,
                 ApplicationUserId = userId,
                 
             };
@@ -48,7 +48,7 @@ namespace WIMS.Services
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
-                OwnerName = i.ApplicationUser.UserName
+                OwnerName = i.ApplicationUser.FullName
             }).ToListAsync();            
         }
 
@@ -63,7 +63,7 @@ namespace WIMS.Services
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
-                OwnerName = user.UserName
+                OwnerName = user.FullName
             });
         }
 
@@ -82,7 +82,7 @@ namespace WIMS.Services
                     Type = i.Type,
                     Size = i.Size,
                     DaysPending = i.DaysPending,
-                    OwnerName = i.ApplicationUser.UserName
+                    OwnerName = i.ApplicationUser.FullName
                 });
         }
 
@@ -100,7 +100,7 @@ namespace WIMS.Services
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
                 ApplicationUserId = item.ApplicationUserId,
-                UserName = item.ApplicationUser.UserName
+                FullName = item.ApplicationUser.FullName
             };
         }
 

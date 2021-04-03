@@ -22,7 +22,7 @@ namespace WIMS.Services
         }
 
         //Creates new bug item
-        public async Task<bool> AddBugItem (BugItemCreate model,string userId, string userName)
+        public async Task<bool> AddBugItem (BugItemCreate model,string userId, string fullName)
         {
             BugItem item = new BugItem
             {
@@ -30,7 +30,7 @@ namespace WIMS.Services
                 Size = model.Size,
                 IsComplete = false,
                 DateCreated = DateTime.Now,
-                CreatorName = userName,
+                CreatorName = fullName,
                 ApplicationUserId = userId,
                 
             };
@@ -51,7 +51,7 @@ namespace WIMS.Services
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
-                OwnerName = i.ApplicationUser.UserName
+                OwnerName = i.ApplicationUser.FullName
             }).ToListAsync();            
         }
 
@@ -66,7 +66,7 @@ namespace WIMS.Services
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
-                OwnerName = user.UserName
+                OwnerName = user.FullName
             });
         }
 
@@ -85,7 +85,7 @@ namespace WIMS.Services
                     Type = i.Type,
                     Size = i.Size,
                     DaysPending = i.DaysPending,
-                    OwnerName = i.ApplicationUser.UserName
+                    OwnerName = i.ApplicationUser.FullName
                 });  
         }
 
@@ -104,7 +104,7 @@ namespace WIMS.Services
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
                 ApplicationUserId = item.ApplicationUserId,
-                UserName = item.ApplicationUser.UserName
+                FullName = item.ApplicationUser.FullName
             };
             return detail;
         }

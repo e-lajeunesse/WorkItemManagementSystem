@@ -72,7 +72,7 @@ namespace WIMS.MVC.Controllers
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
 /*            string ownerName = user.Result.UserName;
             var userId = _userManager.GetUserId(HttpContext.User);*/
-            bool wasAdded = await _bugService.AddBugItem(model, user.Id, user.UserName);
+            bool wasAdded = await _bugService.AddBugItem(model, user.Id, user.FullName);
             if (wasAdded)
             {
                 return RedirectToAction("Index");
@@ -166,7 +166,7 @@ namespace WIMS.MVC.Controllers
                 return View(model);
             }
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
-            bool wasAdded = await _featureService.AddFeatureItem(model,user.Id, user.UserName);
+            bool wasAdded = await _featureService.AddFeatureItem(model,user.Id, user.FullName);
             if (wasAdded)
             {
                 return RedirectToAction("Index");

@@ -8,6 +8,7 @@ namespace WIMS.Data
 {
     public class ApplicationUser : IdentityUser
     {
+        public string FullName { get; set; }
         public virtual List<BugItem> BugItems { get; set; }
         public virtual List<FeatureItem> FeatureItems { get; set; }
         public bool IsManager { get; set; }
