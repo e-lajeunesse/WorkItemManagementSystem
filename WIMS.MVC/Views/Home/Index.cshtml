@@ -2,9 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @Html.ActionLink("Manage users","Index","User")
-    @Html.ActionLink("My Work Items","Index","WorkItem")
+<div class="jumbotron">
+    <h1 class="display-4">Work Item Management System</h1>
+    <hr class="my-4"/>
+    <a href='@Url.Action( "Index", "User")' class="btn-sm btn-primary">Manage Users</a>
+    <a href='@Url.Action( "Index", "WorkItem")' class="btn-sm btn-primary">Work Items</a>
+    <a href='@Url.Action( "Index", "Team")' class="btn-sm btn-primary">Manage Teams</a>
+@*    @Html.ActionLink("Manage users", "Index", "User")
+    @Html.ActionLink("My Work Items", "Index", "WorkItem")
+    @Html.ActionLink("Teams", "Index", "Team")*@
 </div>

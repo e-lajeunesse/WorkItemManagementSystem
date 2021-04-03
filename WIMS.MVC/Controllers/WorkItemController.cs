@@ -34,12 +34,22 @@ namespace WIMS.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
-            IEnumerable<WorkItemListItem> bugItems = await _bugService.GetBugItemsByUser(user.Id);
-            List<WorkItemListItem> bugItemList = bugItems.ToList();
-            IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
-            List<WorkItemListItem> featureItemList = featureItems.ToList();
-            bugItemList.AddRange(featureItemList);           
-            return View(bugItemList);
+            if (user.IsManager && user.TeamId != null)
+            {
+                List<WorkItemListItem> bugItemList =  _bugService.GetBugItemsByTeam(user.TeamId).ToList();
+                List<WorkItemListItem> featureItemList = _featureService.GetFeatureItemsByTeam(user.TeamId).ToList();
+                bugItemList.AddRange(featureItemList);
+                return View(bugItemList);
+            }
+            else
+            {
+                IEnumerable<WorkItemListItem> bugItems = await _bugService.GetBugItemsByUser(user.Id);
+                List<WorkItemListItem> bugItemList = bugItems.ToList();
+                IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
+                List<WorkItemListItem> featureItemList = featureItems.ToList();
+                bugItemList.AddRange(featureItemList);           
+                return View(bugItemList);
+            }
         }
 
         //Bug Item Methods
@@ -134,7 +144,7 @@ namespace WIMS.MVC.Controllers
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("", "Unable to update item");
-            return View();
+            return View(model);
         }
 
 
