@@ -37,8 +37,8 @@ namespace WIMS.Services
             {
                 TeamId = t.TeamId,
                 TeamName = t.TeamName,
-                ManagerName = t.Users.Single(u => u.IsManager == true).UserName,
-                EmployeeNames = t.Users.Where(u => u.IsManager == false).Select(u => u.UserName).ToList()
+                ManagerName = t.Users.Single(u => u.IsManager == true).FullName,
+                EmployeeNames = t.Users.Where(u => u.IsManager == false).Select(u => u.FullName).ToList()
             }).ToListAsync();            
         }
 
@@ -57,12 +57,12 @@ namespace WIMS.Services
             if (teamToGet.Users.Count > 0)
             {
                 var manager = teamToGet.Users.SingleOrDefault(u => u.IsManager == true);
-                detail.ManagerName = manager == null ? null : manager.UserName;
+                detail.ManagerName = manager == null ? null : manager.FullName;
                 foreach(var user in teamToGet.Users)
                 {
                     if (!user.IsManager)
                     {
-                        detail.EmployeeNames.Add(user.UserName);
+                        detail.EmployeeNames.Add(user.FullName);
                     }
                 }
             }

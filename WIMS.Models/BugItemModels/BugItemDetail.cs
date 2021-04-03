@@ -21,6 +21,6 @@ namespace WIMS.Models.BugItemModels
         public string ApplicationUserId { get; set; }
 
         [Display(Name = "Assigned To")]
-        public string UserName { get; set; }
+        public string FullName { get; set; }
     }
 }

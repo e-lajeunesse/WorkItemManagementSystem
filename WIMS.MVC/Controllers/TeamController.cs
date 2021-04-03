@@ -76,7 +76,7 @@ namespace WIMS.MVC.Controllers
             {
                 if (user.TeamId == id)
                 {
-                    model.Employees.Add(user.UserName);
+                    model.Employees.Add(user.FullName);
                 }
             }
             return View(model);
@@ -115,7 +115,7 @@ namespace WIMS.MVC.Controllers
                 var teamMember = new TeamMembersEdit
                 {
                     UserId = user.Id,
-                    UserName = user.UserName,
+                    FullName = user.FullName,
                     IsSelected = user.TeamId == teamId,
                     IsManager = user.IsManager
                 };
