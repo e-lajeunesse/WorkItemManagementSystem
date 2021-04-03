@@ -40,6 +40,7 @@ namespace WIMS.MVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IBugItemService, BugItemService>();
             services.AddScoped<IFeatureItemService, FeatureItemService>();
+            services.AddScoped<ITeamService, TeamService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;

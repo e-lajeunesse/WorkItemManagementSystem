@@ -67,6 +67,25 @@ namespace WIMS.Services
             });
         }
 
+        //Gets all feature items for a team
+        public IEnumerable<WorkItemListItem> GetFeatureItemsByTeam(int? teamId)
+        {
+            if (teamId == null)
+            {
+                return null;
+            }
+            return _context.FeatureItems.Where(i => i.ApplicationUser.TeamId == teamId)
+                .Select(i => new WorkItemListItem
+                {
+                    ItemId = i.ItemId,
+                    Description = i.Description,
+                    Type = i.Type,
+                    Size = i.Size,
+                    DaysPending = i.DaysPending,
+                    OwnerName = i.ApplicationUser.UserName
+                });
+        }
+
         // Gets feature item by item id
         public async Task<FeatureItemDetail> GetFeatureItemById(int id)
         {

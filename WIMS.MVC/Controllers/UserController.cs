@@ -68,7 +68,7 @@ namespace WIMS.MVC.Controllers
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
-                return View("NotFound");
+                return View();
             }
 
             var model = new UserRoleEdit
@@ -115,6 +115,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: User/EditUsersInRole
+        
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId;
@@ -147,6 +148,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: User/EditUsersInRole
+        // Assign or remove users from role
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UsersInRoleEdit> model, string roleId)
         {
@@ -164,10 +166,18 @@ namespace WIMS.MVC.Controllers
 
                 if (userModel.IsSelected && !(await _userManager.IsInRoleAsync(user,role.Name)))
                 {
+                    if (role.Name == "Manager")
+                    {
+                        user.IsManager = true;
+                    }
                     result = await _userManager.AddToRoleAsync(user, role.Name);
                 }
-                else if (!(userModel.IsSelected && (await _userManager.IsInRoleAsync(user, role.Name))))
+                else if ((!userModel.IsSelected && (await _userManager.IsInRoleAsync(user, role.Name))))
                 {
+                    if (role.Name == "Manager")
+                    {
+                        user.IsManager = false;
+                    }
                     result = await _userManager.RemoveFromRoleAsync(user, role.Name);
                 }
                 else

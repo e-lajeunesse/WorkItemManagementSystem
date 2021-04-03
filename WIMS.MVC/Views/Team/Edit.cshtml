@@ -1,0 +1,61 @@
+﻿@model WIMS.Models.TeamModels.TeamEdit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TeamEdit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                
+                <input asp-for="TeamId" type="hidden" class="form-control" />
+                <span asp-validation-for="TeamId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamName" class="control-label"></label>
+                <input asp-for="TeamName" class="form-control" />
+                <span asp-validation-for="TeamName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+            <div class="card">
+                <div class="card-header"> Employees </div>
+                <div class="card-body">
+                    @if(Model.Employees.Any())
+                    {
+                        foreach(var employee in Model.Employees)
+                        {
+                            <h4 class="card-title">@employee</h4>
+                        }
+                    }
+                    else
+                    {
+                        <h5>@($"No employees are currently assigned to team {Model.TeamName}")</h5>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary mx-1" style="width:auto" asp-controller="Team"
+                       asp-route-teamId="@Model.TeamId" 
+                       asp-action="EditTeamMembers">Add or Remove Employees</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

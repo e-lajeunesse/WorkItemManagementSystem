@@ -70,6 +70,25 @@ namespace WIMS.Services
             });
         }
 
+        // Gets all Bug Items for a team
+        public IEnumerable<WorkItemListItem> GetBugItemsByTeam(int? teamId)
+        {
+            if (teamId == null)
+            {
+                return null;
+            }
+            return _context.BugItems.Where(i => i.ApplicationUser.TeamId == teamId)
+                .Select(i => new WorkItemListItem
+                {
+                    ItemId = i.ItemId,
+                    Description = i.Description,
+                    Type = i.Type,
+                    Size = i.Size,
+                    DaysPending = i.DaysPending,
+                    OwnerName = i.ApplicationUser.UserName
+                });  
+        }
+
         // Gets Bug Item by item Id
         public async Task<BugItemDetail> GetBugItemById(int id)
         {
