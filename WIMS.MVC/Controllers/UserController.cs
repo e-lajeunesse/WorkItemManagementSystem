@@ -57,7 +57,11 @@ namespace WIMS.MVC.Controllers
         //Gets list of all Roles
         public IActionResult GetRoles()
         {
-            var roles = _roleManager.Roles;
+            var roles = _roleManager.Roles.Select(r => new RoleListItem
+            {
+                RoleId = r.Id,
+                Name = r.Name
+            });
             return View(roles);
         }
 
@@ -191,6 +195,32 @@ namespace WIMS.MVC.Controllers
                 }
             }
             return RedirectToAction("EditRole", new { id = roleId });
+        }
+
+        //GET: User/DeleteRole/{id}
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            var roleListItem = new RoleListItem
+            {
+                RoleId = role.Id,
+                Name = role.Name
+            };
+            return View(roleListItem);
+        }
+
+        //POST: User/DeleteRole/{id}
+        [HttpPost]
+        [ActionName("DeleteRole")]
+        public async Task<IActionResult> DeleteRolePost(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            var result = await _roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("GetRoles");
+            }
+            return View();
         }
     }
 }
