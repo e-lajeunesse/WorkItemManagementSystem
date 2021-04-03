@@ -13,5 +13,6 @@ namespace WIMS.Services
         Task<TeamDetail> GetTeamById(int id);
         Task<bool> EditTeam(TeamEdit model);
         Task<bool> EditTeamMembers(int teamId,List<TeamMembersEdit> model);
+        Task<bool> DeleteTeam(int teamId);
     }
 }
