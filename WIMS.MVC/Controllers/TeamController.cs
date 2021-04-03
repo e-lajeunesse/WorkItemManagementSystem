@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,20 +111,14 @@ namespace WIMS.MVC.Controllers
             ViewBag.teamName = team.TeamName;
             var model = new List<TeamMembersEdit>();
             foreach(var user in _userManager.Users)
-            {
+            {               
                 var teamMember = new TeamMembersEdit
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.UserName,
+                    IsSelected = user.TeamId == teamId,
+                    IsManager = user.IsManager
                 };
-                if (user.TeamId == teamId)
-                {
-                    teamMember.IsSelected = true;
-                }
-                else
-                {
-                    teamMember.IsSelected = false;
-                }
                 model.Add(teamMember);
             }
             return View(model);
