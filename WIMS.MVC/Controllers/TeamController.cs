@@ -140,5 +140,26 @@ namespace WIMS.MVC.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        //GET: Team/Delete/{id}
+        [HttpGet]
+        
+        public async Task<IActionResult> Delete(int id)
+        {
+            TeamDetail team = await _service.GetTeamById(id);
+            return View(team);
+        }
+
+        //POST: Team/Delete/{id}
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            if (await _service.DeleteTeam(id))
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }

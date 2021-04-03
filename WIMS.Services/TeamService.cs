@@ -44,7 +44,7 @@ namespace WIMS.Services
 
         public async Task<TeamDetail> GetTeamById(int id)
         {
-            Team teamToGet = await _context.Teams.SingleAsync(t => t.TeamId == id);
+            Team teamToGet = await _context.Teams.FindAsync(id);
             TeamDetail detail = new TeamDetail
             {
                 TeamId = teamToGet.TeamId,
@@ -100,6 +100,22 @@ namespace WIMS.Services
                     continue;
                 }
             }
+            int changes = await _context.SaveChangesAsync();
+            return changes > 0;
+        }
+
+        //Delete Team
+        public async Task<bool> DeleteTeam(int teamId)
+        {
+            Team teamToDelete = await _context.Teams.FindAsync(teamId);
+            foreach(var user in _context.Users)
+            {
+                if (user.TeamId == teamId)
+                {
+                    user.TeamId = null;
+                }
+            }
+            _context.Remove(teamToDelete);
             int changes = await _context.SaveChangesAsync();
             return changes > 0;
         }
