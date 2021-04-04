@@ -1,0 +1,24 @@
+﻿@model WIMS.Models.WorkItemReassign
+    
+
+@{
+    List<SelectListItem> users = ViewBag.users;
+}
+
+@*@Html.DropDownList("Employees", users, "Select Employee")*@
+
+
+
+
+
+
+<form method="post">
+    <label asp-for="ApplicationUserId"></label>
+    <select asp-for="ApplicationUserId" asp-items="@users">
+        <option value="">Please Select</option>
+    </select>
+    <span asp-validation-for="ApplicationUserId"></span>
+    <input type="submit" value="Confirm" class="btn btn-primary" style="width:auto" />
+    <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
+</form>
+

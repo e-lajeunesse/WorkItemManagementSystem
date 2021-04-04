@@ -122,5 +122,15 @@ namespace WIMS.Services
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
+
+
+        //Reassign Feature Item
+        public async Task<bool> ReassignFeatureItem(int itemId, WorkItemReassign model)
+        {
+            FeatureItem item = await _context.FeatureItems.FindAsync(itemId);
+            item.ApplicationUserId = model.ApplicationUserId;
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
     }
 }

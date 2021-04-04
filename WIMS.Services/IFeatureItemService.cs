@@ -18,5 +18,6 @@ namespace WIMS.Services
         Task<bool> EditFeatureItem(FeatureItemEdit model);
         Task<bool> DeleteFeatureItem(int itemId);
         IEnumerable<WorkItemListItem> GetFeatureItemsByTeam(int? teamId);
+        Task<bool> ReassignFeatureItem(int id, WorkItemReassign model);
     }
 }

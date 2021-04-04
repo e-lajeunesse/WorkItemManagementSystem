@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,8 @@ namespace WIMS.MVC.Controllers
                 return View(bugItemList);
             }
         }
+
+
 
         //Bug Item Methods
 
@@ -147,6 +150,40 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
+        //GET: WorkItem/ReassignItem/{id}
+        [ActionName("ReassignBugItem")]
+        public IActionResult ReassignBugItem(int id)
+        {
+            var users = _userManager.Users;
+            var usersList = new List<SelectListItem>();
+            foreach (var user in users)
+            {
+                usersList.Add(new SelectListItem
+                {
+                    Text = user.FullName,
+                    Value = user.Id
+                });
+            }
+            ViewBag.users = usersList;
+            return View();
+        }
+
+        //POST: WorkItem/ReassignBugItem/{id}
+        [HttpPost]
+        public async Task<IActionResult> ReassignBugItem(int id, WorkItemReassign model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ReassignBugItem",id);
+            }
+            bool wasReassigned = await _bugService.ReassignBugItem(id, model);
+            if (wasReassigned)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
 
         // Feature Item Methods
 
@@ -240,6 +277,40 @@ namespace WIMS.MVC.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        //GET: WorkItem/ReassignFeatureItem/{id}
+        [ActionName("ReassignFeatureItem")]
+        public IActionResult ReassignFeatureItem(int id)
+        {
+            var users = _userManager.Users;
+            var usersList = new List<SelectListItem>();
+            foreach (var user in users)
+            {
+                usersList.Add(new SelectListItem
+                {
+                    Text = user.FullName,
+                    Value = user.Id
+                });
+            }
+            ViewBag.users = usersList;
+            return View();
+        }
+
+        //POST: WorkItem/ReassignBugItem/{id}
+        [HttpPost]
+        public async Task<IActionResult> ReassignFeatureItem(int id, WorkItemReassign model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ReassignFeatureItem",id);
+            }
+            bool wasReassigned = await _featureService.ReassignFeatureItem(id, model);
+            if (wasReassigned)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
     }
