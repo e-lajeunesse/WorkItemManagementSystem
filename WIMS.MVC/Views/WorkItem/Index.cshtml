@@ -85,6 +85,15 @@
                 {
                     @Html.ActionLink("Delete Feature", "DeleteFeatureItem", new { id = item.ItemId })
                 }
+                @if (item.Type == WIMS.Data.ItemType.Bug)
+                {
+                    @Html.ActionLink("Reassign", "ReassignBugItem", new { id = item.ItemId })
+                }
+                else
+                {
+                    @Html.ActionLink("Reassign","ReassignFeatureItem", new { id = item.ItemId})
+                }
+
 
             </td>
         </tr>
