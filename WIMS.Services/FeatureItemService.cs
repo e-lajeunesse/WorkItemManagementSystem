@@ -64,7 +64,7 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = user.FullName
-            });
+            }).ToList();
         }
 
         //Gets all feature items for a team

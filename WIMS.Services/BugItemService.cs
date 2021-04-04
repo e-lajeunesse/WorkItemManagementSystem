@@ -67,7 +67,7 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = user.FullName
-            });
+            }).ToList();
         }
 
         // Gets all Bug Items for a team

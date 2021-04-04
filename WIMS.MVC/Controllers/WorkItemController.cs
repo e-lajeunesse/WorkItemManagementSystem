@@ -73,8 +73,7 @@ namespace WIMS.MVC.Controllers
                 return View(model);
             }
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
-/*            string ownerName = user.Result.UserName;
-            var userId = _userManager.GetUserId(HttpContext.User);*/
+
             bool wasAdded = await _bugService.AddBugItem(model, user.Id, user.FullName);
             if (wasAdded)
             {
@@ -183,6 +182,16 @@ namespace WIMS.MVC.Controllers
             }
             return View(model);
         }
+
+        //GET: WorkItem/CompleteBugItem/{id}
+        public async Task<IActionResult> CompleteBugItem(int id)
+        {
+            BugItemDetail bugItem = await _bugService.GetBugItemById(id);
+            return View(bugItem);
+        }
+
+
+
 
 
         // Feature Item Methods
