@@ -35,6 +35,7 @@ namespace WIMS.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)
             {
                 List<WorkItemListItem> bugItemList =  _bugService.GetBugItemsByTeam(user.TeamId).ToList();
@@ -190,6 +191,19 @@ namespace WIMS.MVC.Controllers
             return View(bugItem);
         }
 
+        //POST: WorkItem/CompleteBugItem/{id}
+        [ActionName("CompleteBugItem")]
+        [HttpPost]
+        public async Task<IActionResult> CompleteBugItemPost(int id)
+        {
+            bool wasCompleted = await _bugService.CompleteBugItem(id);
+            if (wasCompleted)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
 
 
 
@@ -320,6 +334,26 @@ namespace WIMS.MVC.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        //GET: WorkItem/CompleteFeatureItem/{id}
+        public async Task<IActionResult> CompleteFeatureItem(int id)
+        {
+            FeatureItemDetail featureItem = await _featureService.GetFeatureItemById(id);
+            return View(featureItem);
+        }
+
+        //POST: WorkItem/CompleteBugItem/{id}
+        [ActionName("CompleteFeatureItem")]
+        [HttpPost]
+        public async Task<IActionResult> CompleteFeatureItemPost(int id)
+        {
+            bool wasCompleted = await _featureService.CompleteFeatureItem(id);
+            if (wasCompleted)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
     }
