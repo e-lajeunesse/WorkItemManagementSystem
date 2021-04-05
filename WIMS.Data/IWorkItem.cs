@@ -17,7 +17,7 @@ namespace WIMS.Data
         public ItemType Type { get; }
         int DaysPending {  get; }
         bool IsComplete { get; set; }
-        DateTime DateCompleted { get; set; }        
+        DateTime? DateCompleted { get; set; }        
         string CreatorName { get; set; }
         string CompletedByName { get; set; }
         

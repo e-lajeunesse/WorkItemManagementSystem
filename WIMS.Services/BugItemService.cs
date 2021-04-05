@@ -41,9 +41,9 @@ namespace WIMS.Services
 
         // Gets all Pending Bug Items
         public async Task<List<WorkItemListItem>> GetBugItems()
-        {          
-            
-            return await _context.BugItems.Include(i => i.ApplicationUser).Where(i => i.IsComplete == false)
+        {
+
+            return await _context.BugItems.Where(i => i.IsComplete == false)
                 .Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
@@ -52,7 +52,8 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.FullName
-            }).ToListAsync();            
+            }).ToListAsync();
+            
         }
 
         //Gets all completed Bug Items

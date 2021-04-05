@@ -40,8 +40,8 @@ namespace WIMS.Services
 
         //Gets all pending feature items
         public async Task<List<WorkItemListItem>> GetFeatureItems()
-        {            
-            return await _context.FeatureItems.Where(i => i.IsComplete == false)
+        {
+            return await _context.FeatureItems
                 .Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
@@ -50,7 +50,7 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.FullName
-            }).ToListAsync();            
+            }).ToListAsync();
         }
 
         //Gets all Completed Feature Items

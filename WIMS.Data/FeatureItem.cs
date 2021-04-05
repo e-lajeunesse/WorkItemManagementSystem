@@ -23,7 +23,7 @@ namespace WIMS.Data
             }
         }
         public bool IsComplete { get; set; }
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
         public string CompletedByName { get; set; }
         
         public string CreatorName { get; set; }
