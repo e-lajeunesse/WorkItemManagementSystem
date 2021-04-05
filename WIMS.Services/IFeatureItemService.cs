@@ -12,7 +12,8 @@ namespace WIMS.Services
     public interface IFeatureItemService
     {
         Task<bool> AddFeatureItem(FeatureItemCreate model, string userId, string fullName);
-        Task<IEnumerable<WorkItemListItem>> GetFeatureItems();
+        Task<List<WorkItemListItem>> GetFeatureItems();
+        Task<List<CompletedItemListItem>> GetCompletedFeatureItems();
         Task<IEnumerable<WorkItemListItem>> GetFeatureItemsByUser(string userId);
         Task<FeatureItemDetail> GetFeatureItemById(int id);
         Task<bool> EditFeatureItem(FeatureItemEdit model);

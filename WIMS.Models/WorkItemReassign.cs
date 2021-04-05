@@ -10,5 +10,6 @@ namespace WIMS.Models
         [Required]
         [Display(Name ="Reassign To:")]
         public string ApplicationUserId { get; set; }
+        
     }
 }

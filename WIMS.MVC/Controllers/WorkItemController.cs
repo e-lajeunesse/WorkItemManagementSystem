@@ -29,8 +29,8 @@ namespace WIMS.MVC.Controllers
             _bugService = bugService;
             _featureService = featureService;
             _userManager = userManager;           
-            
         }
+
         //GET: /WorkItem
         public async Task<IActionResult> Index()
         {
@@ -52,6 +52,28 @@ namespace WIMS.MVC.Controllers
                 bugItemList.AddRange(featureItemList);           
                 return View(bugItemList);
             }
+        }
+
+        //GET: /WorkItem/ViewCompletedItems
+        public async Task<IActionResult> ViewCompletedItems()
+        {
+            var bugItems = await _bugService.GetCompletedBugItems();
+            var featureItems = await _featureService.GetCompletedFeatureItems();
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            ViewBag.IsManager = user.IsManager;
+            bugItems.AddRange(featureItems);
+            return View(bugItems);
+        }
+
+        //GET: /WorkItem/ViewAllItems
+        public async Task<IActionResult> ViewAllItems()
+        {
+            List<WorkItemListItem> bugItems = await _bugService.GetBugItems();
+            List<WorkItemListItem> featureItems = await _featureService.GetFeatureItems();
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            ViewBag.IsManager = user.IsManager;
+            bugItems.AddRange(featureItems);
+            return View(bugItems);
         }
 
 
@@ -164,6 +186,8 @@ namespace WIMS.MVC.Controllers
                     Value = user.Id
                 });
             }
+            BugItemDetail bugItem = _bugService.GetBugItemById(id).Result;
+            ViewBag.IsComplete = bugItem.IsComplete;
             ViewBag.users = usersList;
             return View();
         }
@@ -316,6 +340,8 @@ namespace WIMS.MVC.Controllers
                     Value = user.Id
                 });
             }
+            FeatureItemDetail item = _featureService.GetFeatureItemById(id).Result;
+            ViewBag.IsComplete = item.IsComplete;
             ViewBag.users = usersList;
             return View();
         }
