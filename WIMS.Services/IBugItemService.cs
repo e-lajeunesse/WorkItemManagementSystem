@@ -14,6 +14,7 @@ namespace WIMS.Services
     {
         Task<bool> AddBugItem (BugItemCreate model, string userId, string fullName);
         Task<IEnumerable<WorkItemListItem>> GetBugItems();
+        Task<List<CompletedItemListItem>> GetCompletedBugItems();
         Task<IEnumerable<WorkItemListItem>> GetBugItemsByUser(string userId);
         
         Task<BugItemDetail> GetBugItemById(int id);

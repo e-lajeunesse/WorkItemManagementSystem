@@ -63,6 +63,13 @@
     
     <form asp-action="DeleteFeatureItem">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        @if (Model.IsComplete)
+        {
+            <a asp-action="ViewCompletedItems">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Index">Back to List</a>
+        }
     </form>
 </div>

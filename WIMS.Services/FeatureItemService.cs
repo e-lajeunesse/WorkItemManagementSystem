@@ -52,6 +52,21 @@ namespace WIMS.Services
             }).ToListAsync();            
         }
 
+        //Gets all Completed Feature Items
+        public async Task<List<CompletedItemListItem>> GetCompletedFeatureItems()
+        {
+            return await _context.FeatureItems.Where(i => i.IsComplete)
+                .Select(i => new CompletedItemListItem
+                {
+                    ItemId = i.ItemId,
+                    Description = i.Description,
+                    Type = i.Type,
+                    Size = i.Size,
+                    DateCompleted = i.DateCompleted,
+                    CompletedByName = i.CompletedByName
+                }).ToListAsync();
+        }
+
         //Gets all feature items for specific user        
         public async Task<IEnumerable<WorkItemListItem>> GetFeatureItemsByUser(string userId)
         {
@@ -98,6 +113,7 @@ namespace WIMS.Services
                 Size = item.Size,
                 DateCreated = item.DateCreated,
                 DaysPending = item.DaysPending,
+                IsComplete = item.IsComplete,
                 CreatorName = item.CreatorName,
 /*                ApplicationUserId = item.ApplicationUserId,
                 FullName = item.ApplicationUser.FullName*/
@@ -144,6 +160,8 @@ namespace WIMS.Services
         {
             FeatureItem item = await _context.FeatureItems.FindAsync(itemId);
             item.IsComplete = true;
+            item.DateCompleted = DateTime.Now;
+            item.CompletedByName = item.ApplicationUser.UserName;
             item.ApplicationUserId = null;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;

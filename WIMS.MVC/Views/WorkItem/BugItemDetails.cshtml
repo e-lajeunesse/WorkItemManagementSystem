@@ -62,7 +62,15 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    @if (Model.IsComplete)
+    {
+        <a asp-action="ViewCompletedItems">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+
     <a id="go" href="" class="btn btn-primary">Go</a>
 
     <select id="dropdown">

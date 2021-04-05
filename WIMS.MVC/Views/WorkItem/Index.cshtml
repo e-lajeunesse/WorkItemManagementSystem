@@ -7,11 +7,16 @@
     int j = 0;
 }
 
-<h1>Index</h1>
+<h1>Work Items Index</h1>
 
 <p>
     <a asp-action="CreateBugItem">Add New Bug</a>
+    |
     <a asp-action="CreateFeatureItem">Add New Feature</a>
+    |
+    <a asp-action="ViewPendingItems"> All pending Work Items</a>
+    |
+    <a asp-action="ViewCompletedItems">  Completed Work Items</a>
 </p>
 <table class="table table-striped">
     <thead>
@@ -76,8 +81,6 @@
                             <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
                             <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
                         }
-
-
                     </select>
                         <a href="" id="@($"bugGo{i}")" class="btn btn-primary">Go</a>
                         i++;
@@ -103,9 +106,6 @@
                 </td>
             </tr>             
         }
-
-
-
     </tbody>
 
 </table>

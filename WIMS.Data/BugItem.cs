@@ -26,6 +26,7 @@ namespace WIMS.Data
         public DateTime DateCompleted { get; set; }
         
         public string CreatorName { get; set; }
+        public string CompletedByName { get; set; }
         
         [ForeignKey(nameof(ApplicationUser))]
         public string ApplicationUserId { get; set; }

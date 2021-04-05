@@ -31,8 +31,7 @@ namespace WIMS.Services
                 IsComplete = false,
                 DateCreated = DateTime.Now,
                 CreatorName = fullName,
-                ApplicationUserId = userId,
-                
+                ApplicationUserId = userId,                
             };
             
             await _context.BugItems.AddAsync(item);
@@ -53,6 +52,21 @@ namespace WIMS.Services
                 DaysPending = i.DaysPending,
                 OwnerName = i.ApplicationUser.FullName
             }).ToListAsync();            
+        }
+
+        //Gets all completed Bug Items
+        public async Task<List<CompletedItemListItem>> GetCompletedBugItems()
+        {
+            return await _context.BugItems.Where(i => i.IsComplete)
+                .Select(i => new CompletedItemListItem
+                {
+                    ItemId = i.ItemId,
+                    Description = i.Description,
+                    Type = i.Type,
+                    Size = i.Size,
+                    DateCompleted = i.DateCompleted,
+                    CompletedByName = i.CompletedByName
+                }).ToListAsync();
         }
 
         // Gets all Bug Items for User
@@ -102,6 +116,7 @@ namespace WIMS.Services
                 Size = item.Size,
                 DateCreated = item.DateCreated,
                 DaysPending = item.DaysPending,
+                IsComplete = item.IsComplete,
                 CreatorName = item.CreatorName,
 /*                ApplicationUserId = item.ApplicationUserId,
                 FullName = item.ApplicationUser.FullName*/
@@ -137,6 +152,7 @@ namespace WIMS.Services
         public async Task<bool> ReassignBugItem(int itemId, WorkItemReassign model)
         {
             BugItem item = await _context.BugItems.FindAsync(itemId);
+            item.IsComplete = false;
             item.ApplicationUserId = model.ApplicationUserId;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
@@ -147,6 +163,8 @@ namespace WIMS.Services
         {
             BugItem item = await _context.BugItems.FindAsync(itemId);
             item.IsComplete = true;
+            item.DateCompleted = DateTime.Now;
+            item.CompletedByName = item.ApplicationUser.FullName;
             item.ApplicationUserId = null;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;

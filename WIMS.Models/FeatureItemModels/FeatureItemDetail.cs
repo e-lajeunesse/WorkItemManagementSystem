@@ -17,7 +17,7 @@ namespace WIMS.Models.FeatureItemModels
 
         [Display(Name ="Created By")]
         public string CreatorName { get; set; }
-
+        public bool IsComplete { get; set; }
         public string ApplicationUserId { get; set; }
 
         [Display(Name ="Assigned To")]

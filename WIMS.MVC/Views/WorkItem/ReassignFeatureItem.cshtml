@@ -3,6 +3,7 @@
 
 @{
     List<SelectListItem> users = ViewBag.users;
+    bool isComplete = ViewBag.IsComplete;
 }
 
 @*@Html.DropDownList("Employees", users, "Select Employee")*@
@@ -19,5 +20,12 @@
     </select>
     <span asp-validation-for="ApplicationUserId"></span>
     <input type="submit" value="Confirm" class="btn btn-primary" style="width:auto" />
-    <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
+    @if (isComplete)
+    {
+        <a asp-action="ViewCompletedItems">Cancel</a>
+    }
+    else
+    {
+        <a asp-action="Index">Cancel</a>
+    }
 </form>

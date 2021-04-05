@@ -54,6 +54,17 @@ namespace WIMS.MVC.Controllers
             }
         }
 
+        //GET: /WorkItem/ViewCompletedItems
+        public async Task<IActionResult> ViewCompletedItems()
+        {
+            var bugItems = await _bugService.GetCompletedBugItems();
+            var featureItems = await _featureService.GetCompletedFeatureItems();
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            ViewBag.IsManager = user.IsManager;
+            bugItems.AddRange(featureItems);
+            return View(bugItems);
+        }
+
 
 
         //Bug Item Methods
@@ -164,6 +175,8 @@ namespace WIMS.MVC.Controllers
                     Value = user.Id
                 });
             }
+            BugItemDetail bugItem = _bugService.GetBugItemById(id).Result;
+            ViewBag.IsComplete = bugItem.IsComplete;
             ViewBag.users = usersList;
             return View();
         }
@@ -316,6 +329,8 @@ namespace WIMS.MVC.Controllers
                     Value = user.Id
                 });
             }
+            FeatureItemDetail item = _featureService.GetFeatureItemById(id).Result;
+            ViewBag.IsComplete = item.IsComplete;
             ViewBag.users = usersList;
             return View();
         }
