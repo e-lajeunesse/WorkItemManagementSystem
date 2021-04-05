@@ -38,10 +38,11 @@ namespace WIMS.Services
             return changes == 1;
         }
 
-        //Gets all feature items
-        public async Task<IEnumerable<WorkItemListItem>> GetFeatureItems()
+        //Gets all pending feature items
+        public async Task<List<WorkItemListItem>> GetFeatureItems()
         {            
-            return await _context.FeatureItems.Select(i => new WorkItemListItem
+            return await _context.FeatureItems.Where(i => i.IsComplete == false)
+                .Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,

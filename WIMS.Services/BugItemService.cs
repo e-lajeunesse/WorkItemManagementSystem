@@ -39,11 +39,12 @@ namespace WIMS.Services
             return changes == 1;
         }
 
-        // Gets all Bug Items
-        public async Task<IEnumerable<WorkItemListItem>> GetBugItems()
+        // Gets all Pending Bug Items
+        public async Task<List<WorkItemListItem>> GetBugItems()
         {          
             
-            return await _context.BugItems.Include(i => i.ApplicationUser).Select(i => new WorkItemListItem
+            return await _context.BugItems.Include(i => i.ApplicationUser).Where(i => i.IsComplete == false)
+                .Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
