@@ -38,10 +38,23 @@ namespace WIMS.MVC.Controllers
             ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)
             {
-                List<WorkItemListItem> bugItemList =  _bugService.GetBugItemsByTeam(user.TeamId).ToList();
-                List<WorkItemListItem> featureItemList = _featureService.GetFeatureItemsByTeam(user.TeamId).ToList();
-                bugItemList.AddRange(featureItemList);
-                return View(bugItemList);
+                IEnumerable<WorkItemListItem> bugItems =  _bugService.GetBugItemsByTeam(user.TeamId);
+                IEnumerable<WorkItemListItem> featureItems = _featureService.GetFeatureItemsByTeam(user.TeamId);
+                /*List<WorkItemListItem> bugItemsList = bugItems.Any() ? new List<WorkItemListItem>() : bugItems.ToList(); 
+                List<WorkItemListItem> featureItemsList = featureItems.Any() ? new List<WorkItemListItem>() : featureItems.ToList();*/
+                List<WorkItemListItem> allItems = new List<WorkItemListItem>();
+
+                foreach (var item in bugItems)
+                {
+                    allItems.Add(item);
+                }
+                foreach (var item in featureItems)
+                {
+                    allItems.Add(item);
+                }
+
+                //bugItemsList.AddRange(featureItemsList);
+                return View(allItems);
             }
             else
             {
