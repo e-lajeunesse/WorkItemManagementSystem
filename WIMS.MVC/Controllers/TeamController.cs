@@ -12,7 +12,8 @@ using WIMS.Services;
 
 namespace WIMS.MVC.Controllers
 {
-    //[Authorize(Roles = "Manager")]
+    
+    [Authorize]
     public class TeamController : Controller
     {
         private readonly ITeamService _service;
@@ -34,13 +35,16 @@ namespace WIMS.MVC.Controllers
 
         //GET: Team/Create
         // Create a new Team
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
         }
 
         //POST: Team/Create
+        [Authorize(Roles = "Manager")]
         [HttpPost]
+
         public async Task<IActionResult> Create(TeamCreate model)
         {
             if (!ModelState.IsValid)
@@ -64,6 +68,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: Team/Edit
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int id)
         {
             TeamDetail team = await _service.GetTeamById(id);
@@ -83,6 +88,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: Team/Edit
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, TeamEdit model)
         {
@@ -105,6 +111,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: Team/EditTeamMembers
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> EditTeamMembers(int teamId)
         {
             TeamDetail team = await _service.GetTeamById(teamId);
@@ -125,6 +132,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: Team/EditTeamMembers
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> EditTeamMembers(int teamId,List<TeamMembersEdit> model)
         {
@@ -142,6 +150,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: Team/Delete/{id}
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         
         public async Task<IActionResult> Delete(int id)
@@ -151,6 +160,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: Team/Delete/{id}
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         [ActionName("Delete")]
         public async Task<IActionResult> DeletePost(int id)

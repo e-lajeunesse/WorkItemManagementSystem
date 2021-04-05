@@ -48,7 +48,7 @@ namespace WIMS.MVC
                 options.Password.RequireUppercase = false;
             });
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());

@@ -128,6 +128,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: WorkItem/Delete/BugItem
+        [Authorize(Roles = "Manager")]
         [ActionName("DeleteBugItem")]
         public IActionResult DeleteBugItem(int id)
         {
@@ -136,6 +137,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/Delete/BugItem
+        [Authorize(Roles = "Manager")]
         [ActionName("DeleteBugItem")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -186,6 +188,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: WorkItem/ReassignItem/{id}
+        [Authorize(Roles = "Manager")]
         [ActionName("ReassignBugItem")]
         public IActionResult ReassignBugItem(int id)
         {
@@ -206,6 +209,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/ReassignBugItem/{id}
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> ReassignBugItem(int id, WorkItemReassign model)
         {
@@ -319,6 +323,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: WorkItem/Delete/FeatureItem
+        [Authorize(Roles = "Manager")]
         [ActionName("DeleteFeatureItem")]
         public IActionResult DeleteFeatureItem(int id)
         {
@@ -327,9 +332,9 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/Delete/FeatureItem
+        [Authorize(Roles = "Manager")]
         [ActionName("DeleteFeatureItem")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public async Task<IActionResult> DeleteFeatureItemPost(int id)
         {
             if ( await _featureService.DeleteFeatureItem(id))
@@ -340,6 +345,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: WorkItem/ReassignFeatureItem/{id}
+        [Authorize(Roles = "Manager")]
         [ActionName("ReassignFeatureItem")]
         public IActionResult ReassignFeatureItem(int id)
         {
@@ -360,6 +366,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/ReassignBugItem/{id}
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> ReassignFeatureItem(int id, WorkItemReassign model)
         {
