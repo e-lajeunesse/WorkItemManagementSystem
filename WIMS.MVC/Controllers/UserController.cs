@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WIMS.Models.UserModels;
 
 namespace WIMS.MVC.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -19,17 +21,21 @@ namespace WIMS.MVC.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
+
+        
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles ="Admin")]
         //Get: User/CreateRole
         public IActionResult CreateRole()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         //Post: User/CreateRole
         [HttpPost]
         public async Task<IActionResult> CreateRole(UserRoleCreate model)
@@ -55,6 +61,7 @@ namespace WIMS.MVC.Controllers
 
         //GET: User/GetRoles
         //Gets list of all Roles
+        [Authorize(Roles = "Admin, Manager")]
         public IActionResult GetRoles()
         {
             var roles = _roleManager.Roles.Select(r => new RoleListItem
@@ -65,7 +72,9 @@ namespace WIMS.MVC.Controllers
             return View(roles);
         }
 
+        
         //GET:User/EditRole
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(string id)
         {
            var role = await _roleManager.FindByIdAsync(id);
@@ -93,6 +102,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: User/EditRole
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditRole(UserRoleEdit model)
         {
@@ -119,7 +129,8 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: User/EditUsersInRole
-        
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId;
@@ -153,6 +164,7 @@ namespace WIMS.MVC.Controllers
 
         //POST: User/EditUsersInRole
         // Assign or remove users from role
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UsersInRoleEdit> model, string roleId)
         {
@@ -198,6 +210,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: User/DeleteRole/{id}
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -210,6 +223,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: User/DeleteRole/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("DeleteRole")]
         public async Task<IActionResult> DeleteRolePost(string id)

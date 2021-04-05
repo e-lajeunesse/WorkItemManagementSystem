@@ -10,7 +10,12 @@ namespace WIMS.Data
     {
         [Key]
         public int ItemId { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string Description { get; set; }
+
+        [Required]
         public Size Size { get; set; }
         public ItemType Type => ItemType.Feature;
         public DateTime DateCreated { get; set; }        
@@ -23,7 +28,7 @@ namespace WIMS.Data
             }
         }
         public bool IsComplete { get; set; }
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
         public string CompletedByName { get; set; }
         
         public string CreatorName { get; set; }

@@ -30,6 +30,7 @@ namespace WIMS.Services
                 Size = model.Size,
                 IsComplete = false,
                 DateCreated = DateTime.Now,
+                DateCompleted = null,
                 CreatorName = fullName,
                 ApplicationUserId = userId,                
             };

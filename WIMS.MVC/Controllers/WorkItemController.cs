@@ -114,6 +114,8 @@ namespace WIMS.MVC.Controllers
             return View(bugItem);
         }
 
+
+        [Authorize(Roles ="Manager")]
         //GET: WorkItem/Delete/BugItem
         [ActionName("DeleteBugItem")]
         public IActionResult DeleteBugItem(int id)
@@ -122,6 +124,7 @@ namespace WIMS.MVC.Controllers
             return View(bugItem);
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/Delete/BugItem
         [ActionName("DeleteBugItem")]
         [HttpPost]
@@ -172,6 +175,7 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Manager")]
         //GET: WorkItem/ReassignItem/{id}
         [ActionName("ReassignBugItem")]
         public IActionResult ReassignBugItem(int id)
@@ -192,6 +196,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/ReassignBugItem/{id}
         [HttpPost]
         public async Task<IActionResult> ReassignBugItem(int id, WorkItemReassign model)
@@ -305,6 +310,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //GET: WorkItem/Delete/FeatureItem
         [ActionName("DeleteFeatureItem")]
         public IActionResult DeleteFeatureItem(int id)
@@ -313,6 +319,7 @@ namespace WIMS.MVC.Controllers
             return View(featureItem);
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/Delete/FeatureItem
         [ActionName("DeleteFeatureItem")]
         [HttpPost]
@@ -326,6 +333,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //GET: WorkItem/ReassignFeatureItem/{id}
         [ActionName("ReassignFeatureItem")]
         public IActionResult ReassignFeatureItem(int id)
@@ -346,6 +354,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/ReassignBugItem/{id}
         [HttpPost]
         public async Task<IActionResult> ReassignFeatureItem(int id, WorkItemReassign model)
