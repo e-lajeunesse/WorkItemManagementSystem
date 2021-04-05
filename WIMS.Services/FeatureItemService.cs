@@ -64,7 +64,7 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = user.FullName
-            });
+            }).ToList();
         }
 
         //Gets all feature items for a team
@@ -90,7 +90,7 @@ namespace WIMS.Services
         public async Task<FeatureItemDetail> GetFeatureItemById(int id)
         {
             FeatureItem item = await _context.FeatureItems.SingleAsync(i => i.ItemId == id);
-            return new FeatureItemDetail
+            var detail = new FeatureItemDetail
             {
                 ItemId = item.ItemId,
                 Description = item.Description,
@@ -99,9 +99,15 @@ namespace WIMS.Services
                 DateCreated = item.DateCreated,
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
-                ApplicationUserId = item.ApplicationUserId,
-                FullName = item.ApplicationUser.FullName
+/*                ApplicationUserId = item.ApplicationUserId,
+                FullName = item.ApplicationUser.FullName*/
             };
+            if (item.ApplicationUserId != null)
+            {
+                detail.ApplicationUserId = item.ApplicationUserId;
+                detail.FullName = item.ApplicationUser.FullName;
+            }
+            return detail;
         }
 
         //Edits feature item
@@ -129,6 +135,16 @@ namespace WIMS.Services
         {
             FeatureItem item = await _context.FeatureItems.FindAsync(itemId);
             item.ApplicationUserId = model.ApplicationUserId;
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        //Complete Feature Item
+        public async Task<bool> CompleteFeatureItem(int itemId)
+        {
+            FeatureItem item = await _context.FeatureItems.FindAsync(itemId);
+            item.IsComplete = true;
+            item.ApplicationUserId = null;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }

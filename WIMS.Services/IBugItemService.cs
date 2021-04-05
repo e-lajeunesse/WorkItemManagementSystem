@@ -20,7 +20,7 @@ namespace WIMS.Services
         Task<bool> EditBugItem(BugItemEdit model);
         Task<bool> DeleteBugItem(int itemId);
         IEnumerable<WorkItemListItem> GetBugItemsByTeam(int? teamId);
-
         Task<bool> ReassignBugItem(int id, WorkItemReassign model);
+        Task<bool> CompleteBugItem(int id);
     }
 }

@@ -67,7 +67,7 @@ namespace WIMS.Services
                 Size = i.Size,
                 DaysPending = i.DaysPending,
                 OwnerName = user.FullName
-            });
+            }).ToList();
         }
 
         // Gets all Bug Items for a team
@@ -103,9 +103,14 @@ namespace WIMS.Services
                 DateCreated = item.DateCreated,
                 DaysPending = item.DaysPending,
                 CreatorName = item.CreatorName,
-                ApplicationUserId = item.ApplicationUserId,
-                FullName = item.ApplicationUser.FullName
+/*                ApplicationUserId = item.ApplicationUserId,
+                FullName = item.ApplicationUser.FullName*/
             };
+            if (item.ApplicationUserId != null)
+            {
+                detail.ApplicationUserId = item.ApplicationUserId;
+                detail.FullName = item.ApplicationUser.FullName;
+            }
             return detail;
         }
 
@@ -133,6 +138,16 @@ namespace WIMS.Services
         {
             BugItem item = await _context.BugItems.FindAsync(itemId);
             item.ApplicationUserId = model.ApplicationUserId;
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        //Complete Bug Item
+        public async Task<bool> CompleteBugItem(int itemId)
+        {
+            BugItem item = await _context.BugItems.FindAsync(itemId);
+            item.IsComplete = true;
+            item.ApplicationUserId = null;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
