@@ -10,8 +10,12 @@ namespace WIMS.Data
     {
         [Key]
         public int ItemId { get; set; }
+
+        
         public string Description { get; set; }
-        public ItemType Type => ItemType.Bug;        
+        public ItemType Type => ItemType.Bug;
+
+        [Required]
         public Size Size { get; set; }
         public DateTime DateCreated { get; set; }
         public int DaysPending 

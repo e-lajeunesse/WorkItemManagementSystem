@@ -127,6 +127,8 @@ namespace WIMS.MVC.Controllers
             return View(bugItem);
         }
 
+
+        [Authorize(Roles ="Manager")]
         //GET: WorkItem/Delete/BugItem
         [Authorize(Roles = "Manager")]
         [ActionName("DeleteBugItem")]
@@ -136,6 +138,7 @@ namespace WIMS.MVC.Controllers
             return View(bugItem);
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/Delete/BugItem
         [Authorize(Roles = "Manager")]
         [ActionName("DeleteBugItem")]
@@ -187,6 +190,7 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
+        [Authorize(Roles ="Manager")]
         //GET: WorkItem/ReassignItem/{id}
         [Authorize(Roles = "Manager")]
         [ActionName("ReassignBugItem")]
@@ -208,6 +212,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/ReassignBugItem/{id}
         [Authorize(Roles = "Manager")]
         [HttpPost]
@@ -322,6 +327,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //GET: WorkItem/Delete/FeatureItem
         [Authorize(Roles = "Manager")]
         [ActionName("DeleteFeatureItem")]
@@ -331,6 +337,7 @@ namespace WIMS.MVC.Controllers
             return View(featureItem);
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/Delete/FeatureItem
         [Authorize(Roles = "Manager")]
         [ActionName("DeleteFeatureItem")]
@@ -344,6 +351,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //GET: WorkItem/ReassignFeatureItem/{id}
         [Authorize(Roles = "Manager")]
         [ActionName("ReassignFeatureItem")]
@@ -365,6 +373,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Manager")]
         //POST: WorkItem/ReassignBugItem/{id}
         [Authorize(Roles = "Manager")]
         [HttpPost]

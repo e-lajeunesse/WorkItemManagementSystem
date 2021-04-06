@@ -7,6 +7,7 @@
     int j = 0;
 }
 
+
 <div class="col-12 mx-auto row d-flex flex-column justify-content-center table-container " >
     <div class=" table-header text-center border-bottom border-dark">
         <h1 class="p-2">Work Items Index</h1>
@@ -123,6 +124,7 @@
 
 
 
+
 <script>
     let i = @i;
     let j = @j;
@@ -134,7 +136,7 @@
     for (let m = 0; m < i; m++)
     {
         let goButtonString = `#bugGo${m}`;
-        let dropDownString = `#bugDropDown${m}`;        
+        let dropDownString = `#bugDropDown${m}`;
         bugGoButtons[m] = document.querySelector(goButtonString);
         bugDropDowns[m] = document.querySelector(dropDownString);
         bugDropDowns[m].addEventListener('change', () => bugSetHrefVal(m));
@@ -150,12 +152,12 @@
     }
 
     function bugSetHrefVal(position) {
-        
-        bugGoButtons[position].setAttribute("href", bugDropDowns[position].value);        
+
+        bugGoButtons[position].setAttribute("href", bugDropDowns[position].value);
     }
 
     function featureSetHrefVal(position) {
 
-        featureGoButtons[position].setAttribute("href", featureDropDowns[position].value);        
+        featureGoButtons[position].setAttribute("href", featureDropDowns[position].value);
     }
 </script>

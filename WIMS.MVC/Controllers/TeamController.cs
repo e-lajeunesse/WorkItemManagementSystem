@@ -12,7 +12,7 @@ using WIMS.Services;
 
 namespace WIMS.MVC.Controllers
 {
-    
+
     [Authorize]
     public class TeamController : Controller
     {
@@ -35,7 +35,7 @@ namespace WIMS.MVC.Controllers
 
         //GET: Team/Create
         // Create a new Team
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles ="Manager")]
         public IActionResult Create()
         {
             return View();

@@ -21,18 +21,22 @@ namespace WIMS.MVC.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
+
+        
         public IActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles ="Admin")]
         //Get: User/CreateRole
         public IActionResult CreateRole()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         //Post: User/CreateRole
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -59,6 +63,7 @@ namespace WIMS.MVC.Controllers
 
         //GET: User/GetRoles
         //Gets list of all Roles
+        [Authorize(Roles = "Admin, Manager")]
         public IActionResult GetRoles()
         {
             var roles = _roleManager.Roles.Select(r => new RoleListItem
@@ -69,6 +74,7 @@ namespace WIMS.MVC.Controllers
             return View(roles);
         }
 
+        
         //GET:User/EditRole
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(string id)

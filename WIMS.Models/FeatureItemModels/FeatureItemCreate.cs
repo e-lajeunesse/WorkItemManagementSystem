@@ -12,7 +12,9 @@ namespace WIMS.Models.FeatureItemModels
         [MaxLength(75)]
         public string Description { get; set; }
 
-        [Required]
+
+        [Required]   
+
         public Size Size { get; set; }
     }
 }

@@ -28,6 +28,7 @@ namespace WIMS.Services
                 Description = model.Description,
                 Size = model.Size,
                 DateCreated = DateTime.Now,
+                DateCompleted = null,
                 IsComplete = false,
                 CreatorName = fullName,
                 ApplicationUserId = userId,
