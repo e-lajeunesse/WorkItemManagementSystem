@@ -4,82 +4,84 @@
     ViewData["Title"] = "BugItemDetails";
 }
 
-<h1>BugItemDetails</h1>
+<div class="card item-details mx-auto">
+    <div class="card-header table-header"><h4>Item Details</h4></div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ItemId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ItemId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Size)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Size)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DaysPending)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DaysPending)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatorName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatorName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+        </dl>
+    </div>
+    <div class="card-footer bg-transparent">
+        <a class="btn btn-primary" href="@Url.Action("EditBugItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
+        @if (Model.IsComplete)
+        {
+            <a asp-action="ViewCompletedItems">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        }
 
-<div>
-    <h4>BugItemDetail</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ItemId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ItemId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Size)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Size)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DaysPending)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DaysPending)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatorName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatorName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-    </dl>
+@*        <a id="go" href="" class="btn btn-primary">Go</a>
+
+        <select id="dropdown">
+            <option value="">Select</option>
+            <option value="/WorkItem">Back to List</option>
+        </select>
+        <button id="test">Button</button>*@
+
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @if (Model.IsComplete)
-    {
-        <a asp-action="ViewCompletedItems">Back to List</a>
-    }
-    else
-    {
-        <a asp-action="Index">Back to List</a>
-    }
 
-    <a id="go" href="" class="btn btn-primary">Go</a>
 
-    <select id="dropdown">
-        <option value="">Select</option>
-        <option value="/WorkItem">Back to List</option>
-    </select>
-    <button id="test">Button</button>
 
-</div>
 
 <script type="text/javascript">
     

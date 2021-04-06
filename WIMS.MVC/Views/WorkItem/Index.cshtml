@@ -10,14 +10,16 @@
 
 <div class="col-12 mx-auto row d-flex flex-column  table-container " >
     <div class=" table-header text-center border-bottom border-dark">
-        <h1 class="p-2">Work Items Index</h1>
         
-        <p class=" h5 table-navlinks">            
-            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn">Add New Bug</a>
-            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn">Add New Feature</a>
-            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn">All Pending Items</a>
-            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn">All Completed Items</a>
-        </p>
+        
+        <div class="d-flex flex-row table-navlinks justify-content-center"> 
+            <h1 class="p-2">Work Items Index |</h1>
+
+            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
+            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
+            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn align-self-center mx-1">All Pending Items</a>
+            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>
+        </div>
     </div>
 
 
