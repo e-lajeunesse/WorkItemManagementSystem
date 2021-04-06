@@ -61,3 +61,54 @@ body {
     
     min-width:100%;
 }
+
+
+
+.table-container
+{
+    margin-top:15%;
+}
+
+
+
+/*Team Views*/
+
+#edit-team-members {
+    width: 75%;
+    margin-top: 15%;
+}
+
+#team-detail, #team-delete{
+    width:75%;
+    margin-top:15%;
+}
+
+
+
+
+/* User Views */
+.role-card-container{
+    width:100%;
+    
+}
+.role-card{
+    width:50%;
+}
+
+.role-card-header {
+    background-color:#ACBFE6 ;
+}
+
+#create-role-btn{
+    align-self:flex-end;
+}
+
+#edit-users-role {
+    width: 75%;
+    margin-top: 15%;
+}
+
+#role-delete {
+    width: 75%;
+    margin-top: 15%;
+}

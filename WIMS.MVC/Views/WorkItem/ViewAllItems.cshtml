@@ -9,7 +9,7 @@
 
 
 
-<div class="col-12 mx-auto row d-flex flex-column justify-content-center table-container table-hover">
+<div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
     <div class=" table-header text-center border-bottom border-dark">
         <h1>Pending Items</h1>
         <p class=" h5 table-navlinks">
@@ -24,7 +24,7 @@
 
 
     <table class="table border py-0 my-0 h6">
-        <thead class="h5 bg-light">
+        <thead class="h6 bg-light">
             <tr>
                 <th>
                     @Html.DisplayNameFor(Model => Model.ItemId)
@@ -53,25 +53,25 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="px-3" width="8%">
                         @Html.DisplayFor(modelItem => item.ItemId)
                     </td>
-                    <td>
+                    <td width="8%">
                         @Html.DisplayFor(modelItem => item.Size)
                     </td>
-                    <td>
+                    <td width="8%">
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
-                    <td>
+                    <td width="25%">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
+                    <td width="15%">
                         @Html.DisplayFor(modelItem => item.OwnerName)
                     </td>
-                    <td>
+                    <td width="15%">
                         @Html.DisplayFor(modelItem => item.DaysPending)
                     </td>
-                    <td>
+                    <td width="20%">
                         @if (item.Type == WIMS.Data.ItemType.Bug)
                         {
                             <select id="@($"bugDropDown{i}")">

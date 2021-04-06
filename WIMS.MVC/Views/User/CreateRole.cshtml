@@ -4,29 +4,32 @@
     ViewData["Title"] = "CreateRole";
 }
 
-<h1>Create New Role</h1>
-
-
+<div class="mt-5 ml-5">
+    <h2 >Create New Role</h2>
+    <a asp-action="GetRoles">Back to List</a>
+</div>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateRole">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="row ">
+    <div class="card w-50 ml-5">
+        <div class="card-header table-header h5"> Role Name</div>
+        <div class="col-md-8 card-body">
+            <form asp-action="CreateRole">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @*<label asp-for="RoleName" class="control-label"></label>*@
+                    <input asp-for="RoleName" class="form-control" />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

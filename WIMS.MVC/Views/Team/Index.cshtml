@@ -4,44 +4,58 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Teams</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TeamId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TeamName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ManagerName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeamId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeamName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.TeamId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div  class="col-10 mx-auto row d-flex flex-column  table-container ">
+    <div class=" table-header text-center border-bottom border-dark">
+        <h1 class="p-2">Teams</h1>
+
+        <p class=" h5 table-navlinks">
+            <a href='@Url.Action( "Create", "Team")' class="btn">Create New Team</a>
+        </p>
+    </div>
+@*    <p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+
+    <table class="table border table-hover py-0 my-0 h6">
+        <thead class="h6 bg-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeamName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ManagerName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManagerName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.TeamId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

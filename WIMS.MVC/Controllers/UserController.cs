@@ -51,7 +51,7 @@ namespace WIMS.MVC.Controllers
                 IdentityResult result = await _roleManager.CreateAsync(identityRole);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("GetRoles", "User");
                 }
                 foreach (IdentityError error in result.Errors)
                 {
@@ -89,15 +89,14 @@ namespace WIMS.MVC.Controllers
             var model = new UserRoleEdit
             {
                 RoleId = role.Id,
-                RoleName = role.Name
-                
+                RoleName = role.Name                
             };
 
             foreach (var user in _userManager.Users)
             {
                 if (await _userManager.IsInRoleAsync(user,role.Name))
                 {
-                    model.Users.Add(user.UserName);
+                    model.Users.Add(user.FullName);
                 }
             }
             return View(model);
@@ -120,7 +119,7 @@ namespace WIMS.MVC.Controllers
                 var result = await _roleManager.UpdateAsync(role);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("GetRoles");
                 }
                 foreach(var error in result.Errors)
                 {
@@ -149,7 +148,7 @@ namespace WIMS.MVC.Controllers
                 var userModel = new UsersInRoleEdit
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    FullName = user.FullName
                 };
                 if (await _userManager.IsInRoleAsync(user, role.Name))
                 {

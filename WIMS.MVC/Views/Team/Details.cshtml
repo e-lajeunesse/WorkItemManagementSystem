@@ -4,50 +4,55 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Team Details</h1>
-<hr />
-<div class="card w-75">
-    <div class="card-header">
+
+<div  id="team-detail" class="card w-75 mx-auto">
+    <div class="card-header table-header">
         <dl class="row">
-            <dt class="col-sm-4">
+            <dt class="col-sm-4 h5">
                 @Html.DisplayNameFor(model => model.TeamName)
             </dt>
-            <dd class="col-sm-8">
+            <dd class="col-sm-8 h5">
                 @Html.DisplayFor(model => model.TeamName)
             </dd>
         </dl>
     </div>
     <div class="card-body">
         <dl class="row">
-            <dt class="col-sm-4">
+            <dt class="col-sm-4 h5">
                 @Html.DisplayNameFor(model => model.TeamId)
             </dt>
-            <dd class="col-sm-8">
+            <dd class="col-sm-8 h5">
                 @Html.DisplayFor(model => model.TeamId)
             </dd>
 
-            <dt class="col-sm-4">
+            <dt class="col-sm-4 h5">
                 @Html.DisplayNameFor(model => model.ManagerName)
             </dt>
-            <dd class="col-sm-8">
+            <dd class="col-sm-8 h5">
                 @Html.DisplayFor(model => model.ManagerName)
             </dd>
-            <dt class="col-sm-4"> Employees </dt>
+            <dt class="col-sm-4 h5 mt-3 mb-0"><u>Employees</u>  </dt>
         </dl>
-        <hr />
+        
         @if (Model.EmployeeNames.Any())
         {
             @for (int i = 0; i < Model.EmployeeNames.Count; i++)
             {
-                <h4>@Model.EmployeeNames[i]</h4>
+                <h5 mt-0>@Model.EmployeeNames[i]</h5>
             }
         }
 
     </div>
-    <div class="card-footer">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.TeamId }) |
-        <a asp-action="Index">Back to List</a>
+    <div class="card-footer bg-transparent">
+@*        @Html.ActionLink("Edit", "Edit", new { id = Model.TeamId }) |
+        <a asp-action="Index">Back to List</a>*@
+
         <a class="btn btn-primary mx-1" style="width:auto" asp-controller="Team"
-           asp-route-teamId="@Model.TeamId" asp-action="EditEmployeesInTeam">Add or Remove Employees</a>
+           asp-action="Index">Back To List</a>
+        <a href='@Url.Action( "Edit", "Team", new { id = Model.TeamId})' class="btn btn-primary">Edit</a>
+       
+        <a class="btn btn-primary mx-1" style="width:auto" asp-controller="Team"
+           asp-route-teamId="@Model.TeamId" asp-action="EditTeamMembers">Add or Remove Employees</a>
+
     </div>
 </div>
