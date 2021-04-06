@@ -7,7 +7,10 @@ namespace WIMS.Models.TeamModels
 {
     public class TeamDetail
     {
+        [Display(Name ="Team Id")]
         public int TeamId { get; set; }
+
+        [Display(Name ="Team Name")]
         public string TeamName { get; set; }
 
         [Display(Name = "Manager")]

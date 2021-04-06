@@ -5,18 +5,18 @@
     string teamName = ViewBag.teamName;    
 }
 
-<form method="post">
-    <div class="card">
-        <div class="card-header">
+<form class="mx-auto" id="edit-team-members" method="post">
+    <div class="card mt-5">
+        <div class="h5 card-header table-header">
             @($"Select the members for team: {teamName}")
         </div>
         <div class="card-body">
-            <p>Select Manager</p>
+            <p class="h5"> <u>Manager</u></p>
             @for (int i = 0; i < Model.Count; i++)
             {
                 if (Model[i].IsManager)
                 {
-                    <div class="form-check m-1">
+                    <div class="form-check m-2 ">
                         <input type="hidden" asp-for="@Model[i].UserId" />
                         <input type="hidden" asp-for="@Model[i].FullName" />
                         <input asp-for="@Model[i].IsSelected" class="form-check-input" />
@@ -24,12 +24,12 @@
                     </div>
                 }
             }
-            <p>Select Team Members</p>
+            <p class="h5"><u>Team Members</u></p>
             @for (int i = 0; i < Model.Count; i++)
             {
                 if (!Model[i].IsManager)
                 {
-                    <div class="form-check m-1">
+                    <div class="form-check m-2">
                         <input type="hidden" asp-for="@Model[i].UserId" />
                         <input type="hidden" asp-for="@Model[i].FullName" />
                         <input asp-for="@Model[i].IsSelected" class="form-check-input" />
@@ -38,9 +38,10 @@
                 }
             }
         </div>
-        <div class="card-footer">
+        <div class="card-footer bg-transparent">
             <input type="submit" value="Confirm" class="btn btn-primary" style="width:auto" />
             <a asp-action="Index" class="btn btn-primary" style="width:auto">Cancel</a>
         </div>
+
     </div>
 </form>

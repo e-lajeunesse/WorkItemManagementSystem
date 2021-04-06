@@ -40,8 +40,6 @@ namespace WIMS.MVC.Controllers
             {
                 IEnumerable<WorkItemListItem> bugItems =  _bugService.GetBugItemsByTeam(user.TeamId);
                 IEnumerable<WorkItemListItem> featureItems = _featureService.GetFeatureItemsByTeam(user.TeamId);
-                /*List<WorkItemListItem> bugItemsList = bugItems.Any() ? new List<WorkItemListItem>() : bugItems.ToList(); 
-                List<WorkItemListItem> featureItemsList = featureItems.Any() ? new List<WorkItemListItem>() : featureItems.ToList();*/
                 List<WorkItemListItem> allItems = new List<WorkItemListItem>();
 
                 foreach (var item in bugItems)

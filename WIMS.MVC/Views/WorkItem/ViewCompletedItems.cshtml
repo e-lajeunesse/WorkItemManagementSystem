@@ -7,11 +7,11 @@
     int j = 0;
 }
 
-<div class="col-12 mx-auto row d-flex flex-column justify-content-center table-container table-hover">
+<div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
     <div class=" table-header text-center border-bottom border-dark">
         <h1>Completed Items</h1>
         <p class="h5 table-navlinks">
-            <a href='@Url.Action( "Index", "WorkItem")' class="btn">Back To Index</a>
+            <a href='@Url.Action( "Index", "WorkItem")' class="btn">My Work Items</a>
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn">Add New Feature</a>
             <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn">All Pending Items</a>            
@@ -20,7 +20,7 @@
 
     
     <table class="table border py-0 my-0 h6">
-        <thead class="h5 bg-light">
+        <thead class="h6 bg-light">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.ItemId)

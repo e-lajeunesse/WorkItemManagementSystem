@@ -8,31 +8,24 @@
 }
 
 
-<div class="col-12 mx-auto row d-flex flex-column justify-content-center table-container " >
+<div class="col-12 mx-auto row d-flex flex-column  table-container " >
     <div class=" table-header text-center border-bottom border-dark">
         <h1 class="p-2">Work Items Index</h1>
         
-        <p class=" h5 table-navlinks">
-            @*<a asp-action="CreateBugItem">Add New Bug</a>*@
+        <p class=" h5 table-navlinks">            
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn">Add New Feature</a>
             <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn">All Pending Items</a>
             <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn">All Completed Items</a>
-@*            |
-            <a asp-action="CreateFeatureItem">Add New Feature</a>
-            |
-            <a asp-action="ViewAllItems"> All pending Work Items</a>
-            |
-            <a asp-action="ViewCompletedItems">  Completed Work Items</a>*@
         </p>
     </div>
 
 
 
-    <table class="table border py-0 my-0 h6">
-        <thead class="h5 bg-light">
+    <table class="table border table-hover py-0 my-0 h6 ">
+        <thead class="h6 bg-light">
             <tr>
-                <th>
+                <th >
                     @Html.DisplayNameFor(Model => Model.ItemId)
                 </th>
                 <th>
@@ -61,25 +54,25 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="px-3" width="10%">
+                    <td class="px-3" width="8%">
                         @Html.DisplayFor(modelItem => item.ItemId)
                     </td>
-                    <td width="10%">
+                    <td width="8%">
                         @Html.DisplayFor(modelItem => item.Size)
                     </td>
-                    <td width="10%">
+                    <td width="8%">
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td class="pr-3"width="25%">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td width="10%">
+                    <td width="15%">
                         @Html.DisplayFor(modelItem => item.OwnerName)
                     </td>
-                    <td width="10%">
+                    <td width="15%">
                         @Html.DisplayFor(modelItem => item.DaysPending)
                     </td>
-                    <td width="25%">
+                    <td width="20%">
                         @if (item.Type == WIMS.Data.ItemType.Bug)
                         {
                             <select id="@($"bugDropDown{i}")">
@@ -108,8 +101,6 @@
                                     <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
                                     <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
                                 }
-
-
                             </select>
                             <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
                             j++;
