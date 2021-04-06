@@ -1,0 +1,139 @@
+﻿/*colors: #3FD2C7 (green)  #99DDFF (light blue)   #00458B(dark blue)     */
+
+
+body {
+    /*background-color: #e9ecef;*/
+    /*background-color: #f6f4f2;*/
+    min-height: 100vh;
+    /*background-color:#f7f7f7*/
+}
+
+#register, #login{
+    width:75%;
+    margin-top:15%;
+}
+
+#main-content {
+    min-width: 100%;
+}
+
+
+/**/
+#navbar {
+    background-color: #00458B ;
+   /* color: white !important;*/
+}
+
+.table-container{
+    height:80vh;
+}
+.table {
+    background-color: white;
+}
+
+.table-header {
+    background-color: #ACBFE6;
+}
+    .table-header a {
+        background-color: #00458B;
+    }
+
+
+
+
+
+
+
+/* Home Views*/
+
+
+#jumbotron-container{
+    height:80vh;
+    
+}
+#home-jumbotron {
+    background-color:#ACBFE6 ;
+}
+    #home-jumbotron a {
+        background-color: #00458B;
+        color:white;
+    }
+    #home-jumbotron hr{
+        border: 1px solid black;
+    }
+
+
+
+
+
+
+
+
+/* Work Item Views*/
+
+.table-container {
+    margin-top: 15%;
+}
+
+
+.table-navlinks a {
+    color: white;
+    font-weight: 500;
+}
+
+.item-edit, .item-details , .item-complete, .item-delete, .item-create{
+    margin-top:15%;
+    width:75%;    
+}
+
+.item-reassign{
+    width:75%;
+    margin-top:10%;
+}
+
+
+
+
+
+
+/*Team Views*/
+
+#edit-team-members {
+    width: 75%;
+    margin-top: 15%;
+}
+
+#team-detail, #team-delete{
+    width:75%;
+    margin-top:15%;
+}
+
+
+
+
+/* User Views */
+.role-card-container{
+    width:100%;
+    
+}
+.role-card{
+    width:50%;
+}
+
+.role-card-header {
+    background-color:#ACBFE6 ;
+}
+
+#create-role-btn{
+    align-self:flex-end;
+}
+
+#edit-users-role {
+    width: 75%;
+    margin-top: 15%;
+}
+
+#role-delete {
+    width: 75%;
+    margin-top: 15%;
+}

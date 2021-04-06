@@ -1,0 +1,31 @@
+﻿@model List<WIMS.Models.UserModels.UsersInRoleEdit>
+@{
+    ViewData["Title"] = "EditUsersInRole";
+    string roleId = ViewBag.roleId;
+    string roleName = ViewBag.roleName;
+}
+
+
+
+<form method="post" class="mx-auto" id="edit-users-role">
+    <div class="card mt-5">
+        <div class="card-header h5 table-header">
+            @($"Select the users for role: {roleName}")
+        </div>
+        <div class="card-body">
+            @for(int i=0; i<Model.Count; i++)
+            {
+                <div class="form-check m-2">
+                    <input type="hidden" asp-for="@Model[i].UserId"/>
+                    <input type="hidden" asp-for="@Model[i].FullName"/>
+                    <input asp-for="@Model[i].IsSelected" class="form-check-input"/>
+                    <label class="form-check-label" asp-for="@Model[i].IsSelected"> @Model[i].FullName</label>
+                </div>
+            }
+        </div>
+        <div class="card-footer bg-transparent">
+            <input type="submit" value="Confirm" class="btn btn-primary" style="width:auto"/>
+            <a asp-action="EditRole" asp-route-id="@roleId"class="btn btn-primary" style="width:auto">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,149 @@
+﻿@model IEnumerable<WIMS.Models.WorkItemListItem>
+
+@{
+    ViewData["Title"] = "ViewAllItems";
+    bool isManager = ViewBag.IsManager;
+    int i = 0;
+    int j = 0;
+}
+
+
+
+<div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
+    <div class=" table-header text-center border-bottom border-dark">
+        
+        <div class="d-flex flex-row justify-content-center h5 table-navlinks">
+            <h1 class="p-2">Pending Items |</h1>
+            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center mx-1">Back To Index</a>
+            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
+            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
+            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>
+
+        </div>
+    </div>
+
+
+
+    <table class="table border py-0 my-0 h6">
+        <thead class="h6 bg-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(Model => Model.ItemId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Size)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OwnerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaysPending)
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="px-3" width="8%">
+                        @Html.DisplayFor(modelItem => item.ItemId)
+                    </td>
+                    <td width="8%">
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td width="8%">
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td width="25%">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td width="15%">
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td width="15%">
+                        @Html.DisplayFor(modelItem => item.DaysPending)
+                    </td>
+                    <td width="20%">
+                        @if (item.Type == WIMS.Data.ItemType.Bug)
+                        {
+                            <select id="@($"bugDropDown{i}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
+                                    <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
+                                }
+                            </select>
+                            <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
+                            i++;
+                        }
+                        else
+                        {
+                            <select id="@($"featureDropDown{j}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                                }
+
+
+                            </select>
+                            <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
+                            j++;
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    let i = @i;
+    let j = @j;
+    let bugDropDowns = [];
+    let bugGoButtons = [];
+    let featureDropDowns = [];
+    let featureGoButtons = [];
+
+    for (let m = 0; m < i; m++)
+    {
+        let goButtonString = `#bugGo${m}`;
+        let dropDownString = `#bugDropDown${m}`;
+        bugGoButtons[m] = document.querySelector(goButtonString);
+        bugDropDowns[m] = document.querySelector(dropDownString);
+        bugDropDowns[m].addEventListener('change', () => bugSetHrefVal(m));
+    }
+
+    for (let n = 0; n < j; n++)
+    {
+        let goButtonString = `#featureGo${n}`;
+        let dropDownString = `#featureDropDown${n}`;
+        featureGoButtons[n] = document.querySelector(goButtonString);
+        featureDropDowns[n] = document.querySelector(dropDownString);
+        featureDropDowns[n].addEventListener('change', () => featureSetHrefVal(n));
+    }
+
+    function bugSetHrefVal(position) {
+
+        bugGoButtons[position].setAttribute("href", bugDropDowns[position].value);
+    }
+
+    function featureSetHrefVal(position) {
+
+        featureGoButtons[position].setAttribute("href", featureDropDowns[position].value);
+    }
+</script>

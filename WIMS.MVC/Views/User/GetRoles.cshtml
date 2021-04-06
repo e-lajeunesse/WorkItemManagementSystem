@@ -1,0 +1,60 @@
+﻿@model IEnumerable<WIMS.Models.UserModels.RoleListItem>
+
+
+@{
+    ViewBag.Title = "All User Roles";
+}
+
+<div class="d-flex row justify-content-start border-bottom border-dark w-50 mt-5 ml-5">
+    <h1 class="px-3">Current Roles</h1>
+    <a class="btn btn-primary mb-2" id="create-role-btn"  asp-controller="User" asp-action="CreateRole">Create New Role</a>    
+</div>
+
+
+<div class="role-card-container ">
+    @if (Model.Any())
+    {
+
+        foreach (var role in Model)
+        {
+            <div class="card  my-4  role-card ml-5 ">
+                <div class="card-header role-card-header">
+                    Role Id: @role.RoleId
+                </div>
+                <div class="card-body row">
+                    <h4 class="card-title col-8">@role.Name</h4>
+                    <div>
+                        <a class="btn btn-primary mx-1" style="width:auto" asp-controller="User"
+                           asp-action="EditRole" asp-route-id="@role.RoleId">
+                            Edit Role
+                        </a>
+                        <a class="btn btn-primary mx-1" style="width:auto" asp-controller="User"
+                           asp-action="DeleteRole" asp-route-id="@role.RoleId">Delete Role
+                        </a>
+                    </div>
+
+                </div>
+                @*            <div class="card-footer">
+                        <a>Edit</a>
+                        <a>Delete</a>
+                    </div>*@
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                No Roles have been created yet
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Click below to create a Role</h5>
+
+                <a class="btn btn-primary" style="width:auto" asp-controller="User" asp-action="CreateRole">Create Role</a>
+            </div>
+        </div>
+    }
+</div>
+
+
+

@@ -1,0 +1,152 @@
+﻿@model IEnumerable<WIMS.Models.CompletedItemListItem>
+
+@{
+    ViewData["Title"] = "ViewCompletedItems";
+    bool isManager = ViewBag.IsManager;
+    int i = 0;
+    int j = 0;
+}
+
+<div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
+    <div class=" table-header text-center border-bottom border-dark">
+        
+        <div class="h5 d-flex flex-row table-navlinks justify-content-center">
+            <h1>Completed Items |</h1>
+            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center mx-1">My Work Items</a>
+            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
+            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
+            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn align-self-center mx-1">All Pending Items</a>
+        </div>
+    </div>
+
+    
+    <table class="table border py-0 my-0 h6">
+        <thead class="h6 bg-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Size)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCompleted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompletedByName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCompleted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompletedByName)
+                    </td>
+                    <td>
+
+
+                        @if (item.Type == WIMS.Data.ItemType.Bug)
+                        {
+                            <select id="@($"bugDropDown{i}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
+                                }
+                            </select>
+                            <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
+                            i++;
+                        }
+                        else
+                        {
+                            <select id="@($"featureDropDown{j}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                                }
+
+
+                            </select>
+                            <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
+                            j++;
+                        }
+                        @*                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<script>
+    let i = @i;
+    let j = @j;
+    let bugDropDowns = [];
+    let bugGoButtons = [];
+    let featureDropDowns = [];
+    let featureGoButtons = [];
+
+    for (let m = 0; m < i; m++)
+    {
+        let goButtonString = `#bugGo${m}`;
+        let dropDownString = `#bugDropDown${m}`;
+        bugGoButtons[m] = document.querySelector(goButtonString);
+        bugDropDowns[m] = document.querySelector(dropDownString);
+        bugDropDowns[m].addEventListener('change', () => bugSetHrefVal(m));
+    }
+
+    for (let n = 0; n < j; n++)
+    {
+        let goButtonString = `#featureGo${n}`;
+        let dropDownString = `#featureDropDown${n}`;
+        featureGoButtons[n] = document.querySelector(goButtonString);
+        featureDropDowns[n] = document.querySelector(dropDownString);
+        featureDropDowns[n].addEventListener('change', () => featureSetHrefVal(n));
+    }
+
+    function bugSetHrefVal(position) {
+
+        bugGoButtons[position].setAttribute("href", bugDropDowns[position].value);
+    }
+
+    function featureSetHrefVal(position) {
+
+        featureGoButtons[position].setAttribute("href", featureDropDowns[position].value);
+    }
+</script>

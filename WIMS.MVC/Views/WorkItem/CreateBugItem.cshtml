@@ -1,0 +1,40 @@
+﻿@model WIMS.Models.BugItemModels.BugItemCreate
+
+@{
+    ViewData["Title"] = "CreateBugItem";
+}
+
+
+
+
+<hr />
+<div class="card item-create mx-auto">
+    <div class="card-header table-header">
+        <h2>Add New Bug</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateBugItem">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
