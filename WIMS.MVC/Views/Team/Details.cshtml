@@ -8,10 +8,10 @@
 <div  id="team-detail" class="card w-75 mx-auto">
     <div class="card-header table-header">
         <dl class="row">
-            <dt class="col-sm-4 h5">
+            <dt class="col-sm-4 h4">
                 @Html.DisplayNameFor(model => model.TeamName)
             </dt>
-            <dd class="col-sm-8 h5">
+            <dd class="col-sm-8 h4">
                 @Html.DisplayFor(model => model.TeamName)
             </dd>
         </dl>
@@ -31,16 +31,20 @@
             <dd class="col-sm-8 h5">
                 @Html.DisplayFor(model => model.ManagerName)
             </dd>
-            <dt class="col-sm-4 h5 mt-3 mb-0"><u>Employees</u>  </dt>
+            <dt class="col-sm-4 h5 mt-3 mb-0"><u>Employees</u>  </dt>            
+
         </dl>
-        
         @if (Model.EmployeeNames.Any())
         {
-            @for (int i = 0; i < Model.EmployeeNames.Count; i++)
-            {
-                <h5 mt-0>@Model.EmployeeNames[i]</h5>
-            }
+            <ul class="mt-2">
+                @for (int i = 0; i < Model.EmployeeNames.Count; i++)
+                {
+                    <li mt-0>@Model.EmployeeNames[i]</li>
+                }
+            </ul>
+
         }
+
 
     </div>
     <div class="card-footer bg-transparent">

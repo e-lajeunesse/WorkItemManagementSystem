@@ -8,9 +8,16 @@ body {
     /*background-color:#f7f7f7*/
 }
 
-.jumbotron {
-    background-color: #E5E5E5;
+#register, #login{
+    width:75%;
+    margin-top:15%;
 }
+
+#main-content {
+    min-width: 100%;
+}
+
+
 /**/
 #navbar {
     background-color: #00458B ;
@@ -31,15 +38,13 @@ body {
         background-color: #00458B;
     }
 
-.table-navlinks {
-    
-}
 
-    
-.table-navlinks a {
-    color: white;
-    font-weight:500;
-}
+
+
+
+
+
+/* Home Views*/
 
 
 #jumbotron-container{
@@ -57,17 +62,37 @@ body {
         border: 1px solid black;
     }
 
-#main-content{
-    
-    min-width:100%;
+
+
+
+
+
+
+
+/* Work Item Views*/
+
+.table-container {
+    margin-top: 15%;
 }
 
 
+.table-navlinks a {
+    color: white;
+    font-weight: 500;
+}
 
-.table-container
-{
+.item-edit, .item-details , .item-complete, .item-delete, .item-create{
     margin-top:15%;
+    width:75%;    
 }
+
+.item-reassign{
+    width:75%;
+    margin-top:10%;
+}
+
+
+
 
 
 

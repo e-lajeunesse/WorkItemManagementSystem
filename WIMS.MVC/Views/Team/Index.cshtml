@@ -2,21 +2,21 @@
 
 @{
     ViewData["Title"] = "Index";
+    int i = 0;
 }
 
 
 
 <div  class="col-10 mx-auto row d-flex flex-column  table-container ">
     <div class=" table-header text-center border-bottom border-dark">
-        <h1 class="p-2">Teams</h1>
+        
 
-        <p class=" h5 table-navlinks">
-            <a href='@Url.Action( "Create", "Team")' class="btn">Create New Team</a>
-        </p>
+        <div class=" h5 d-flex flex-row table-navlinks justify-content-center">
+            <h1 class="p-2">Teams Index |</h1>
+            <a href='@Url.Action( "Create", "Team")' class="btn align-self-center mx-1">Create New Team</a>
+        </div>
     </div>
-@*    <p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
+
 
 
     <table class="table border table-hover py-0 my-0 h6">
@@ -31,7 +31,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ManagerName)
                 </th>
-                <th></th>
+                <th>
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -48,14 +50,40 @@
                         @Html.DisplayFor(modelItem => item.ManagerName)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
+                        <select id="@($"teamsDropDown{i}")">
+                            <option value="">Select</option>
+                            <option value=@($"/Team/Edit/{item.TeamId}")>Edit Team</option>
+                            <option value=@($"/Team/Details/{item.TeamId}")>Team Details</option>
+                            <option value=@($"/Team/Delete/{item.TeamId}")>Delete Team</option>
+                        </select>
+                        <a href="" id="@($"goButton{i}")" class="btn-sm btn-primary">Go</a>
+@*                        @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
                         @Html.ActionLink("Details", "Details", new { id = item.TeamId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })*@
                     </td>
                 </tr>
+                i++;
             }
         </tbody>
     </table>
-
-
 </div>
+
+<script>
+    
+    let i =@i;
+    let dropDowns = [];
+    let goButtons = [];
+
+    for (let j = 0; j < i; j++)
+    {
+        let goButtonString = `#goButton${j}`;
+        let dropDownString = `#teamsDropDown${j}`;
+        goButtons[j] = document.querySelector(goButtonString);
+        dropDowns[j] = document.querySelector(dropDownString);
+        dropDowns[j].addEventListener('change', () => setHrefValue(j));
+    }
+
+    function setHrefValue(position) {
+        goButtons[position].setAttribute("href", dropDowns[position].value);
+    }
+</script>
