@@ -1,14 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<div class="row  d-flex  align-items-center justify-content-center " id="jumbotron-container">
+    <div class="jumbotron " id="home-jumbotron">
+        <h1 class="display-4">Work Item Management System</h1>
+        <hr class="my-5 " />
+        <a href='@Url.Action( "Index", "User")' class="btn">Manage Users</a>
+        <a href='@Url.Action( "Index", "WorkItem")' class="btn">Work Items</a>
+        <a href='@Url.Action( "Index", "Team")' class="btn">Manage Teams</a>
+        @*    @Html.ActionLink("Manage users", "Index", "User")
+            @Html.ActionLink("My Work Items", "Index", "WorkItem")
+            @Html.ActionLink("Teams", "Index", "Team")*@
+    </div>
 
-<div class="jumbotron">
-    <h1 class="display-4">Work Item Management System</h1>
-    <hr class="my-4"/>
-    <a href='@Url.Action( "Index", "User")' class="btn-sm btn-primary">Manage Users</a>
-    <a href='@Url.Action( "Index", "WorkItem")' class="btn-sm btn-primary">Work Items</a>
-    <a href='@Url.Action( "Index", "Team")' class="btn-sm btn-primary">Manage Teams</a>
-@*    @Html.ActionLink("Manage users", "Index", "User")
-    @Html.ActionLink("My Work Items", "Index", "WorkItem")
-    @Html.ActionLink("Teams", "Index", "Team")*@
+
+
 </div>
+
