@@ -28,6 +28,7 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
+
         [Authorize(Roles ="Admin")]
         //Get: User/CreateRole
         public IActionResult CreateRole()
@@ -37,6 +38,7 @@ namespace WIMS.MVC.Controllers
 
         [Authorize(Roles = "Admin")]
         //Post: User/CreateRole
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRole(UserRoleCreate model)
         {

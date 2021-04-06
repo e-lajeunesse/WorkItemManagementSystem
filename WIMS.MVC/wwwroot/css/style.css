@@ -1,0 +1,63 @@
+﻿/*colors: #3FD2C7 (green)  #99DDFF (light blue)   #00458B(dark blue)     */
+
+
+body {
+    /*background-color: #e9ecef;*/
+    /*background-color: #f6f4f2;*/
+    min-height: 100vh;
+    /*background-color:#f7f7f7*/
+}
+
+.jumbotron {
+    background-color: #E5E5E5;
+}
+/**/
+#navbar {
+    background-color: #00458B ;
+   /* color: white !important;*/
+}
+
+.table-container{
+    height:80vh;
+}
+.table {
+    background-color: white;
+}
+
+.table-header {
+    background-color: #ACBFE6;
+}
+    .table-header a {
+        background-color: #00458B;
+    }
+
+.table-navlinks {
+    
+}
+
+    
+.table-navlinks a {
+    color: white;
+    font-weight:500;
+}
+
+
+#jumbotron-container{
+    height:80vh;
+    
+}
+#home-jumbotron {
+    background-color:#ACBFE6 ;
+}
+    #home-jumbotron a {
+        background-color: #00458B;
+        color:white;
+    }
+    #home-jumbotron hr{
+        border: 1px solid black;
+    }
+
+#main-content{
+    
+    min-width:100%;
+}

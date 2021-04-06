@@ -12,6 +12,7 @@ using WIMS.Services;
 
 namespace WIMS.MVC.Controllers
 {
+
     [Authorize]
     public class TeamController : Controller
     {
@@ -43,6 +44,7 @@ namespace WIMS.MVC.Controllers
         //POST: Team/Create
         [Authorize(Roles = "Manager")]
         [HttpPost]
+
         public async Task<IActionResult> Create(TeamCreate model)
         {
             if (!ModelState.IsValid)
