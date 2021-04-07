@@ -8,6 +8,7 @@ namespace WIMS.Services
 {
     public interface INoteService
     {
-        Task<bool> CreateBugNote(NoteCreate model, string userId, int itemId);
+        Task<bool> CreateBugNote(NoteCreate model, string userId);
+        Task<bool> CreateFeatureNote(NoteCreate model, string userId);
     }
 }

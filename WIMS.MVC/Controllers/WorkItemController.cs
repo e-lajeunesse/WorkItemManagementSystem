@@ -11,6 +11,7 @@ using WIMS.Data;
 using WIMS.Models;
 using WIMS.Models.BugItemModels;
 using WIMS.Models.FeatureItemModels;
+using WIMS.Models.NoteModels;
 using WIMS.MVC.Data;
 using WIMS.Services;
 
@@ -98,8 +99,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/CreateBugItem
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public async Task<IActionResult> CreateBugItem(BugItemCreate model)
         {
             if (!ModelState.IsValid)
@@ -121,6 +121,7 @@ namespace WIMS.MVC.Controllers
         [ActionName("BugItemDetails")]
         public async Task<IActionResult> BugItemDetails(int id)
         {
+            ViewBag.NoteCreate = new NoteCreate();
             BugItemDetail bugItem = await _bugService.GetBugItemById(id);            
             return View(bugItem);
         }

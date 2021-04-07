@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WIMS.Data;
 using WIMS.Models;
 using WIMS.Models.FeatureItemModels;
+using WIMS.Models.NoteModels;
 using WIMS.MVC.Data;
 
 namespace WIMS.Services
@@ -117,6 +118,12 @@ namespace WIMS.Services
                 DaysPending = item.DaysPending,
                 IsComplete = item.IsComplete,
                 CreatorName = item.CreatorName,
+                Notes = item.Notes.Select(n => new NoteDetail 
+                {
+                    NoteText = n.NoteText,
+                    NoteId = n.NoteId,
+                    AuthorName = n.ApplicationUser.FullName
+                }).ToList()
 /*                ApplicationUserId = item.ApplicationUserId,
                 FullName = item.ApplicationUser.FullName*/
             };

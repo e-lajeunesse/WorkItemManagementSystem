@@ -29,5 +29,8 @@ namespace WIMS.Models.BugItemModels
         [Display(Name = "Assigned To")]
         public string FullName { get; set; }
         public List<NoteDetail> Notes { get; set; }
+        //public NoteCreate noteCreate { get; set; } = new NoteCreate();
+
+        public string NoteText { get; set; }
     }
 }

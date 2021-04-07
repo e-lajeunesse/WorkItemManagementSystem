@@ -15,14 +15,28 @@ namespace WIMS.Services
         {
             _context = context;
         }
-        public async Task<bool> CreateBugNote(NoteCreate model, string userId, int itemId)
+        public async Task<bool> CreateBugNote(NoteCreate model, string userId)
         {
             Note note = new Note
             {
                 NoteText = model.NoteText,
                 DateCreated = DateTime.Now,
                 ApplicationUserId = userId,
-                BugItemId = itemId
+                BugItemId = model.ItemId
+            };
+            _context.Notes.Add(note);
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        public async Task<bool> CreateFeatureNote(NoteCreate model, string userId)
+        {
+            Note note = new Note
+            {
+                NoteText = model.NoteText,
+                DateCreated = DateTime.Now,
+                ApplicationUserId = userId,
+                FeatureItemId = model.ItemId
             };
             _context.Notes.Add(note);
             int changes = await _context.SaveChangesAsync();
