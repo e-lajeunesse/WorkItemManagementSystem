@@ -15,6 +15,8 @@ namespace WIMS.Services
         {
             _context = context;
         }
+
+        // Creates Note For Bug Item
         public async Task<bool> CreateBugNote(NoteCreate model, string userId)
         {
             Note note = new Note
@@ -29,6 +31,7 @@ namespace WIMS.Services
             return changes == 1;
         }
 
+        // Creates Note for Feature item
         public async Task<bool> CreateFeatureNote(NoteCreate model, string userId)
         {
             Note note = new Note
@@ -39,6 +42,30 @@ namespace WIMS.Services
                 FeatureItemId = model.ItemId
             };
             _context.Notes.Add(note);
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        //Gets Note by Note Id
+        public async Task<NoteDetail> GetNoteById(int id, ItemType type)
+        {
+            Note noteToGet = await _context.Notes.FindAsync(id);
+            NoteDetail detail = new NoteDetail
+            {
+                NoteId = noteToGet.NoteId,
+                NoteText = noteToGet.NoteText,
+                AuthorName = noteToGet.ApplicationUser.FullName,
+                AuthorId = noteToGet.ApplicationUserId
+            };
+            detail.ItemId = type == ItemType.Bug ? noteToGet.BugItemId : noteToGet.FeatureItemId;
+            return detail;           
+        }
+
+        //Deletes Note
+        public async Task<bool> DeleteNote(int id)
+        {
+            Note noteToDelete = await _context.Notes.FindAsync(id);
+            _context.Remove(noteToDelete);
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }

@@ -12,5 +12,8 @@ namespace WIMS.Models.NoteModels
 
         [Display(Name ="Author")]
         public string AuthorName { get; set; }
+        public string AuthorId { get; set; }
+
+        public int? ItemId { get; set; }
     }
 }
