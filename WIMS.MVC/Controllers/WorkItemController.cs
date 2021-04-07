@@ -121,7 +121,7 @@ namespace WIMS.MVC.Controllers
         [ActionName("BugItemDetails")]
         public async Task<IActionResult> BugItemDetails(int id)
         {
-            BugItemDetail bugItem = await _bugService.GetBugItemById(id);
+            BugItemDetail bugItem = await _bugService.GetBugItemById(id);            
             return View(bugItem);
         }
 

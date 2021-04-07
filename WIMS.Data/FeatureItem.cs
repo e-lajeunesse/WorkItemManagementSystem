@@ -36,5 +36,6 @@ namespace WIMS.Data
         [ForeignKey(nameof(ApplicationUser))]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual List<Note> Notes { get; set; }
     }
 }
