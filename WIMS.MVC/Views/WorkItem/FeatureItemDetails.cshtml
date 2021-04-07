@@ -4,72 +4,157 @@
     ViewData["Title"] = "FeatureItemDetails";
 }
 
-<div class="card item-details mx-auto">
-    <div class="card-header table-header"><h4>FeatureItemDetail</h4></div>
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ItemId)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ItemId)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Type)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Type)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Size)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Size)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DateCreated)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DaysPending)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DaysPending)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatorName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatorName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FullName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FullName)
-            </dd>
-        </dl>
+<div class="d-flex flex-row w-100 justify-content-around align-items-start" id="details-container">
+    <div class="card item-details ">
+        <div class="card-header table-header"><h4>FeatureItemDetail</h4></div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ItemId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ItemId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Size)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Size)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DateCreated)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DaysPending)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DaysPending)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CreatorName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CreatorName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FullName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-transparent">
+            <a class="btn btn-primary" href="@Url.Action("EditFeatureItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
+            @if (Model.IsComplete)
+            {
+                <a class="btn btn-primary" asp-action="ViewCompletedItems">Back to List</a>
+            }
+            else
+            {
+                <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            }
+        </div>
     </div>
-    <div class="card-footer bg-transparent">
-        <a class="btn btn-primary" href="@Url.Action("EditFeatureItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
-        @if (Model.IsComplete)
-        {
-            <a class="btn btn-primary" asp-action="ViewCompletedItems">Back to List</a>
-        }
-        else
-        {
-            <a class="btn btn-primary"asp-action="Index">Back to List</a>
-        }
+
+
+
+
+    <div id="note-container">
+        <div class="card">
+            <div class="card-header table-header d-flex flex-row justify-content-between">
+                <h4>Notes</h4>
+                <button class="btn btn-primary float-right" id="hideNotes">Hide Notes</button>
+            </div>
+            <div class="card-body" id="notes">
+                @if (Model.Notes.Any())
+                {
+                    @foreach (var note in Model.Notes)
+                    {
+                        <div class="card py-1 my-3 w-75 mx-auto border-dark">
+
+
+                            <p class="mx-3"> @note.NoteText</p>
+                            <p class="ml-3">- @note.AuthorName</p>
+                        </div>
+                    }
+                }
+
+            </div>
+
+
+            <div class="card-footer bg-transparent">
+                <form asp-action="CreateFeatureItemNote" asp-controller="Note" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="NoteText" class="control-label invisible"></label>
+                        @*<input asp-for="NoteText" class="form-control" />*@
+                        <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="75" class="form-control"></textarea>
+                        <span asp-validation-for="NoteText" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @*<label asp-for="ItemId" class="control-label"></label>*@
+                        <input asp-for="ItemId" type="hidden" class="form-control" value="@Model.ItemId" />
+                        <span asp-validation-for="NoteText" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add New Note" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+        </div>
+
     </div>
+
+
+
+
+
 </div>
 
 
 
+<script>
+    let hidden = false;
+    const button = document.querySelector("#hideNotes")
+    const notes = document.querySelector('#notes')
+
+    button.addEventListener('click', () => hide());
+
+    function hide() {
+
+        if (!hidden) {
+            notes.classList.add('d-none');
+            button.textContent = "View Notes";
+            hidden = true;
+        }
+        else {
+            notes.classList.remove('d-none');
+            button.textContent = "Hide Notes"
+            hidden = false;
+        }
+    }
+</script>

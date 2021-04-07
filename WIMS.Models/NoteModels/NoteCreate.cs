@@ -10,5 +10,6 @@ namespace WIMS.Models.NoteModels
         [Required]
         public string NoteText { get; set; }
 
+        public int ItemId { get; set; }
     }
 }

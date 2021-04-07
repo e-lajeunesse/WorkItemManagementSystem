@@ -29,5 +29,6 @@ namespace WIMS.Models.FeatureItemModels
         [Display(Name ="Assigned To")]
         public string FullName { get; set; }
         public List<NoteDetail> Notes { get; set; }
+        public string NoteText { get; set; }
     }
 }

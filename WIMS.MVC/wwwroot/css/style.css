@@ -81,14 +81,24 @@ body {
     font-weight: 500;
 }
 
-.item-edit, .item-details , .item-complete, .item-delete, .item-create{
+.item-edit, .item-complete, .item-delete, .item-create{
     margin-top:15%;
     width:75%;    
 }
 
-.item-reassign{
-    width:75%;
-    margin-top:10%;
+.item-details{
+    
+    width:45%;
+}
+
+.item-reassign {
+    width: 75%;
+    margin-top: 10%;
+}
+
+#details-container{
+    margin-top:15%;
+    
 }
 
 
@@ -136,4 +146,11 @@ body {
 #role-delete {
     width: 75%;
     margin-top: 15%;
+}
+
+
+/* Notes */
+
+#note-container{
+    width:45%;
 }
