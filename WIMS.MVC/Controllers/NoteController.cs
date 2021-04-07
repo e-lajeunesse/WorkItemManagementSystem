@@ -61,7 +61,61 @@ namespace WIMS.MVC.Controllers
                 return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = model.ItemId });
             }
             return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = model.ItemId });
+        }
 
+        //GET: Note/DeleteBugNote/{id}
+        public async Task<IActionResult> DeleteBugNote(int id)
+        {
+            NoteDetail note = await _service.GetNoteById(id, ItemType.Bug);
+            ViewBag.ItemId = id;
+            return View(note);
+        }
+
+        //Post: Note/DeleteBugNote/{id}
+        [ActionName("DeleteBugNote")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteBugNotePost(int id)
+        {
+            NoteDetail note = await _service.GetNoteById(id, ItemType.Bug);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            if (user.Id != note.AuthorId && !user.IsManager)
+            {
+                ViewBag.ErrorMessage = "Only the Author or a Manager is allowed to delete a note";
+                return View(note);
+            }
+
+            if (await _service.DeleteNote(id))
+            {
+                return RedirectToAction("BugItemDetails", "WorkItem", new { id = note.ItemId });
+            }
+            return View();
+        }
+
+        //GET: Note/DeleteFeatureNote/{id}
+        public async Task<IActionResult> DeleteFeatureNote(int id)
+        {
+            NoteDetail note = await _service.GetNoteById(id, ItemType.Feature);
+            ViewBag.ItemId = id;
+            return View(note);
+        }
+
+        //Post: Note/DeleteFeatureNote/{id}
+        [ActionName("DeleteFeatureNote")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteFeatureNotePost(int id)
+        {
+            NoteDetail note = await _service.GetNoteById(id, ItemType.Feature);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            if (user.Id != note.AuthorId && !user.IsManager)
+            {
+                ViewBag.ErrorMessage = "Only the Author or a Manager is allowed to delete a note";
+                return View(note);
+            }
+            if (await _service.DeleteNote(id))
+            {
+                return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = note.ItemId });
+            }
+            return View(note);
         }
     }
 }

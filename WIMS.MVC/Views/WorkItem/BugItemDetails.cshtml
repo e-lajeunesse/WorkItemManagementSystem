@@ -10,52 +10,52 @@
         <div class="card-header table-header"><h4>Item Details</h4></div>
         <div class="card-body">
             <dl class="row">
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.ItemId)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.ItemId)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Description)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Description)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Type)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Type)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Size)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Size)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.DateCreated)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.DateCreated)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.DaysPending)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.DaysPending)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.CreatorName)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.CreatorName)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.FullName)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.FullName)
                 </dd>
             </dl>
@@ -86,10 +86,16 @@
                 @foreach (var note in Model.Notes)
                 {
                     <div class="card py-1 my-3 w-75 mx-auto border-dark">
-
-
                         <p class="mx-3"> @note.NoteText</p>
                         <p class="ml-3">- @note.AuthorName</p>
+                        <hr />
+                        @*<a class="btn-sm btn-primary w-25" href="@Url.Action("DeleteBugNote","Note", new { id = note.NoteId})">Delete</a>*@
+                        <div class="w-25 d-flex flex-row justify-content-around">
+                            @Html.ActionLink("Delete ", "DeleteBugNote", "Note", new { id = note.NoteId })
+                            @Html.ActionLink(" Edit", "DeleteBugNote", "Note", new { id = Model.ItemId })
+                        </div>
+
+
                     </div>
                 }
             </div>
@@ -138,7 +144,7 @@
     button.addEventListener('click', () => hide());
 
     function hide() {
-        
+
         if (!hidden) {
             notes.classList.add('d-none');
             button.textContent = "View Notes";

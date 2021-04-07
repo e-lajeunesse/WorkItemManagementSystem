@@ -154,3 +154,7 @@ body {
 #note-container{
     width:45%;
 }
+.note-delete{
+    width:75%;
+    margin-top:15%;
+}
