@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WIMS.Data;
+using WIMS.Models.NoteModels;
 
 namespace WIMS.Models.BugItemModels
 {
@@ -27,5 +28,6 @@ namespace WIMS.Models.BugItemModels
 
         [Display(Name = "Assigned To")]
         public string FullName { get; set; }
+        public List<NoteDetail> Notes { get; set; }
     }
 }

@@ -41,6 +41,7 @@ namespace WIMS.MVC
             services.AddScoped<IBugItemService, BugItemService>();
             services.AddScoped<IFeatureItemService, FeatureItemService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<INoteService, NoteService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
