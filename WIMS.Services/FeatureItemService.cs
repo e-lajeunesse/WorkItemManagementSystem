@@ -151,9 +151,16 @@ namespace WIMS.Services
         public async Task<bool> DeleteFeatureItem(int itemId)
         {
             FeatureItem itemToDelete = await _context.FeatureItems.SingleAsync(i => i.ItemId == itemId);
+            if (itemToDelete.Notes.Any())
+            {
+                foreach(var note in itemToDelete.Notes)
+                {
+                    _context.Notes.Remove(note);
+                }
+            }
             _context.FeatureItems.Remove(itemToDelete);
             int changes = await _context.SaveChangesAsync();
-            return changes == 1;
+            return changes > 0;
         }
 
 
