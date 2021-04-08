@@ -85,16 +85,24 @@
 
                 @foreach (var note in Model.Notes)
                 {
-                    <div class="card py-1 my-3 w-75 mx-auto border-dark">
-                        <p class="mx-3"> @note.NoteText</p>
-                        <p class="ml-3 mb-0 ">- @note.AuthorName</p>
-                        <hr class="my-1" />
-                        <div class="w-25 d-flex flex-row justify-content-around">
-                            @Html.ActionLink("Delete ", "DeleteFeatureNote", "Note", new { id = note.NoteId })
-                            @Html.ActionLink(" Edit", "DeleteBugNote", "Note", new { id = Model.ItemId })
+                <div class="card py-1 my-3 w-75 mx-auto border-dark">
+                    <p class="mx-3"> @note.NoteText</p>
+                    @if (note.DateModified != null)
+                    {
+                        <p class="ml-3">- @note.AuthorName  <span class="pl-3">edited @(((DateTime) note.DateModified).ToShortDateString()) </span> </p>
+                    }
+                    else
+                    {
+                        <p class="ml-3">- @note.AuthorName  <span class="pl-3"> @note.DateCreated.ToShortDateString() </span> </p>
+                    }
+                    
+                    <hr class="my-1" />
+                    <div class="w-25 d-flex flex-row justify-content-around">
+                        @Html.ActionLink("Delete ", "DeleteFeatureNote", "Note", new { id = note.NoteId })
+                        @Html.ActionLink(" Edit", "EditFeatureNote", "Note", new { id = note.NoteId })
 
-                        </div>
                     </div>
+                </div>
                 }
 
 

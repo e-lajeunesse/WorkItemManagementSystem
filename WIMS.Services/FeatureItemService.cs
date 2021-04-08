@@ -122,6 +122,8 @@ namespace WIMS.Services
                 {
                     NoteText = n.NoteText,
                     NoteId = n.NoteId,
+                    DateCreated = n.DateCreated,
+                    DateModified = n.DateModified,
                     AuthorName = n.ApplicationUser.FullName
                 }).ToList()
 /*                ApplicationUserId = item.ApplicationUserId,

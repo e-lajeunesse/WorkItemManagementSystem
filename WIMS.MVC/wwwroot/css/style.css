@@ -113,7 +113,7 @@ body {
     margin-top: 15%;
 }
 
-#team-detail, #team-delete{
+#team-detail, #team-delete, .team-create{
     width:75%;
     margin-top:15%;
 }
@@ -154,7 +154,7 @@ body {
 #note-container{
     width:45%;
 }
-.note-delete{
+.note-delete, .note-edit{
     width:75%;
     margin-top:15%;
 }

@@ -54,6 +54,8 @@ namespace WIMS.Services
             {
                 NoteId = noteToGet.NoteId,
                 NoteText = noteToGet.NoteText,
+                DateCreated = noteToGet.DateCreated,
+                DateModified = noteToGet.DateModified,
                 AuthorName = noteToGet.ApplicationUser.FullName,
                 AuthorId = noteToGet.ApplicationUserId
             };
@@ -66,6 +68,16 @@ namespace WIMS.Services
         {
             Note noteToDelete = await _context.Notes.FindAsync(id);
             _context.Remove(noteToDelete);
+            int changes = await _context.SaveChangesAsync();
+            return changes == 1;
+        }
+
+        //Edits Note
+        public async Task<bool> EditNote(int id, NoteEdit model)
+        {
+            Note noteToEdit = await _context.Notes.FindAsync(id);
+            noteToEdit.NoteText = model.NoteText;
+            noteToEdit.DateModified = DateTime.Now;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
