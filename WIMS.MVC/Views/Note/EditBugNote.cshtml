@@ -1,0 +1,45 @@
+﻿@model WIMS.Models.NoteModels.NoteEdit
+
+@{
+    ViewData["Title"] = "EditBugNote";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.ErrorMessage");
+    </script>
+}
+
+<div class="card note-edit mx-auto">
+    <div class="card-header table-header">
+        <h4>Edit Note</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="EditBugNote">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NoteText" class="control-label d-none"></label>
+                <input asp-for="ItemId" type="hidden"/>
+                <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="75" class="form-control"></textarea>
+
+                <span asp-validation-for="NoteText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-primary" href="@Url.Action("BugItemDetails", "WorkItem", new { id = Model.ItemId  })">
+                    Return to Item
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

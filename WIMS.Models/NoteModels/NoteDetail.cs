@@ -10,6 +10,9 @@ namespace WIMS.Models.NoteModels
         public int NoteId { get; set; }
         public string NoteText { get; set; }
 
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateModified { get; set; }
+
         [Display(Name ="Author")]
         public string AuthorName { get; set; }
         public string AuthorId { get; set; }

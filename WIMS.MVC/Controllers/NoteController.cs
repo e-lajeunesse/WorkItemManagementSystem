@@ -117,5 +117,79 @@ namespace WIMS.MVC.Controllers
             }
             return View(note);
         }
+
+        //GET: Note/EditBugNote/{id}
+        public async Task<IActionResult> EditBugNote(int id)
+        {
+            NoteDetail detail = await _service.GetNoteById(id, ItemType.Bug);
+            NoteEdit model = new NoteEdit
+            {
+                NoteText = detail.NoteText,
+                ItemId = detail.ItemId
+            };
+            return View(model);
+        }
+
+
+        //POST: Note/EditBugNote/{id}
+        [HttpPost]
+        public async Task<IActionResult> EditBugNote(int id, NoteEdit model)
+        {
+            NoteDetail detail = await _service.GetNoteById(id, ItemType.Bug);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (user.Id != detail.AuthorId)
+            {
+                ViewBag.ErrorMessage = "Only the Author is allowed to edit a note";
+                return View(model);
+            }
+            bool wasEdited = await _service.EditNote(id, model);
+            if (wasEdited)
+            {
+                return RedirectToAction("BugItemDetails", "WorkItem", new { id = detail.ItemId });
+            }
+            ViewBag.ErrorMessage = "Unable to edit note";
+            return View(model);
+        }
+
+        //GET: Note/EditFeatureNote/{id}
+        public async Task<IActionResult> EditFeatureNote(int id)
+        {
+            NoteDetail detail = await _service.GetNoteById(id, ItemType.Feature);
+            NoteEdit model = new NoteEdit
+            {
+                NoteText = detail.NoteText,
+                ItemId = detail.ItemId
+            };
+            return View(model);
+        }
+
+        //POST: Note/EditFeatureNote/{id}
+        [HttpPost]
+        public async Task<IActionResult> EditFeatureNote(int id, NoteEdit model)
+        {
+            NoteDetail detail = await _service.GetNoteById(id, ItemType.Feature);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (user.Id != detail.AuthorId)
+            {
+                ViewBag.ErrorMessage = "Only the Author is allowed to edit a note";
+                return View(model);
+            }
+            bool wasEdited = await _service.EditNote(id, model);
+            if (wasEdited)
+            {
+                return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = detail.ItemId });
+            }
+            ViewBag.ErrorMessage = "Unable to edit note";
+            return View(model);
+        }
+
     }
 }
