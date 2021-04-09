@@ -85,23 +85,29 @@
             <div class="card-body" id="notes">
                 @foreach (var note in Model.Notes)
                 {
-                <div class="card py-1 my-3 w-75 mx-auto border-dark">
-                    <p class="mx-3"> @note.NoteText</p>
-                    @if (note.DateModified != null)
-                    {
-                        <p class="ml-3">- @note.AuthorName  <span class="pl-3">edited @(((DateTime) note.DateModified).ToShortDateString()) </span> </p>
-                    }
-                    else
-                    {
-                        <p class="ml-3">- @note.AuthorName  <span class="pl-3"> @note.DateCreated.ToShortDateString() </span> </p>
-                    }
+                @*<div class="card py-1 my-3 w-75 mx-auto border-dark">*@
+                <div>
+                    <blockquote>
+                        <p class="mx-3"> @note.NoteText</p>
+                        @if (note.DateModified != null)
+                        {
+                            <footer class="blockquote-footer ml-3">@note.AuthorName  <span class="pl-3">edited @(((DateTime) note.DateModified).ToShortDateString()) </span> </footer>
+                        }
+                        else
+                        {
+                            <footer class="blockquote-footer ml-3">@note.AuthorName  <span class="pl-3"> @note.DateCreated.ToShortDateString() </span> </footer>
+                        }
+                    </blockquote>
 
-                    <hr />
+
+
+
                     @*<a class="btn-sm btn-primary w-25" href="@Url.Action("DeleteBugNote","Note", new { id = note.NoteId})">Delete</a>*@
                     <div class="w-25 d-flex flex-row justify-content-around">
                         @Html.ActionLink("Delete ", "DeleteBugNote", "Note", new { id = note.NoteId })
                         @Html.ActionLink("Edit", "EditBugNote", "Note", new { id = note.NoteId })
                     </div>
+                    <hr />
 
 
                 </div>
@@ -109,13 +115,14 @@
             </div>
 
 
-            <div class="card-footer bg-transparent">
+            <div class="card-footer bg-transparent border-top-0">
+            
                 <form asp-action="CreateBugItemNote" asp-controller="Note" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
                     <div class="form-group">
                         <label asp-for="NoteText" class="control-label invisible"></label>
                         @*<input asp-for="NoteText" class="form-control" />*@
-                        <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="75" class="form-control"></textarea>
+                        <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="70" class="form-control "></textarea>
                         <span asp-validation-for="NoteText" class="text-danger"></span>
                     </div>
                     <div class="form-group">

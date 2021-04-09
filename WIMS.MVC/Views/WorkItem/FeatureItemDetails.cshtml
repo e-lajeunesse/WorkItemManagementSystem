@@ -85,23 +85,37 @@
 
                 @foreach (var note in Model.Notes)
                 {
-                <div class="card py-1 my-3 w-75 mx-auto border-dark">
-                    <p class="mx-3"> @note.NoteText</p>
-                    @if (note.DateModified != null)
-                    {
-                        <p class="ml-3">- @note.AuthorName  <span class="pl-3">edited @(((DateTime) note.DateModified).ToShortDateString()) </span> </p>
-                    }
-                    else
-                    {
-                        <p class="ml-3">- @note.AuthorName  <span class="pl-3"> @note.DateCreated.ToShortDateString() </span> </p>
-                    }
-                    
-                    <hr class="my-1" />
+                @*<div class="card py-1 my-3 w-75 mx-auto border-dark">*@
+                <div>
+                    <blockquote>
+                        <p class="mx-3"> @note.NoteText</p>
+                        @if (note.DateModified != null)
+                        {
+                            <footer class="ml-3 blockquote-footer">
+                                 @note.AuthorName  <span class="pl-3">
+                                    edited @(((DateTime) note.DateModified).ToShortDateString())
+                                </span>
+                            </footer>
+                        }
+                        else
+                        {
+                            <footer class="ml-3 blockquote-footer">
+                                 @note.AuthorName  <span class="pl-3">
+                                    @note.DateCreated.ToShortDateString()
+                                </span>
+                            </footer>
+                        }
+                    </blockquote>
+
+
+
+
                     <div class="w-25 d-flex flex-row justify-content-around">
                         @Html.ActionLink("Delete ", "DeleteFeatureNote", "Note", new { id = note.NoteId })
                         @Html.ActionLink(" Edit", "EditFeatureNote", "Note", new { id = note.NoteId })
 
                     </div>
+                    <hr />
                 </div>
                 }
 
@@ -109,7 +123,7 @@
             </div>
 
 
-            <div class="card-footer bg-transparent">
+            <div class="card-footer bg-transparent border-top-0">
                 <form asp-action="CreateFeatureItemNote" asp-controller="Note" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
