@@ -1,49 +1,96 @@
-﻿@model IEnumerable<WIMS.Models.WorkItemListItem>
+﻿@*@model IEnumerable<WIMS.Models.WorkItemListItem>*@
+@model WIMS.Models.MainIndexDisplay
 
 @{
     ViewData["Title"] = "Index";
     bool isManager = ViewBag.IsManager;
+    string userName = ViewBag.UserName;
     int i = 0;
     int j = 0;
 }
 
-
-<div class="col-12 mx-auto row d-flex flex-column  table-container " >
-    <div class=" table-header text-center border-bottom border-dark">
-        
-        
-        <div class="d-flex flex-row table-navlinks justify-content-center"> 
-            <h1 class="p-2">Work Items Index |</h1>
-
-            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
-            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
-            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn align-self-center mx-1">All Pending Items</a>
-            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>
+<div class="row ">
+    <div class="col-4 mx-auto mt-5 pt-5">
+        <div class="card w-100 ">
+            <div class="card-header table-header w-100 h3">Welcome @Model.User.FullName</div>
+            <ul class="list-group list-group-flush w-100" style="font-size:18px;">
+                <li class="list-group-item d-flex justify-content-between align-items-center ">
+                    Team
+                    <span class="badge badge-primary  ml-5">@Model.User.Team.TeamName</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center ">
+                    Manager
+                    <span class="badge badge-primary ml-5">@Model.User.Team.ManagerName</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center ">
+                    Assigned Bug Items
+                    <span class="badge badge-primary badge-pill ml-5">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center ">
+                    Assigned Feature Items
+                    <span class="badge badge-primary badge-pill">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Feature).Count()</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Priority Items
+                    <span class="badge badge-primary badge-pill">1</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Average Days Pending
+                    <span class="badge badge-primary badge-pill">@(Model.WorkItems.Select(i => i.DaysPending).Sum()/Model.WorkItems.Count)</span>
+                </li>
+            </ul>
         </div>
     </div>
 
+    <div class="col-4 mx-auto mt-5 pt-5">
+        <div class="card w-100 text-center">
+            <div class="card-header table-header h3">Work Items Index</div>
+            <div class="card-body text-center">
+                <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
+                <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
+                <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">View Pending Items</a>
+                <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1"> View Completed Items</a>
+            </div>
+        </div>
+    </div>
 
+</div>
+
+
+<div class="col-12 mx-auto row d-flex flex-column  table-container " >
+    <div class=" table-header  border-bottom border-dark">
+        
+        
+        <div> 
+            <h4 class="p-3">Work Items assigned to @userName </h4>
+
+@*            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
+            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
+            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn align-self-center mx-1">All Pending Items</a>
+            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>*@
+        </div>
+    </div>
 
     <table class="table border table-hover py-0 my-0 h6 ">
         <thead class="h6 bg-light">
             <tr>
                 <th >
-                    @Html.DisplayNameFor(Model => Model.ItemId)
+                    @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().ItemId)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Size)
+                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Size)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Type)
+                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.OwnerName)
+                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().OwnerName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DaysPending)
+                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().DaysPending)
                 </th>
                 <th>
                     Actions
@@ -53,7 +100,7 @@
 
         <tbody>
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.WorkItems)
             {
                 <tr>
                     <td class="px-3" width="8%">

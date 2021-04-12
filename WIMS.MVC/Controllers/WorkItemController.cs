@@ -12,6 +12,8 @@ using WIMS.Models;
 using WIMS.Models.BugItemModels;
 using WIMS.Models.FeatureItemModels;
 using WIMS.Models.NoteModels;
+using WIMS.Models.TeamModels;
+using WIMS.Models.UserModels;
 using WIMS.MVC.Data;
 using WIMS.Services;
 
@@ -36,6 +38,20 @@ namespace WIMS.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            MainIndexDisplay model = new MainIndexDisplay();
+            model.User = new UserDisplay
+            {
+                FullName = user.FullName,
+                IsManager = user.IsManager,
+                TeamId = user.TeamId,
+                Team = new TeamDetail
+                {
+                    TeamName = user.Team.TeamName,
+                    ManagerName = user.Team.Users.FirstOrDefault(u => u.IsManager).FullName,
+                    EmployeeNames = user.Team.Users.Where(u => !u.IsManager).Select(u => u.FullName).ToList()
+                }
+            };
+            ViewBag.UserName = user.FullName;
             ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)
             {
@@ -51,9 +67,9 @@ namespace WIMS.MVC.Controllers
                 {
                     allItems.Add(item);
                 }
-
+                model.WorkItems = allItems;
                 //bugItemsList.AddRange(featureItemsList);
-                return View(allItems);
+                //return View(allItems);
             }
             else
             {
@@ -61,9 +77,11 @@ namespace WIMS.MVC.Controllers
                 List<WorkItemListItem> bugItemList = bugItems.ToList();
                 IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
                 List<WorkItemListItem> featureItemList = featureItems.ToList();
-                bugItemList.AddRange(featureItemList);           
-                return View(bugItemList);
+                bugItemList.AddRange(featureItemList);
+                model.WorkItems = bugItemList;
+                //return View(bugItemList);
             }
+            return View(model);
         }
 
         //GET: /WorkItem/ViewCompletedItems

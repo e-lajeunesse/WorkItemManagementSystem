@@ -39,9 +39,10 @@ namespace WIMS.MVC.Controllers
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             bool wasAdded = await _service.CreateBugNote(noteCreate, user.Id);
             if (wasAdded)
-            {
-                return RedirectToAction("BugItemDetails", "WorkItem", new { id = model.ItemId } );
+            {                
+                return RedirectToAction("BugItemDetails", "WorkItem", new { id = model.ItemId });
             }
+            ViewBag.ErrorMessage = "Unable to add note";
             return View(model);
         }
 
@@ -60,7 +61,8 @@ namespace WIMS.MVC.Controllers
             {
                 return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = model.ItemId });
             }
-            return RedirectToAction("FeatureItemDetails", "WorkItem", new { id = model.ItemId });
+            ViewBag.ErrorMessage = "Unable to add note";
+            return View(model);            
         }
 
         //GET: Note/DeleteBugNote/{id}

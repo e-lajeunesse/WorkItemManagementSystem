@@ -6,9 +6,10 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
-    <script type="text/javascript">
-        alert("@ViewBag.ErrorMessage");
-    </script>
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+        <button type="button" class="close" data-dismiss="alert"> X</button>
+    </div>
 }
 
 <div class="card note-edit mx-auto">
@@ -20,7 +21,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NoteText" class="control-label d-none"></label>
-                <input asp-for="ItemId" type="hidden"/>
+                <input asp-for="ItemId" type="hidden" />
                 <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="75" class="form-control"></textarea>
 
                 <span asp-validation-for="NoteText" class="text-danger"></span>

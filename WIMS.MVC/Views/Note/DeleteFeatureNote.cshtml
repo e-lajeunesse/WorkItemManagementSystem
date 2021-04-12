@@ -6,9 +6,10 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
-    <script type="text/javascript">
-        alert("@ViewBag.ErrorMessage");
-    </script>
+<div class="alert alert-danger" role="alert">
+    @ViewBag.ErrorMessage
+    <button type="button" class="close" data-dismiss="alert"> X</button>
+</div>
 }
 
 <div class="card mx-auto note-delete">
