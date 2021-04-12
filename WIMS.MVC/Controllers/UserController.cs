@@ -10,7 +10,7 @@ using WIMS.Models.UserModels;
 
 namespace WIMS.MVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
