@@ -29,6 +29,19 @@
                     @Html.DisplayFor(model => model.Type)
                 </dd>
                 <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Priority)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Priority)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Size)
                 </dt>
                 <dd class="col-sm-9">
@@ -58,6 +71,16 @@
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.FullName)
                 </dd>
+                @if (Model.DetailedDescription != null)
+                {
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.DetailedDescription)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.DetailedDescription)
+                    </dd>
+                }
+
             </dl>
         </div>
         <div class="card-footer bg-transparent">

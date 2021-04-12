@@ -12,8 +12,8 @@
 <div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
     <div class=" table-header text-center border-bottom border-dark">
         
-        <div class="d-flex flex-row justify-content-center h5 table-navlinks">
-            <h1 class="p-2">Pending Items |</h1>
+        <div class=" pt-2 d-flex flex-row justify-content-center h5 table-navlinks">
+            <h3 class="p-2">Pending Items |</h3>
             <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center mx-1">Back To Index</a>
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
@@ -31,19 +31,25 @@
                     @Html.DisplayNameFor(Model => Model.ItemId)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Size)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.OwnerName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.DaysPending)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th>
                     Actions
@@ -53,59 +59,65 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td class="px-3" width="8%">
-                        @Html.DisplayFor(modelItem => item.ItemId)
-                    </td>
-                    <td width="8%">
-                        @Html.DisplayFor(modelItem => item.Size)
-                    </td>
-                    <td width="8%">
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td width="25%">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td width="15%">
-                        @Html.DisplayFor(modelItem => item.OwnerName)
-                    </td>
-                    <td width="15%">
-                        @Html.DisplayFor(modelItem => item.DaysPending)
-                    </td>
-                    <td width="20%">
-                        @if (item.Type == WIMS.Data.ItemType.Bug)
-                        {
-                            <select id="@($"bugDropDown{i}")">
-                                <option value="">Select</option>
-                                <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
-                                @if (isManager)
-                                {
-                                    <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
-                                    <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
-                                    <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
-                                }
-                            </select>
-                            <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
-                            i++;
-                        }
-                        else
-                        {
-                            <select id="@($"featureDropDown{j}")">
-                                <option value="">Select</option>
-                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
-                                @if (isManager)
-                                {
-                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
-                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
-                                }
+            <tr>
+                <td class="" width="5%">
+                    @Html.DisplayFor(modelItem => item.ItemId)
+                </td>
+                <td width="8%">
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td width="10%">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td width="5%">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td width="8%">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td width="10%">
+                    @Html.DisplayFor(modelItem => item.OwnerName)
+                </td>
+                <td width="10%">
+                    @Html.DisplayFor(modelItem => item.DaysPending)
+                </td>
+                <td width="20%">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td width="20%">
+                    @if (item.Type == WIMS.Data.ItemType.Bug)
+                    {
+                        <select id="@($"bugDropDown{i}")">
+                            <option value="">Select</option>
+                            <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
+                            @if (isManager)
+                            {
+                                <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
+                                <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
+                                <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
+                            }
+                        </select>
+                        <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
+                        i++;
+                    }
+                    else
+                    {
+                        <select id="@($"featureDropDown{j}")">
+                            <option value="">Select</option>
+                            <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                            @if (isManager)
+                            {
+                                <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                                <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                            }
 
 
-                            </select>
-                            <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
-                            j++;
-                        }
-                    </td>
-                </tr>
+                        </select>
+                        <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
+                        j++;
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
