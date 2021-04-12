@@ -20,10 +20,60 @@
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+                @*                <div class="form-group">
+            <label asp-for="Priority" class="control-label"></label>
+            <input asp-for="Priority" placeholder="Enter High, Med, or Low" class="form-control" />
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Size" class="control-label"></label>
+            <input asp-for="Size" placeholder="Enter Lg, Med or Sm" class="form-control" />
+            <span asp-validation-for="Size" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Status" class="control-label"></label>
+            <input asp-for="Status" class="form-control" />
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label class="pr-1" asp-for="Priority"></label>
+                <select asp-for="Priority">
+                    @*<option value="">Please Select</option>*@
+                    <option value="@WIMS.Data.Priority.High">High</option>
+                    <option value="@WIMS.Data.Priority.Med">Med</option>
+                    <option value="@WIMS.Data.Priority.Low">Low</option>
+                </select>
+                <span asp-validation-for="Priority"></span>
+            </div>
+               
+            <div class="form-group">
+                <label class="pr-4" asp-for="Size"></label>
+                <select asp-for="Size">
+                    @*<option value="">Please Select</option>*@
+                    <option value="@WIMS.Data.Size.XL">XL</option>
+                    <option value="@WIMS.Data.Size.LG">LG</option>
+                    <option value="@WIMS.Data.Size.MD">MD</option>
+                    <option value="@WIMS.Data.Size.SM">SM</option>
+                </select>
+                <span asp-validation-for="Size"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="pr-2" asp-for="Status"></label>
+                <select asp-for="Status">
+                    @*<option value="">Please Select</option>*@
+                    <option value="@WIMS.Data.Status.Open">Open</option>
+                    <option value="@WIMS.Data.Status.InProgress">In Progress</option>
+                </select>
+                <span asp-validation-for="Status"></span>
+            </div>
+
+
+
                 <div class="form-group">
-                    <label asp-for="Size" class="control-label"></label>
-                    <input asp-for="Size" class="form-control" />
-                    <span asp-validation-for="Size" class="text-danger"></span>
+                    <label asp-for="DetailedDescription" class="control-label "></label>
+                    <textarea placeholder="" asp-for="DetailedDescription" rows="5" cols="70" class="form-control "></textarea>
+                    <span asp-validation-for="DetailedDescription" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />

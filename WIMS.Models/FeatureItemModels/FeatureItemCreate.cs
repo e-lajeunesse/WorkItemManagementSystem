@@ -9,12 +9,16 @@ namespace WIMS.Models.FeatureItemModels
     public class FeatureItemCreate
     {
         [Required]
-        [MaxLength(75)]
+        [MaxLength(50)]
         public string Description { get; set; }
 
+        public string DetailedDescription { get; set; }
 
-        [Required]   
+        [Required]
+        public Priority Priority { get; set; }
 
+
+        [Required] 
         public Size Size { get; set; }
     }
 }

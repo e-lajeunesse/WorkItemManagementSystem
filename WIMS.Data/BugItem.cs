@@ -13,10 +13,13 @@ namespace WIMS.Data
 
         
         public string Description { get; set; }
+        public string DetailedDescription { get; set; }
         public ItemType Type => ItemType.Bug;
 
-        [Required]
+        
         public Size Size { get; set; }
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
         public DateTime DateCreated { get; set; }
         public int DaysPending 
         {
@@ -26,7 +29,7 @@ namespace WIMS.Data
                 return (int)days;
             }
         }
-        public bool IsComplete { get; set; }
+        
         public DateTime? DateCompleted { get; set; }
         
         public string CreatorName { get; set; }

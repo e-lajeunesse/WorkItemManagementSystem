@@ -12,6 +12,8 @@ namespace WIMS.Models
         public int ItemId { get; set; }
         public Size Size { get; set; }
         public ItemType Type { get;set; }
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
         public string Description { get; set; }
 
         [Display(Name ="Assigned To")]

@@ -179,6 +179,8 @@ namespace WIMS.MVC.Controllers
             {
                 ItemId = bugItem.ItemId,
                 Description = bugItem.Description,
+                Priority = bugItem.Priority,
+                Status = bugItem.Status,
                 Size = bugItem.Size
             };
             return View(model);
@@ -259,7 +261,8 @@ namespace WIMS.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteBugItemPost(int id)
         {
-            bool wasCompleted = await _bugService.CompleteBugItem(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            bool wasCompleted = await _bugService.CompleteBugItem(id, user.Id);
             if (wasCompleted)
             {
                 return RedirectToAction("Index");
@@ -315,6 +318,9 @@ namespace WIMS.MVC.Controllers
             {
                 ItemId = featureItem.ItemId,
                 Description = featureItem.Description,
+                DetailedDescription = featureItem.DetailedDescription,
+                Priority = featureItem.Priority,
+                Status = featureItem.Status,
                 Size = featureItem.Size
             };
             return View(model);
@@ -391,7 +397,7 @@ namespace WIMS.MVC.Controllers
         }
 
         [Authorize(Roles = "Manager")]
-        //POST: WorkItem/ReassignBugItem/{id}
+        //POST: WorkItem/ReassignFeatureItem/{id}
         [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> ReassignFeatureItem(int id, WorkItemReassign model)
@@ -415,12 +421,13 @@ namespace WIMS.MVC.Controllers
             return View(featureItem);
         }
 
-        //POST: WorkItem/CompleteBugItem/{id}
+        //POST: WorkItem/CompleteFeatureItem/{id}
         [ActionName("CompleteFeatureItem")]
         [HttpPost]
         public async Task<IActionResult> CompleteFeatureItemPost(int id)
         {
-            bool wasCompleted = await _featureService.CompleteFeatureItem(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            bool wasCompleted = await _featureService.CompleteFeatureItem(id, user.Id);
             if (wasCompleted)
             {
                 return RedirectToAction("Index");
