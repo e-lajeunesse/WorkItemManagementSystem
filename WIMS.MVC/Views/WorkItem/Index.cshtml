@@ -58,7 +58,7 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Average Days Pending
-                        <span class="badge badge-secondary  px-3 py-2">@(Model.WorkItems.Select(i => i.DaysPending).Sum()/Model.WorkItems.Count)</span>
+                        <span class="badge badge-secondary  px-3 py-2">@((double) Model.WorkItems.Select(i => i.DaysPending).Sum()/Model.WorkItems.Count)</span>
                     </li>
                 </ul>
             </div>
@@ -90,46 +90,44 @@
                 {
                     <h4 class="p-3">Work Items assigned to @Model.User.FullName </h4>
                 }
-                <div class="p-3 pt-4">
-                    <select>
-                        <option value="">Sort</option>
-                        <option value="">By Priority</option>
-                        <option value="">By Days Pending</option>
-                        <option value="">By Status</option>
-                    </select>
-                    <a href="" class="btn-outline-primary"><i class="fas fa-arrow-down"></i></a>
-                </div>
+
             </div>
             
         </div>
 
-        <table class="table border table-hover py-0 my-0 h6 ">
+        <table class="table border  table-hover py-0 my-0 h6 ">
             <thead class="h6 bg-light">
                 <tr>
                     @*<th>
             @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().ItemId)
         </th>*@
-                    <th>
+                    <th >
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Description)
                     </th>
                     <th>
                         @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Priority)
+                        <a href="@Url.Action("Index",new { order = ViewBag.PrioritySortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
                     <th>
                         @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Status)
+                        <a href="@Url.Action("Index",new { order = ViewBag.StatusSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Size)
+                        <a href="@Url.Action("Index",new { order = ViewBag.SizeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Type)
+                        <a href="@Url.Action("Index",new { order = ViewBag.TypeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
 
                     <th>
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().OwnerName)
+                        <a href="@Url.Action("Index",new { order = ViewBag.NameSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().DaysPending)
+                        <a href="@Url.Action("Index",new { order = ViewBag.AgeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
 
                     <th>

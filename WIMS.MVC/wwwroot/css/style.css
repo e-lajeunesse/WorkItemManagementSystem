@@ -30,9 +30,13 @@ body {
 .table {
     background-color: white;
 }
+.table tr{
+    
+}
 
 .table-header {
     background-color: #ACBFE6;
+    /*background-color:lightcoral;*/
     
 }
     /*.table-header a {

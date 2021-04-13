@@ -11,7 +11,7 @@
     <div class="col-5 mx-auto">
 
         <div class="card mx-auto  text-center" style="max-width:500px;">
-            <div class="card-header table-header">
+            <div class=" mb-2 card-header table-header">
                 <h4>
                     <i class="far fa-edit"></i>
                     Sign In
@@ -21,15 +21,16 @@
             <section>
                 <form id="account" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
+                    <div class="form-group px-3">
                         <label class="h5 d-none" asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" placeholder="Email" class="form-control bg-white" />
+                        <input asp-for="Input.Email" placeholder="Email" class="form-control border-right-0 border-left-0" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    
-                    <div class="form-group">
+
+
+                    <div class="form-group px-3">
                         <label class="h5 d-none" asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" placeholder="Password" class="form-control" />
+                        <input asp-for="Input.Password" placeholder="Password" class=" form-control" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">

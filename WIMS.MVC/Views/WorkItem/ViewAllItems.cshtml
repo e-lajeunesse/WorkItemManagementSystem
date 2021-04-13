@@ -28,30 +28,37 @@
     <table class="table border py-0 my-0 h6">
         <thead class="h6 bg-light">
             <tr>
-                <th>
-                    @Html.DisplayNameFor(Model => Model.ItemId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Priority)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Size)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OwnerName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DaysPending)
-                </th>
+                @*<th>
+            @Html.DisplayNameFor(Model => Model.ItemId)
+        </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.PrioritySortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.StatusSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Size)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.SizeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.TypeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OwnerName)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.NameSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaysPending)
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.AgeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                </th>
+
                 <th>
                     Actions
                 </th>
@@ -61,12 +68,30 @@
             @foreach (var item in Model)
             {
             <tr>
-                <td class="" width="5%">
-                    @Html.DisplayFor(modelItem => item.ItemId)
+                @*<td class="" width="5%">
+            @Html.DisplayFor(modelItem => item.ItemId)
+        </td>*@
+                <td width="20%">
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td width="8%">
-                    @Html.DisplayFor(modelItem => item.Priority)
-                </td>
+                @if (item.Priority == WIMS.Data.Priority.High)
+                {
+                    <td class="table-danger px-3" width="8%">
+                        @Html.DisplayFor(modelItem => item.Priority)
+                    </td>
+                }
+                else if (item.Priority == WIMS.Data.Priority.Med)
+                {
+                    <td class="table-warning px-3" width="8%">
+                        @Html.DisplayFor(modelItem => item.Priority)
+                    </td>
+                }
+                else
+                {
+                    <td class="table-success px-3" width="8%">
+                        @Html.DisplayFor(modelItem => item.Priority)
+                    </td>
+                }
                 <td width="10%">
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
@@ -82,9 +107,7 @@
                 <td width="10%">
                     @Html.DisplayFor(modelItem => item.DaysPending)
                 </td>
-                <td width="20%">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+
                 <td width="20%">
                     @if (item.Type == WIMS.Data.ItemType.Bug)
                     {
