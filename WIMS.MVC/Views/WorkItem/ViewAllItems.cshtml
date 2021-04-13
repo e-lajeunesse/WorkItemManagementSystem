@@ -10,11 +10,12 @@
 
 
 <div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
+    <p class="h3 pb-2 pl-2">All Pending Items</p>
     <div class=" table-header text-center border-bottom border-dark">
         
-        <div class=" pt-2 d-flex flex-row justify-content-center h5 table-navlinks">
-            <h3 class="p-2">Pending Items |</h3>
-            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center mx-1">Back To Index</a>
+        <div class=" pt-2 d-flex flex-row justify-content-start h5 table-navlinks">
+           @* <h3 class="p-2">Pending Items |</h3>*@
+            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center  mx-1">Back To Index</a> 
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
             <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>

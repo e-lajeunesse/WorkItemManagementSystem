@@ -8,10 +8,11 @@
 }
 
 <div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
+    <p class="h3 pb-1 pl-2">Completed Items</p>
     <div class=" table-header text-center border-bottom border-dark">
         
-        <div class="h5 d-flex flex-row table-navlinks justify-content-center">
-            <h1>Completed Items |</h1>
+        <div class="h5 pt-1 d-flex flex-row table-navlinks justify-content-start">
+            
             <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center mx-1">My Work Items</a>
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
