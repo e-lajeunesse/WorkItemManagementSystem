@@ -7,183 +7,226 @@
     int j = 0;
 }
 
-<div class="row ">
-    <div class="col-4 mx-auto mt-5 pt-5">
-        <div class="card w-100 ">
-            <div class="card-header table-header w-100 h3">Welcome @Model.User.FullName</div>
-            <ul class="list-group list-group-flush w-100" style="font-size:20px;">
-                <li class="list-group-item d-flex justify-content-between align-items-center ">
-                    Team
-                    <span class="badge badge-secondary   ml-5 p-2">@Model.User.Team.TeamName</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center ">
-                    Manager
-                    <span class="badge badge-secondary ml-5 p-2">@Model.User.Team.ManagerName</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center ">
-                    Assigned Bug Items
-                    <span class="badge badge-secondary  ml-5 px-3 py-2">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center ">
-                    Assigned Feature Items
-                    <span class="badge badge-secondary  px-3 py-2">
-                        @Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Feature).Count()
-                    </span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Priority Items
-                    <span class="badge badge-secondary  px-3 py-2">
-                        @Model.WorkItems.Where(i => i.Priority == WIMS.Data.Priority.High).Count()
-                    </span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Average Days Pending
-                    <span class="badge badge-secondary  px-3 py-2">@(Model.WorkItems.Select(i => i.DaysPending).Sum()/Model.WorkItems.Count)</span>
-                </li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="col-4 mx-auto mt-5 pt-5">
-        <div class="card w-100 text-center">
-            <div class="card-header table-header h3">Work Items Index</div>
-            <div class="card-body text-center">
-                <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
-                <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
-                <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">View Pending Items</a>
-                <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1"> View Completed Items</a>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<div class="col-12 mx-auto row d-flex flex-column  table-container " >
-    <div class=" table-header  border-bottom border-dark">
-        
-        
-        <div> 
-            @if (Model.User.IsManager)
-            {
-                <h4 class="p-3">Work Items assigned to team @Model.User.Team.TeamName</h4>
-            }
-            else
-            {
-                <h4 class="p-3">Work Items assigned to @Model.User.FullName </h4>
-            }
-            
-
-@*            <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
-            <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
-            <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="btn align-self-center mx-1">All Pending Items</a>
-            <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>*@
-        </div>
-    </div>
-
-    <table class="table border table-hover py-0 my-0 h6 ">
-        <thead class="h6 bg-light">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().ItemId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Priority)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Size)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Type)
-                </th>
-
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().OwnerName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().DaysPending)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Description)
-                </th>
-                <th>
-                    Actions
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach (var item in Model.WorkItems)
-            {
-            <tr>
-                <td class="px-3" width="5%">
-                    @Html.DisplayFor(modelItem => item.ItemId)
-                </td>
-                <td class="px-3" width="8%">
-                    @Html.DisplayFor(modelItem => item.Priority)
-                </td>
-                <td class="px-3" width="10%">
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td width="5%">
-                    @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td width="8%">
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td width="10%">
-                    @Html.DisplayFor(modelItem => item.OwnerName)
-                </td>
-                <td width="10%">
-                    @Html.DisplayFor(modelItem => item.DaysPending)
-                </td>
-                <td class="pr-3" width="20%">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td width="20%">
-                    @if (item.Type == WIMS.Data.ItemType.Bug)
+<div class="row">
+    <div class="row ">
+        <div class="offset-1 col-5  mt-5 pt-5">
+            <div class="card w-100 ">
+                <div class="card-header table-header w-100 h3">
+                    @if (Model.User.IsManager)
                     {
-                        <select id="@($"bugDropDown{i}")">
-                            <option value="">Select</option>
-                            <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
-                            <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
-                            <option value=@($"/WorkItem/CompleteBugItem/{item.ItemId}")>Complete Item</option>
-                            @if (Model.User.IsManager)
-                            {
-                                <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
-                                <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
-                            }
-                        </select>
-                        <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
-                        i++;
+                        <p>
+                            Team @(Model.User.Team.TeamName) Current Status
+                        </p>
                     }
                     else
                     {
-                        <select id="@($"featureDropDown{j}")">
-                            <option value="">Select</option>
-                            <option value=@($"/WorkItem/EditFeatureItem/{item.ItemId}")>Edit Item</option>
-                            <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
-                            <option value=@($"/WorkItem/CompleteFeatureItem/{item.ItemId}")>Complete Item</option>
-                            @if (Model.User.IsManager)
-                            {
-                                <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
-                                <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
-                            }
-                        </select>
-                        <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
-                        j++;
+                    <p>
+                        @(Model.User.FullName) Current Status
+                    </p>
+                        
                     }
-                </td>
-            </tr>
+                </div>
+                <ul class="list-group list-group-flush w-100" style="font-size:20px;">
+                    @if (!Model.User.IsManager)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            Team
+                            <span class="badge badge-secondary   ml-5 p-2">@Model.User.Team.TeamName</span>
+                        </li>
+                    }
 
-            }
-        </tbody>
-    </table>
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
+                        Manager
+                        <span class="badge badge-secondary ml-5 p-2">@Model.User.Team.ManagerName</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
+                        Assigned Bug Items
+                        <span class="badge badge-secondary  ml-5 px-3 py-2">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
+                        Assigned Feature Items
+                        <span class="badge badge-secondary  px-3 py-2">
+                            @Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Feature).Count()
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Priority Items
+                        <span class="badge badge-secondary  px-3 py-2">
+                            @Model.WorkItems.Where(i => i.Priority == WIMS.Data.Priority.High).Count()
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Average Days Pending
+                        <span class="badge badge-secondary  px-3 py-2">@((double) Model.WorkItems.Select(i => i.DaysPending).Sum()/Model.WorkItems.Count)</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-5 mx-auto mt-5 pt-5">
+            <div class="card w-100 text-center">
+                <div class="card-header table-header h3">Work Items Index</div>
+                <div class="card-body text-center">
+                    <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
+                    <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
+                    <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">View Pending Items</a>
+                    <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1"> View Completed Items</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-11 mx-auto row d-flex flex-column  table-container ">
+        <div class=" table-header  border-bottom border-dark">
+            <div class="w-100 d-flex justify-content-between">
+                @if (Model.User.IsManager)
+                {
+                    <h4 class="p-3">Work Items assigned to team @Model.User.Team.TeamName</h4>
+                }
+                else
+                {
+                    <h4 class="p-3">Work Items assigned to @Model.User.FullName </h4>
+                }
+
+            </div>
+            
+        </div>
+
+        <table class="table border  table-hover py-0 my-0 h6 ">
+            <thead class="h6 bg-light">
+                <tr>
+                    @*<th>
+            @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().ItemId)
+        </th>*@
+                    <th >
+                        @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Priority)
+                        <a href="@Url.Action("Index",new { order = ViewBag.PrioritySortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().Status)
+                        <a href="@Url.Action("Index",new { order = ViewBag.StatusSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Size)
+                        <a href="@Url.Action("Index",new { order = ViewBag.SizeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Type)
+                        <a href="@Url.Action("Index",new { order = ViewBag.TypeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().OwnerName)
+                        <a href="@Url.Action("Index",new { order = ViewBag.NameSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().DaysPending)
+                        <a href="@Url.Action("Index",new { order = ViewBag.AgeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.WorkItems)
+                {
+                <tr>
+                    @* <td class="px-3" width="5%">
+            @Html.DisplayFor(modelItem => item.ItemId)
+        </td>*@
+                    <td class="pr-3" width="20%">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    @if (item.Priority == WIMS.Data.Priority.High)
+                    {
+                        <td class="table-danger px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
+                    }
+                    else if (item.Priority == WIMS.Data.Priority.Med)
+                    {
+                        <td class="table-warning px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="table-success px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
+                    }
+
+                    <td class="px-3" width="10%">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td width="5%">
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td width="8%">
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td width="10%">
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td width="10%">
+                        @Html.DisplayFor(modelItem => item.DaysPending)
+                    </td>
+
+                    <td width="15%">
+                        @if (item.Type == WIMS.Data.ItemType.Bug)
+                        {
+                            <select id="@($"bugDropDown{i}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
+                                <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
+                                <option value=@($"/WorkItem/CompleteBugItem/{item.ItemId}")>Complete Item</option>
+                                @if (Model.User.IsManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
+                                }
+                            </select>
+                            <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
+                            i++;
+                        }
+                        else
+                        {
+                            <select id="@($"featureDropDown{j}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/EditFeatureItem/{item.ItemId}")>Edit Item</option>
+                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                                <option value=@($"/WorkItem/CompleteFeatureItem/{item.ItemId}")>Complete Item</option>
+                                @if (Model.User.IsManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                                }
+                            </select>
+                            <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
+                            j++;
+                        }
+                    </td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
+
+
 
 
 

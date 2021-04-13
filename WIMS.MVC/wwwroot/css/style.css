@@ -30,13 +30,18 @@ body {
 .table {
     background-color: white;
 }
+.table tr{
+    
+}
 
 .table-header {
     background-color: #ACBFE6;
+    /*background-color:lightcoral;*/
+    
 }
-    .table-header a {
+    /*.table-header a {
         background-color: #00458B;
-    }
+    }*/
 
 
 
@@ -72,7 +77,7 @@ body {
 /* Work Item Views*/
 
 .table-container {
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 

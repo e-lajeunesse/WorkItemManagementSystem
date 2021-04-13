@@ -65,6 +65,7 @@ namespace WIMS.Services
                 {
                     ItemId = i.ItemId,
                     Description = i.Description,
+                    Priority = i.Priority,
                     Type = i.Type,
                     Size = i.Size,
                     DateCompleted = i.DateCompleted,
