@@ -2,7 +2,15 @@
 
 @{
     ViewData["Title"] = "EditTeamMembers";
-    string teamName = ViewBag.teamName;    
+    string teamName = ViewBag.teamName;
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+        <button type="button" class="close" data-dismiss="alert"> X</button>
+    </div>
 }
 
 <form class="mx-auto" id="edit-team-members" method="post">

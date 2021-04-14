@@ -140,6 +140,22 @@ namespace WIMS.MVC.Controllers
             {
                 return View(model);
             }
+            int managers = 0;
+            var selectedUsers = model.Where(u => u.IsSelected);
+            foreach(var member in selectedUsers)
+            {
+                var user = await _userManager.FindByIdAsync(member.UserId);
+                if (user.IsManager)
+                {
+                    member.IsManager = true;
+                    managers++;
+                }
+            }
+            if (managers > 1)
+            {
+                ViewBag.ErrorMessage = "Only one manager can be selected.";
+                return View(model);
+            }
             bool wasUpdated = await _service.EditTeamMembers(teamId, model);
             if (!wasUpdated)
             {

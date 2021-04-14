@@ -17,7 +17,7 @@
     <div class="row ">
         <div class="offset-1 col-5  mt-5 pt-5">
             <div class="card w-100 ">
-                <div class="card-header table-header w-100 h3">
+                <div class="card-header table-header w-100 h4">
                     @if (Model.User.IsManager && (Model.User.Team != null))
                     {
                         <p>
@@ -39,7 +39,7 @@
                             Team
                             @if (Model.User.Team != null)
                             {
-                                <span class="badge badge-secondary   ml-5 p-2">@Model.User.Team.TeamName</span>
+                                <span class="   ml-5 p-2">@Model.User.Team.TeamName</span>
                             }
 
                         </li>
@@ -78,9 +78,9 @@
             </div>
         </div>
 
-        <div class="col-5 mx-auto mt-5 pt-5">
+        <div class="col-5 mx-auto mt-5 pt-5 ">
             <div class="card w-100 text-center">
-                <div class="card-header table-header h3">Work Items Index</div>
+                <div class="card-header table-header h4">Work Items Index</div>
                 <div class="card-body text-center">
                     <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
                     <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
