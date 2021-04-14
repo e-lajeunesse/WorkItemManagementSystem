@@ -84,7 +84,7 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }*/
 
-        public async Task<IActionResult> Index(string order)
+        public async Task<IActionResult> Index(string order, string searchString)
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             MainIndexDisplay model = new MainIndexDisplay();
@@ -134,6 +134,14 @@ namespace WIMS.MVC.Controllers
                 allItems.AddRange(bugItemList);
                 //return View(bugItemList);
             }
+
+            //Search 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allItems = allItems.Where(i => i.Description.Contains(searchString)
+                    || i.OwnerName.Contains(searchString)).ToList();
+            }
+
 
             //Sorting functionality
             ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";

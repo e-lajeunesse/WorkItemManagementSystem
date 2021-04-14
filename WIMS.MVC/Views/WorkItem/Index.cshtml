@@ -99,6 +99,13 @@
                     <h4 class="p-3">Work Items assigned to @Model.User.FullName </h4>
                 }
 
+                @using (Html.BeginForm())
+                {
+                    <p class="pt-3 pr-2">
+                         @Html.TextBox("SearchString")
+                        <input type="submit" value="Search" />
+                    </p>
+                }
             </div>
             
         </div>
