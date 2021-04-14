@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WIMS.Models.WorkItemListItem>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Common
+@model IEnumerable<WIMS.Models.WorkItemListItem>
 
 @{
     ViewData["Title"] = "ViewAllItems";
@@ -11,16 +14,21 @@
 
 <div class="col-12 mx-auto row d-flex flex-column  table-container table-hover">
     <p class="h3 pb-2 pl-2">All Pending Items</p>
-    <div class=" table-header text-center border-bottom border-dark">
-        
+    <div class=" table-header text-center border-bottom border-dark d-flex flex-row justify-content-between">
         <div class=" pt-2 d-flex flex-row justify-content-start h5 table-navlinks">
-           @* <h3 class="p-2">Pending Items |</h3>*@
-            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center  mx-1">Back To Index</a> 
+            @* <h3 class="p-2">Pending Items |</h3>*@
+            <a href='@Url.Action( "Index", "WorkItem")' class="btn align-self-center  mx-1">Back To Index</a>
             <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="btn align-self-center mx-1">Add New Bug</a>
             <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="btn align-self-center mx-1">Add New Feature</a>
             <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="btn align-self-center mx-1">All Completed Items</a>
-
         </div>
+        @using (Html.BeginForm("ViewAllItems", "WorkItem", "FormMethod.Get"))
+        {
+            <p class="pt-3 pr-2">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Search" />
+            </p>
+        }
     </div>
 
 
@@ -29,34 +37,34 @@
         <thead class="h6 bg-light">
             <tr>
                 @*<th>
-            @Html.DisplayNameFor(Model => Model.ItemId)
-        </th>*@
+                        @Html.DisplayNameFor(Model => Model.ItemId)
+                    </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Priority)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.PrioritySortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.PrioritySortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Status)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.StatusSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.StatusSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Size)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.SizeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.SizeSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Type)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.TypeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.TypeSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.OwnerName)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.NameSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.NameSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.DaysPending)
-                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.AgeSortParam })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
+                    <a href="@Url.Action("ViewAllItems",new { order = ViewBag.AgeSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                 </th>
 
                 <th>
@@ -67,84 +75,100 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                @*<td class="" width="5%">
-            @Html.DisplayFor(modelItem => item.ItemId)
-        </td>*@
-                <td width="20%">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                @if (item.Priority == WIMS.Data.Priority.High)
-                {
-                    <td class="table-danger px-3" width="8%">
-                        @Html.DisplayFor(modelItem => item.Priority)
+                <tr>
+                    @*<td class="" width="5%">
+                            @Html.DisplayFor(modelItem => item.ItemId)
+                        </td>*@
+                    <td width="20%">
+                        @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                }
-                else if (item.Priority == WIMS.Data.Priority.Med)
-                {
-                    <td class="table-warning px-3" width="8%">
-                        @Html.DisplayFor(modelItem => item.Priority)
-                    </td>
-                }
-                else
-                {
-                    <td class="table-success px-3" width="8%">
-                        @Html.DisplayFor(modelItem => item.Priority)
-                    </td>
-                }
-                <td width="10%">
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td width="5%">
-                    @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td width="8%">
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td width="10%">
-                    @Html.DisplayFor(modelItem => item.OwnerName)
-                </td>
-                <td width="10%">
-                    @Html.DisplayFor(modelItem => item.DaysPending)
-                </td>
-
-                <td width="20%">
-                    @if (item.Type == WIMS.Data.ItemType.Bug)
+                    @if (item.Priority == WIMS.Data.Priority.High)
                     {
-                        <select id="@($"bugDropDown{i}")">
-                            <option value="">Select</option>
-                            <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
-                            @if (isManager)
-                            {
-                                <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
-                                <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
-                                <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
-                            }
-                        </select>
-                        <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
-                        i++;
+                        <td class="table-danger px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
+                    }
+                    else if (item.Priority == WIMS.Data.Priority.Med)
+                    {
+                        <td class="table-warning px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
                     }
                     else
                     {
-                        <select id="@($"featureDropDown{j}")">
-                            <option value="">Select</option>
-                            <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
-                            @if (isManager)
-                            {
-                                <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
-                                <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
-                            }
-
-
-                        </select>
-                        <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
-                        j++;
+                        <td class="table-success px-3" width="8%">
+                            @Html.DisplayFor(modelItem => item.Priority)
+                        </td>
                     }
-                </td>
-            </tr>
+                    <td width="10%">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td width="5%">
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td width="8%">
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td width="10%">
+                        @Html.DisplayFor(modelItem => item.OwnerName)
+                    </td>
+                    <td width="10%">
+                        @Html.DisplayFor(modelItem => item.DaysPending)
+                    </td>
+
+                    <td width="20%">
+                        @if (item.Type == WIMS.Data.ItemType.Bug)
+                        {
+                            <select id="@($"bugDropDown{i}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/BugItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
+                                    <option value=@($"/WorkItem/DeleteBugItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignBugItem/{item.ItemId}")>Reassign Item</option>
+                                }
+                            </select>
+                            <a href="" id="@($"bugGo{i}")" class="btn-sm btn-primary">Go</a>
+                            i++;
+                        }
+                        else
+                        {
+                            <select id="@($"featureDropDown{j}")">
+                                <option value="">Select</option>
+                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                                @if (isManager)
+                                {
+                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                                }
+
+
+                            </select>
+                            <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
+                            j++;
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
+    <div class="">
+        <div class="pt-1 pl-1">
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("ViewAllItems",
+      new { page, order = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+        })
+
+
+            @*           ,
+                PagedListRenderOptions.MinimalWithPageCountText)*@
+        </div>
+
+    </div>
 </div>
 
 <script>
