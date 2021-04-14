@@ -30,8 +30,8 @@ body {
 .table {
     background-color: white;
 }
-.table tr{
-    
+.table td{
+   color:#707070; 
 }
 
 .table-header {

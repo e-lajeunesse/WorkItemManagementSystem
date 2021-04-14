@@ -81,8 +81,9 @@
                 }
             </dl>
         </div>
-        <div class="card-footer bg-transparent">
-            <a class="btn btn-primary" href="@Url.Action("EditFeatureItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
+        <div class="card-footer bg-transparent d-flex flex-row justify-content-between">
+            @*<a class="btn btn-primary" href="@Url.Action("EditFeatureItem", "WorkItem",
+                  new { id = Model.ItemId  })">Edit Item </a>*@
             @if (Model.IsComplete)
             {
                 <a class="btn btn-primary" asp-action="ViewCompletedItems">Back to List</a>
@@ -91,6 +92,20 @@
             {
                 <a class="btn btn-primary" asp-action="Index">Back to List</a>
             }
+        <div class="align-self-center">
+            <select id="dropdown">
+                <option value="">Select</option>
+                <option value=@($"/WorkItem/EditFeatureItem/{Model.ItemId}")>Edit Item</option>
+                <option value=@($"/WorkItem/CompleteFeatureItem/{Model.ItemId}")>Complete Item</option>
+                @if (ViewBag.IsManager)
+                {
+                    <option value=@($"/WorkItem/DeleteFeatureItem/{Model.ItemId}")>Delete Item</option>
+                    <option value=@($"/WorkItem/ReassignFeatureItem/{Model.ItemId}")>Reassign Item</option>
+                }
+            </select>
+            <a href="" id="go" class="btn-sm btn-primary">Go</a>
+        </div>
+
         </div>
     </div>
 
@@ -103,7 +118,7 @@
                 <h4>Notes</h4>
                 <button class="btn btn-primary float-right" id="hideNotes">Hide Notes</button>
             </div>
-            <div class="card-body" id="notes">
+            <div class="card-body overflow-auto" style="max-height:375px;" id="notes">
 
                 @foreach (var note in Model.Notes)
                 {
@@ -203,5 +218,16 @@
             button.textContent = "Hide Notes"
             hidden = false;
         }
+    }
+
+
+    const goButton = document.querySelector('#go');
+    const dropDown = document.querySelector('#dropdown');
+
+    dropDown.addEventListener('change', () => setHrefVal());
+
+    function setHrefVal() {
+
+        goButton.setAttribute("href", dropDown.value);
     }
 </script>

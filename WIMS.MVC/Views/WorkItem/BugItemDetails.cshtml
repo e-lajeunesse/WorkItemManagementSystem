@@ -5,7 +5,7 @@
     WIMS.Models.NoteModels.NoteCreate create = ViewBag.NoteCreate;
 }
 
-<div class="d-flex flex-row w-100 justify-content-around align-items-start" id="details-container">
+<div class="d-flex flex-row w-100 justify-content-around align-items-start min-vh-100 " id="details-container">
     <div class="card item-details">
         <div class="card-header table-header"><h4>Item Details</h4></div>
         <div class="card-body">
@@ -83,8 +83,8 @@
 
             </dl>
         </div>
-        <div class="card-footer bg-transparent">
-            <a class="btn btn-primary" href="@Url.Action("EditBugItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
+        <div class="card-footer bg-transparent d-flex flex-row justify-content-between">
+            @*<a class="btn btn-primary" href="@Url.Action("EditBugItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>*@
             @if (Model.IsComplete)
             {
                 <a class="btn btn-primary" asp-action="ViewCompletedItems">Back to List</a>
@@ -93,19 +93,33 @@
             {
                 <a asp-action="Index" class="btn btn-primary">Back to List</a>
             }
+            <div class="align-self-center">
+                <select id="dropdown">
+                    <option value="">Select</option>
+                    <option value=@($"/WorkItem/EditBugItem/{Model.ItemId}")>Edit Item</option>
+                    <option value=@($"/WorkItem/CompleteBugItem/{Model.ItemId}")>Complete Item</option>
+                    @if (ViewBag.IsManager)
+                    {
+                        <option value=@($"/WorkItem/DeleteBugItem/{Model.ItemId}")>Delete Item</option>
+                        <option value=@($"/WorkItem/ReassignBugItem/{Model.ItemId}")>Reassign Item</option>
+                    }
+                </select>
+                <a href="" id="go" class="btn-sm btn-primary">Go</a>
+            </div>
+
         </div>
     </div>
 
 
 
 
-    <div id="note-container">
+    <div id="note-container" >
         <div class="card">
             <div class="card-header table-header d-flex flex-row justify-content-between">
                 <h4>Notes</h4>
                 <button class="btn btn-primary float-right" id="hideNotes">Hide Notes</button>
             </div>
-            <div class="card-body" id="notes">
+            <div class="card-body overflow-auto " style="max-height:375px;" id="notes">
                 @foreach (var note in Model.Notes)
                 {
                 @*<div class="card py-1 my-3 w-75 mx-auto border-dark">*@
@@ -193,6 +207,16 @@
             button.textContent = "Hide Notes"
             hidden = false;
         }
+    }
+
+    const goButton = document.querySelector('#go');
+    const dropDown = document.querySelector('#dropdown');
+
+    dropDown.addEventListener('change', () => setHrefVal());   
+
+    function setHrefVal() {
+
+       goButton.setAttribute("href", dropDown.value);
     }
 </script>
 

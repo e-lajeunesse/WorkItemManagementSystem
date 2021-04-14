@@ -409,12 +409,14 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
-        //GET: WorkItem/Detail
+        //GET: WorkItem/Detail/{id}
         [ActionName("BugItemDetails")]
         public async Task<IActionResult> BugItemDetails(int id)
         {
             ViewBag.NoteCreate = new NoteCreate();
-            BugItemDetail bugItem = await _bugService.GetBugItemById(id);            
+            BugItemDetail bugItem = await _bugService.GetBugItemById(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ViewBag.IsManager = user.IsManager;
             return View(bugItem);
         }
 
@@ -580,6 +582,8 @@ namespace WIMS.MVC.Controllers
         public async Task<IActionResult> FeatureItemDetails(int id)
         {
             FeatureItemDetail featureItem = await _featureService.GetFeatureItemById(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ViewBag.IsManager = user.IsManager;
             return View(featureItem);
         }
 
