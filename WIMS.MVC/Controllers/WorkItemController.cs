@@ -94,13 +94,17 @@ namespace WIMS.MVC.Controllers
                 FullName = user.FullName,
                 IsManager = user.IsManager,
                 TeamId = user.TeamId,
-                Team = new TeamDetail
+
+            };
+            if (user.Team != null)
+            {
+                model.User.Team = new TeamDetail
                 {
                     TeamName = user.Team.TeamName,
                     ManagerName = user.Team.Users.FirstOrDefault(u => u.IsManager).FullName,
                     EmployeeNames = user.Team.Users.Where(u => !u.IsManager).Select(u => u.FullName).ToList()
-                }
-            };
+                };
+            }
             ViewBag.UserName = user.FullName;
             ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)

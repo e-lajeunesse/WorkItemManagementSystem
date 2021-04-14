@@ -13,10 +13,10 @@
         <div class="offset-1 col-5  mt-5 pt-5">
             <div class="card w-100 ">
                 <div class="card-header table-header w-100 h3">
-                    @if (Model.User.IsManager)
+                    @if (Model.User.IsManager && (Model.User.Team != null))
                     {
-                        <p>
-                            Team @(Model.User.Team.TeamName) Current Status
+                        <p>                           
+                            Team @(Model.User.Team.TeamName) Current Status                                
                         </p>
                     }
                     else
@@ -30,16 +30,24 @@
                 <ul class="list-group list-group-flush w-100" style="font-size:20px;">
                     @if (!Model.User.IsManager)
                     {
-                        <li class="list-group-item d-flex justify-content-between align-items-center ">
-                            Team
+                    <li class="list-group-item d-flex justify-content-between align-items-center ">
+                        Team
+                        @if (Model.User.Team != null)
+                        {
                             <span class="badge badge-secondary   ml-5 p-2">@Model.User.Team.TeamName</span>
-                        </li>
+                        }
+
+                    </li>
                     }
 
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Manager
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Manager
+                    @if ((Model.User.Team != null) && (Model.User.Team.ManagerName != null))
+                    {
                         <span class="badge badge-secondary ml-5 p-2">@Model.User.Team.ManagerName</span>
-                    </li>
+                    }
+
+                </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center ">
                         Assigned Bug Items
                         <span class="badge badge-secondary  ml-5 px-3 py-2">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
@@ -82,7 +90,7 @@
     <div class="col-11 mx-auto row d-flex flex-column  table-container ">
         <div class=" table-header  border-bottom border-dark">
             <div class="w-100 d-flex justify-content-between">
-                @if (Model.User.IsManager)
+                @if (Model.User.IsManager && Model.User.Team != null)
                 {
                     <h4 class="p-3">Work Items assigned to team @Model.User.Team.TeamName</h4>
                 }
