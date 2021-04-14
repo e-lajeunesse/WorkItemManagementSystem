@@ -16,6 +16,7 @@ using WIMS.Models.TeamModels;
 using WIMS.Models.UserModels;
 using WIMS.MVC.Data;
 using WIMS.Services;
+using X.PagedList;
 
 namespace WIMS.MVC.Controllers
 {
@@ -84,7 +85,7 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }*/
 
-        public async Task<IActionResult> Index(string order)
+        public async Task<IActionResult> Index(string order,string currentFilter, string searchString, int? page)
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             MainIndexDisplay model = new MainIndexDisplay();
@@ -94,13 +95,17 @@ namespace WIMS.MVC.Controllers
                 FullName = user.FullName,
                 IsManager = user.IsManager,
                 TeamId = user.TeamId,
-                Team = new TeamDetail
+
+            };
+            if (user.Team != null)
+            {
+                model.User.Team = new TeamDetail
                 {
                     TeamName = user.Team.TeamName,
                     ManagerName = user.Team.Users.FirstOrDefault(u => u.IsManager).FullName,
                     EmployeeNames = user.Team.Users.Where(u => !u.IsManager).Select(u => u.FullName).ToList()
-                }
-            };
+                };
+            }
             ViewBag.UserName = user.FullName;
             ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)
@@ -131,7 +136,26 @@ namespace WIMS.MVC.Controllers
                 //return View(bugItemList);
             }
 
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allItems = allItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.OwnerName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+
             //Sorting functionality
+            ViewBag.CurrentSort = order;
             ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";
             ViewBag.AgeSortParam = order == "age" ? "age_desc" : "age";
             ViewBag.NameSortParam = order == "assignee" ? "assignee_desc" : "assignee";
@@ -143,7 +167,7 @@ namespace WIMS.MVC.Controllers
             {               
 
                 case "priority":
-                    model.WorkItems = allItems.OrderBy(i => i.Priority).ToList();
+                    model.WorkItems = allItems.OrderBy(i => i.Priority);
                     break;
                 case "priority_desc":
                     model.WorkItems = allItems.OrderByDescending(i => i.Priority).ToList();
@@ -182,22 +206,41 @@ namespace WIMS.MVC.Controllers
                     model.WorkItems = allItems.OrderBy(i => i.Priority).ToList();
                     break;
             }
-
-
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            model.WorkItems = model.WorkItems.ToPagedList(pageNumber, pageSize);
             return View(model);
         }
 
         //GET: /WorkItem/ViewCompletedItems
-        public async Task<IActionResult> ViewCompletedItems(string order)
+        public async Task<IActionResult> ViewCompletedItems(string order, string searchString, string currentFilter, int? page)
         {
             var bugItems = await _bugService.GetCompletedBugItems();
             var featureItems = await _featureService.GetCompletedFeatureItems();
-            List<CompletedItemListItem> allItems;
+            IEnumerable<CompletedItemListItem> allItems;
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             ViewBag.IsManager = user.IsManager;
             bugItems.AddRange(featureItems);
 
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bugItems = bugItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.CompletedByName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
             //Sorting functionality
+            ViewBag.CurrentSort = order;
             ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";            
             ViewBag.NameSortParam = order == "name" ? "name_desc" : "name";           
             ViewBag.SizeSortParam = order == "size" ? "size_desc" : "size";
@@ -208,56 +251,77 @@ namespace WIMS.MVC.Controllers
             {
 
                 case "priority":
-                    allItems = bugItems.OrderBy(i => i.Priority).ToList();
+                    allItems = bugItems.OrderBy(i => i.Priority);
                     break;
                 case "priority_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Priority).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Priority);
                     break;               
                 case "size":
-                    allItems = bugItems.OrderBy(i => i.Size).ToList();
+                    allItems = bugItems.OrderBy(i => i.Size);
                     break;
                 case "size_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Size).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Size);
                     break;
                 case "name":
-                    allItems = bugItems.OrderBy(i => i.CompletedByName).ToList();
+                    allItems = bugItems.OrderBy(i => i.CompletedByName);
                     break;
                 case "name_desc":
-                    allItems = bugItems.OrderByDescending(i => i.CompletedByName).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.CompletedByName);
                     break;
                 case "type":
-                    allItems = bugItems.OrderBy(i => i.Type).ToList();
+                    allItems = bugItems.OrderBy(i => i.Type);
                     break;
                 case "type_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Type).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Type);
                     break;
                 case "date":
-                    allItems = bugItems.OrderBy(i => i.DateCompleted).ToList();
+                    allItems = bugItems.OrderBy(i => i.DateCompleted);
                     break;
                 case "date_desc":
-                    allItems = bugItems.OrderByDescending(i => i.DateCompleted).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.DateCompleted);
                     break;
                 default:
-                    allItems = bugItems.OrderBy(i => i.Priority).ToList();
+                    allItems = bugItems.OrderBy(i => i.Priority);
                     break;
             }
 
-
-
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            allItems = allItems.ToPagedList(pageNumber, pageSize);
             return View(allItems);
+
+            
         }
 
         //GET: /WorkItem/ViewAllItems
-        public async Task<IActionResult> ViewAllItems(string order)
+        public async Task<IActionResult> ViewAllItems(string order, string searchString, string currentFilter, int? page)
         {
             List<WorkItemListItem> bugItems = await _bugService.GetBugItems();
             List<WorkItemListItem> featureItems = await _featureService.GetFeatureItems();
-            List<WorkItemListItem> allItems;
+            IEnumerable<WorkItemListItem> allItems;
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             ViewBag.IsManager = user.IsManager;
             bugItems.AddRange(featureItems);
 
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bugItems = bugItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.OwnerName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
             //Sorting functionality
+            ViewBag.CurrentSort = order;
             ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";
             ViewBag.AgeSortParam = order == "age" ? "age_desc" : "age";
             ViewBag.NameSortParam = order == "assignee" ? "assignee_desc" : "assignee";
@@ -269,47 +333,51 @@ namespace WIMS.MVC.Controllers
             {
 
                 case "priority":
-                    allItems = bugItems.OrderBy(i => i.Priority).ToList();
+                    allItems = bugItems.OrderBy(i => i.Priority);
                     break;
                 case "priority_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Priority).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Priority);
                     break;
                 case "age":
-                    allItems = bugItems.OrderBy(i => i.DaysPending).ToList();
+                    allItems = bugItems.OrderBy(i => i.DaysPending);
                     break;
                 case "age_desc":
-                    allItems = bugItems.OrderByDescending(i => i.DaysPending).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.DaysPending);
                     break;
                 case "status":
-                    allItems = bugItems.OrderBy(i => i.Status).ToList();
+                    allItems = bugItems.OrderBy(i => i.Status);
                     break;
                 case "status_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Status).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Status);
                     break;
                 case "size":
-                    allItems = bugItems.OrderBy(i => i.Size).ToList();
+                    allItems = bugItems.OrderBy(i => i.Size);
                     break;
                 case "size_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Size).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Size);
                     break;
                 case "assignee":
-                    allItems = bugItems.OrderBy(i => i.OwnerName).ToList();
+                    allItems = bugItems.OrderBy(i => i.OwnerName);
                     break;
                 case "assignee_desc":
-                    allItems = bugItems.OrderByDescending(i => i.OwnerName).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.OwnerName);
                     break;
                 case "type":
-                    allItems = bugItems.OrderBy(i => i.Type).ToList();
+                    allItems = bugItems.OrderBy(i => i.Type);
                     break;
                 case "type_desc":
-                    allItems = bugItems.OrderByDescending(i => i.Type).ToList();
+                    allItems = bugItems.OrderByDescending(i => i.Type);
                     break;
                 default:
-                    allItems = bugItems.OrderBy(i => i.Priority).ToList();
+                    allItems = bugItems.OrderBy(i => i.Priority);
                     break;
             }
 
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            allItems = allItems.ToPagedList(pageNumber, pageSize);
             return View(allItems);
+            
         }
 
 

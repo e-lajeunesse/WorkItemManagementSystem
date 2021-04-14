@@ -22,7 +22,7 @@ namespace WIMS.MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "WorkItem");
         }
 
         public IActionResult Privacy()
