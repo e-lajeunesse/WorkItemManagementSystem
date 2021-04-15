@@ -3,7 +3,7 @@
 The Work Item Management System is a web application which allows organizations to track development related tasks among teams and individual team members. 
 This is a .NET Core MVC project built primarily with C# as well as HTML/CSS and Javascript.
 
-##Getting Started 
+### Getting Started
 
 To use the application you can visit the live deployment on azure or download the code from github and run it locally.
 
