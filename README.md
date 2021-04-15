@@ -9,7 +9,7 @@ To use the application you can visit the live deployment on azure or download th
 
 ### Live Deployment
 
-The live deployment of the application can be found here: [title](https://wimsmvc.azurewebsites.net). To use the application simply register a new account and log in with
+The live deployment of the application can be found here: [Live Deployment](https://wimsmvc.azurewebsites.net). To use the application simply register a new account and log in with
 your username and password. Note that due to the implentation of user roles some actions will be restricted.
 
 ### Running the Application Locally
