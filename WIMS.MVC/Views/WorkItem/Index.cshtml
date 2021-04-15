@@ -10,7 +10,8 @@
     ViewData["Title"] = "Index";
     int i = 0;
     int j = 0;
-    decimal averageDaysPending = (decimal)Model.WorkItems.Select(i => i.DaysPending).Sum() / (Model.WorkItems.ToList().Count);
+    decimal averageDaysPending = Model.WorkItems.Any() ? 
+        (decimal)Model.WorkItems.Select(i => i.DaysPending).Sum() / (Model.WorkItems.ToList().Count) : 0;
 }
 
 
