@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WIMS.Data;
+using WIMS.Models.NoteModels;
 
 namespace WIMS.Models.FeatureItemModels
 {
@@ -11,6 +12,11 @@ namespace WIMS.Models.FeatureItemModels
         [Display(Name ="Item Id")]
         public int ItemId { get; set; }
         public string Description { get; set; }
+
+        [Display(Name = "Details")]
+        public string DetailedDescription { get; set; }
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
         public ItemType Type { get; set; }
         public Size Size { get; set; }
 
@@ -27,5 +33,7 @@ namespace WIMS.Models.FeatureItemModels
 
         [Display(Name ="Assigned To")]
         public string FullName { get; set; }
+        public List<NoteDetail> Notes { get; set; }
+        public string NoteText { get; set; }
     }
 }

@@ -11,8 +11,12 @@ using WIMS.Data;
 using WIMS.Models;
 using WIMS.Models.BugItemModels;
 using WIMS.Models.FeatureItemModels;
+using WIMS.Models.NoteModels;
+using WIMS.Models.TeamModels;
+using WIMS.Models.UserModels;
 using WIMS.MVC.Data;
 using WIMS.Services;
+using X.PagedList;
 
 namespace WIMS.MVC.Controllers
 {
@@ -32,13 +36,27 @@ namespace WIMS.MVC.Controllers
         }
 
         //GET: /WorkItem
-        public async Task<IActionResult> Index()
+/*        public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            MainIndexDisplay model = new MainIndexDisplay();
+            model.User = new UserDisplay
+            {
+                FullName = user.FullName,
+                IsManager = user.IsManager,
+                TeamId = user.TeamId,
+                Team = new TeamDetail
+                {
+                    TeamName = user.Team.TeamName,
+                    ManagerName = user.Team.Users.FirstOrDefault(u => u.IsManager).FullName,
+                    EmployeeNames = user.Team.Users.Where(u => !u.IsManager).Select(u => u.FullName).ToList()
+                }
+            };
+            ViewBag.UserName = user.FullName;
             ViewBag.IsManager = user.IsManager;
             if (user.IsManager && user.TeamId != null)
             {
-                IEnumerable<WorkItemListItem> bugItems =  _bugService.GetBugItemsByTeam(user.TeamId);
+                IEnumerable<WorkItemListItem> bugItems = _bugService.GetBugItemsByTeam(user.TeamId);
                 IEnumerable<WorkItemListItem> featureItems = _featureService.GetFeatureItemsByTeam(user.TeamId);
                 List<WorkItemListItem> allItems = new List<WorkItemListItem>();
 
@@ -50,9 +68,9 @@ namespace WIMS.MVC.Controllers
                 {
                     allItems.Add(item);
                 }
-
+                model.WorkItems = allItems.OrderBy(i => i.Priority).ToList();
                 //bugItemsList.AddRange(featureItemsList);
-                return View(allItems);
+                //return View(allItems);
             }
             else
             {
@@ -60,31 +78,306 @@ namespace WIMS.MVC.Controllers
                 List<WorkItemListItem> bugItemList = bugItems.ToList();
                 IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
                 List<WorkItemListItem> featureItemList = featureItems.ToList();
-                bugItemList.AddRange(featureItemList);           
-                return View(bugItemList);
+                bugItemList.AddRange(featureItemList);
+                model.WorkItems = bugItemList;
+                //return View(bugItemList);
             }
+            return View(model);
+        }*/
+
+        public async Task<IActionResult> Index(string order,string currentFilter, string searchString, int? page)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            MainIndexDisplay model = new MainIndexDisplay();
+            List<WorkItemListItem> allItems = new List<WorkItemListItem>();
+            model.User = new UserDisplay
+            {
+                FullName = user.FullName,
+                IsManager = user.IsManager,
+                TeamId = user.TeamId,
+
+            };
+            if (user.Team != null)
+            {
+                model.User.Team = new TeamDetail
+                {
+                    TeamName = user.Team.TeamName,
+                    ManagerName = user.Team.Users.FirstOrDefault(u => u.IsManager).FullName,
+                    EmployeeNames = user.Team.Users.Where(u => !u.IsManager).Select(u => u.FullName).ToList()
+                };
+            }
+            ViewBag.UserName = user.FullName;
+            ViewBag.IsManager = user.IsManager;
+            if (user.IsManager && user.TeamId != null)
+            {
+                IEnumerable<WorkItemListItem> bugItems = _bugService.GetBugItemsByTeam(user.TeamId);
+                IEnumerable<WorkItemListItem> featureItems = _featureService.GetFeatureItemsByTeam(user.TeamId);
+                
+
+                foreach (var item in bugItems)
+                {
+                    allItems.Add(item);
+                }
+                foreach (var item in featureItems)
+                {
+                    allItems.Add(item);
+                }
+                model.WorkItems = allItems;
+
+            }
+            else
+            {
+                IEnumerable<WorkItemListItem> bugItems = await _bugService.GetBugItemsByUser(user.Id);
+                List<WorkItemListItem> bugItemList = bugItems.ToList();
+                IEnumerable<WorkItemListItem> featureItems = await _featureService.GetFeatureItemsByUser(user.Id);
+                List<WorkItemListItem> featureItemList = featureItems.ToList();
+                bugItemList.AddRange(featureItemList);
+                allItems.AddRange(bugItemList);
+                //return View(bugItemList);
+            }
+
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allItems = allItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.OwnerName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+
+            //Sorting functionality
+            ViewBag.CurrentSort = order;
+            ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";
+            ViewBag.AgeSortParam = order == "age" ? "age_desc" : "age";
+            ViewBag.NameSortParam = order == "assignee" ? "assignee_desc" : "assignee";
+            ViewBag.StatusSortParam = order == "status" ? "status_desc" : "status";
+            ViewBag.SizeSortParam = order == "size" ? "size_desc" : "size";
+            ViewBag.TypeSortParam = order == "type" ? "type_desc" : "type";
+
+            switch (order)
+            {               
+
+                case "priority":
+                    model.WorkItems = allItems.OrderBy(i => i.Priority);
+                    break;
+                case "priority_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.Priority).ToList();
+                    break;
+                case "age":
+                    model.WorkItems = allItems.OrderBy(i => i.DaysPending).ToList();
+                    break;
+                case "age_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.DaysPending).ToList();
+                    break;
+                case "status":
+                    model.WorkItems = allItems.OrderBy(i => i.Status).ToList();
+                    break;
+                case "status_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.Status).ToList();
+                    break;
+                case "size":
+                    model.WorkItems = allItems.OrderBy(i => i.Size).ToList();
+                    break;
+                case "size_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.Size).ToList();
+                    break;
+                case "assignee":
+                    model.WorkItems = allItems.OrderBy(i => i.OwnerName).ToList();
+                    break;
+                case "assignee_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.OwnerName).ToList();
+                    break;
+                case "type":
+                    model.WorkItems = allItems.OrderBy(i => i.Type).ToList();
+                    break;
+                case "type_desc":
+                    model.WorkItems = allItems.OrderByDescending(i => i.Type).ToList();
+                    break;
+                default:
+                    model.WorkItems = allItems.OrderBy(i => i.Priority).ToList();
+                    break;
+            }
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            model.WorkItems = model.WorkItems.ToPagedList(pageNumber, pageSize);
+            return View(model);
         }
 
         //GET: /WorkItem/ViewCompletedItems
-        public async Task<IActionResult> ViewCompletedItems()
+        public async Task<IActionResult> ViewCompletedItems(string order, string searchString, string currentFilter, int? page)
         {
             var bugItems = await _bugService.GetCompletedBugItems();
             var featureItems = await _featureService.GetCompletedFeatureItems();
+            IEnumerable<CompletedItemListItem> allItems;
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             ViewBag.IsManager = user.IsManager;
             bugItems.AddRange(featureItems);
-            return View(bugItems);
+
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bugItems = bugItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.CompletedByName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            //Sorting functionality
+            ViewBag.CurrentSort = order;
+            ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";            
+            ViewBag.NameSortParam = order == "name" ? "name_desc" : "name";           
+            ViewBag.SizeSortParam = order == "size" ? "size_desc" : "size";
+            ViewBag.TypeSortParam = order == "type" ? "type_desc" : "type";
+            ViewBag.DateSortParam = order == "date" ? "date_desc" : "date";
+
+            switch (order)
+            {
+
+                case "priority":
+                    allItems = bugItems.OrderBy(i => i.Priority);
+                    break;
+                case "priority_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Priority);
+                    break;               
+                case "size":
+                    allItems = bugItems.OrderBy(i => i.Size);
+                    break;
+                case "size_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Size);
+                    break;
+                case "name":
+                    allItems = bugItems.OrderBy(i => i.CompletedByName);
+                    break;
+                case "name_desc":
+                    allItems = bugItems.OrderByDescending(i => i.CompletedByName);
+                    break;
+                case "type":
+                    allItems = bugItems.OrderBy(i => i.Type);
+                    break;
+                case "type_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Type);
+                    break;
+                case "date":
+                    allItems = bugItems.OrderBy(i => i.DateCompleted);
+                    break;
+                case "date_desc":
+                    allItems = bugItems.OrderByDescending(i => i.DateCompleted);
+                    break;
+                default:
+                    allItems = bugItems.OrderBy(i => i.Priority);
+                    break;
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            allItems = allItems.ToPagedList(pageNumber, pageSize);
+            return View(allItems);
+
+            
         }
 
         //GET: /WorkItem/ViewAllItems
-        public async Task<IActionResult> ViewAllItems()
+        public async Task<IActionResult> ViewAllItems(string order, string searchString, string currentFilter, int? page)
         {
             List<WorkItemListItem> bugItems = await _bugService.GetBugItems();
             List<WorkItemListItem> featureItems = await _featureService.GetFeatureItems();
+            IEnumerable<WorkItemListItem> allItems;
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             ViewBag.IsManager = user.IsManager;
             bugItems.AddRange(featureItems);
-            return View(bugItems);
+
+            //Search 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                bugItems = bugItems.Where(i => i.Description.ToLower().Contains(searchString.ToLower())
+                    || i.OwnerName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            //Sorting functionality
+            ViewBag.CurrentSort = order;
+            ViewBag.PrioritySortParam = order == "priority" ? "priority_desc" : "priority";
+            ViewBag.AgeSortParam = order == "age" ? "age_desc" : "age";
+            ViewBag.NameSortParam = order == "assignee" ? "assignee_desc" : "assignee";
+            ViewBag.StatusSortParam = order == "status" ? "status_desc" : "status";
+            ViewBag.SizeSortParam = order == "size" ? "size_desc" : "size";
+            ViewBag.TypeSortParam = order == "type" ? "type_desc" : "type";
+
+            switch (order)
+            {
+
+                case "priority":
+                    allItems = bugItems.OrderBy(i => i.Priority);
+                    break;
+                case "priority_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Priority);
+                    break;
+                case "age":
+                    allItems = bugItems.OrderBy(i => i.DaysPending);
+                    break;
+                case "age_desc":
+                    allItems = bugItems.OrderByDescending(i => i.DaysPending);
+                    break;
+                case "status":
+                    allItems = bugItems.OrderBy(i => i.Status);
+                    break;
+                case "status_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Status);
+                    break;
+                case "size":
+                    allItems = bugItems.OrderBy(i => i.Size);
+                    break;
+                case "size_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Size);
+                    break;
+                case "assignee":
+                    allItems = bugItems.OrderBy(i => i.OwnerName);
+                    break;
+                case "assignee_desc":
+                    allItems = bugItems.OrderByDescending(i => i.OwnerName);
+                    break;
+                case "type":
+                    allItems = bugItems.OrderBy(i => i.Type);
+                    break;
+                case "type_desc":
+                    allItems = bugItems.OrderByDescending(i => i.Type);
+                    break;
+                default:
+                    allItems = bugItems.OrderBy(i => i.Priority);
+                    break;
+            }
+
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            allItems = allItems.ToPagedList(pageNumber, pageSize);
+            return View(allItems);
+            
         }
 
 
@@ -98,8 +391,7 @@ namespace WIMS.MVC.Controllers
         }
 
         //POST: WorkItem/CreateBugItem
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public async Task<IActionResult> CreateBugItem(BugItemCreate model)
         {
             if (!ModelState.IsValid)
@@ -117,11 +409,14 @@ namespace WIMS.MVC.Controllers
             return View(model);
         }
 
-        //GET: WorkItem/Detail
+        //GET: WorkItem/Detail/{id}
         [ActionName("BugItemDetails")]
         public async Task<IActionResult> BugItemDetails(int id)
         {
+            ViewBag.NoteCreate = new NoteCreate();
             BugItemDetail bugItem = await _bugService.GetBugItemById(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ViewBag.IsManager = user.IsManager;
             return View(bugItem);
         }
 
@@ -160,6 +455,8 @@ namespace WIMS.MVC.Controllers
             {
                 ItemId = bugItem.ItemId,
                 Description = bugItem.Description,
+                Priority = bugItem.Priority,
+                Status = bugItem.Status,
                 Size = bugItem.Size
             };
             return View(model);
@@ -240,7 +537,8 @@ namespace WIMS.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteBugItemPost(int id)
         {
-            bool wasCompleted = await _bugService.CompleteBugItem(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            bool wasCompleted = await _bugService.CompleteBugItem(id, user.Id);
             if (wasCompleted)
             {
                 return RedirectToAction("Index");
@@ -284,6 +582,8 @@ namespace WIMS.MVC.Controllers
         public async Task<IActionResult> FeatureItemDetails(int id)
         {
             FeatureItemDetail featureItem = await _featureService.GetFeatureItemById(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            ViewBag.IsManager = user.IsManager;
             return View(featureItem);
         }
 
@@ -296,6 +596,9 @@ namespace WIMS.MVC.Controllers
             {
                 ItemId = featureItem.ItemId,
                 Description = featureItem.Description,
+                DetailedDescription = featureItem.DetailedDescription,
+                Priority = featureItem.Priority,
+                Status = featureItem.Status,
                 Size = featureItem.Size
             };
             return View(model);
@@ -372,7 +675,7 @@ namespace WIMS.MVC.Controllers
         }
 
         [Authorize(Roles = "Manager")]
-        //POST: WorkItem/ReassignBugItem/{id}
+        //POST: WorkItem/ReassignFeatureItem/{id}
         [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> ReassignFeatureItem(int id, WorkItemReassign model)
@@ -396,12 +699,13 @@ namespace WIMS.MVC.Controllers
             return View(featureItem);
         }
 
-        //POST: WorkItem/CompleteBugItem/{id}
+        //POST: WorkItem/CompleteFeatureItem/{id}
         [ActionName("CompleteFeatureItem")]
         [HttpPost]
         public async Task<IActionResult> CompleteFeatureItemPost(int id)
         {
-            bool wasCompleted = await _featureService.CompleteFeatureItem(id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            bool wasCompleted = await _featureService.CompleteFeatureItem(id, user.Id);
             if (wasCompleted)
             {
                 return RedirectToAction("Index");

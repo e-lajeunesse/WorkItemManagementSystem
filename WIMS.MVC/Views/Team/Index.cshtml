@@ -7,12 +7,13 @@
 
 
 
-<div  class="col-10 mx-auto row d-flex flex-column  table-container ">
+<div class="col-10 mx-auto row d-flex flex-column  table-container ">
+    <h3 class="p-2">Teams Index </h3>
     <div class=" table-header text-center border-bottom border-dark">
-        
 
-        <div class=" h5 d-flex flex-row table-navlinks justify-content-center">
-            <h1 class="p-2">Teams Index |</h1>
+
+        <div class=" h5 d-flex flex-row table-navlinks ">
+
             <a href='@Url.Action( "Create", "Team")' class="btn align-self-center mx-1">Create New Team</a>
         </div>
     </div>
@@ -57,9 +58,9 @@
                             <option value=@($"/Team/Delete/{item.TeamId}")>Delete Team</option>
                         </select>
                         <a href="" id="@($"goButton{i}")" class="btn-sm btn-primary">Go</a>
-@*                        @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.TeamId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })*@
+                        @*                        @Html.ActionLink("Edit", "Edit", new { id = item.TeamId }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.TeamId }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.TeamId })*@
                     </td>
                 </tr>
                 i++;

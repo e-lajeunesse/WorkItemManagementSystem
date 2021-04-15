@@ -10,6 +10,7 @@ namespace WIMS.Models
     {
         [Display(Name ="Id")]
         public int ItemId { get; set; }
+        public Priority Priority { get; set; }
         public Size Size { get; set; }
         public ItemType Type { get; set; }
         public string Description { get; set; }

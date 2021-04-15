@@ -10,13 +10,12 @@ namespace WIMS.Data
     {
         [Key]
         public int ItemId { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string Description { get; set; }
 
-        [Required]
+        public string DetailedDescription { get; set; }
         public Size Size { get; set; }
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
         public ItemType Type => ItemType.Feature;
         public DateTime DateCreated { get; set; }        
         public int DaysPending
@@ -27,7 +26,7 @@ namespace WIMS.Data
                 return (int)days;
             }
         }
-        public bool IsComplete { get; set; }
+       
         public DateTime? DateCompleted { get; set; }
         public string CompletedByName { get; set; }
         
@@ -36,5 +35,6 @@ namespace WIMS.Data
         [ForeignKey(nameof(ApplicationUser))]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual List<Note> Notes { get; set; }
     }
 }

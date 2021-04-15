@@ -253,13 +253,18 @@ namespace WIMS.MVC.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
+                    b.Property<string>("DetailedDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("ItemId");
@@ -292,14 +297,18 @@ namespace WIMS.MVC.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
+                    b.Property<string>("DetailedDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("ItemId");
@@ -307,6 +316,42 @@ namespace WIMS.MVC.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("FeatureItems");
+                });
+
+            modelBuilder.Entity("WIMS.Data.Note", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("BugItemId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FeatureItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoteText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BugItemId");
+
+                    b.HasIndex("FeatureItemId");
+
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("WIMS.Data.Team", b =>
@@ -394,6 +439,21 @@ namespace WIMS.MVC.Data.Migrations
                     b.HasOne("WIMS.Data.ApplicationUser", "ApplicationUser")
                         .WithMany("FeatureItems")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("WIMS.Data.Note", b =>
+                {
+                    b.HasOne("WIMS.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("WIMS.Data.BugItem", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("BugItemId");
+
+                    b.HasOne("WIMS.Data.FeatureItem", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("FeatureItemId");
                 });
 #pragma warning restore 612, 618
         }

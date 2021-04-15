@@ -2,96 +2,229 @@
 
 @{
     ViewData["Title"] = "BugItemDetails";
+    WIMS.Models.NoteModels.NoteCreate create = ViewBag.NoteCreate;
 }
 
-<div class="card item-details mx-auto">
-    <div class="card-header table-header"><h4>Item Details</h4></div>
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ItemId)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ItemId)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Type)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Type)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Size)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Size)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DateCreated)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.DaysPending)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DaysPending)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatorName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatorName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FullName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FullName)
-            </dd>
-        </dl>
+<div class="d-flex flex-row w-100 justify-content-around align-items-start min-vh-100 " id="details-container">
+    <div class="card item-details">
+        <div class="card-header table-header"><h4>Item Details</h4></div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ItemId)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ItemId)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Priority)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Priority)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Size)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Size)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DateCreated)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DaysPending)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DaysPending)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CreatorName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CreatorName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.FullName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+                @if (Model.DetailedDescription != null)
+                {
+                    <dt class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.DetailedDescription)
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.DetailedDescription)
+                    </dd>
+                }
+
+            </dl>
+        </div>
+        <div class="card-footer bg-transparent d-flex flex-row justify-content-between">
+            @*<a class="btn btn-primary" href="@Url.Action("EditBugItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>*@
+            @if (Model.IsComplete)
+            {
+                <a class="btn btn-primary" asp-action="ViewCompletedItems">Back to List</a>
+            }
+            else
+            {
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            }
+            <div class="align-self-center">
+                <select id="dropdown">
+                    <option value="">Select</option>
+                    <option value=@($"/WorkItem/EditBugItem/{Model.ItemId}")>Edit Item</option>
+                    <option value=@($"/WorkItem/CompleteBugItem/{Model.ItemId}")>Complete Item</option>
+                    @if (ViewBag.IsManager)
+                    {
+                        <option value=@($"/WorkItem/DeleteBugItem/{Model.ItemId}")>Delete Item</option>
+                        <option value=@($"/WorkItem/ReassignBugItem/{Model.ItemId}")>Reassign Item</option>
+                    }
+                </select>
+                <a href="" id="go" class="btn-sm btn-primary">Go</a>
+            </div>
+
+        </div>
     </div>
-    <div class="card-footer bg-transparent">
-        <a class="btn btn-primary" href="@Url.Action("EditBugItem", "WorkItem", new { id = Model.ItemId  })">Edit Item </a>
-        @if (Model.IsComplete)
-        {
-            <a asp-action="ViewCompletedItems">Back to List</a>
-        }
-        else
-        {
-            <a asp-action="Index" class="btn btn-primary">Back to List</a>
-        }
 
-@*        <a id="go" href="" class="btn btn-primary">Go</a>
 
-        <select id="dropdown">
-            <option value="">Select</option>
-            <option value="/WorkItem">Back to List</option>
-        </select>
-        <button id="test">Button</button>*@
+
+
+    <div id="note-container" >
+        <div class="card">
+            <div class="card-header table-header d-flex flex-row justify-content-between">
+                <h4>Notes</h4>
+                <button class="btn btn-primary float-right" id="hideNotes">Hide Notes</button>
+            </div>
+            <div class="card-body overflow-auto " style="max-height:375px;" id="notes">
+                @foreach (var note in Model.Notes)
+                {
+                @*<div class="card py-1 my-3 w-75 mx-auto border-dark">*@
+                <div>
+                    <blockquote>
+                        <p class="mx-3"> @note.NoteText</p>
+                        @if (note.DateModified != null)
+                        {
+                            <footer class="blockquote-footer ml-3">@note.AuthorName  <span class="pl-3">edited @(((DateTime) note.DateModified).ToShortDateString()) </span> </footer>
+                        }
+                        else
+                        {
+                            <footer class="blockquote-footer ml-3">@note.AuthorName  <span class="pl-3"> @note.DateCreated.ToShortDateString() </span> </footer>
+                        }
+                    </blockquote>
+
+
+
+
+                    @*<a class="btn-sm btn-primary w-25" href="@Url.Action("DeleteBugNote","Note", new { id = note.NoteId})">Delete</a>*@
+                    <div class="w-25 d-flex flex-row justify-content-around">
+                        @Html.ActionLink("Delete ", "DeleteBugNote", "Note", new { id = note.NoteId })
+                        @Html.ActionLink("Edit", "EditBugNote", "Note", new { id = note.NoteId })
+                    </div>
+                    <hr />
+
+
+                </div>
+                }
+            </div>
+
+
+            <div class="card-footer bg-transparent border-top-0">
+            
+                <form asp-action="CreateBugItemNote" asp-controller="Note" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
+                    <div class="form-group">
+                        <label asp-for="NoteText" class="control-label invisible"></label>
+                        @*<input asp-for="NoteText" class="form-control" />*@
+                        <textarea placeholder="Enter Note Text" asp-for="NoteText" rows="5" cols="70" class="form-control "></textarea>
+                        <span asp-validation-for="NoteText" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        @*<label asp-for="ItemId" class="control-label"></label>*@
+                        <input asp-for="ItemId" type="hidden" class="form-control" value="@Model.ItemId" />
+                        <span asp-validation-for="NoteText" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add New Note" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+        </div>
 
     </div>
+
+
 </div>
 
 
+<script>
+    let hidden = false;
+    const button = document.querySelector("#hideNotes")
+    const notes = document.querySelector('#notes')
 
+    button.addEventListener('click', () => hide());
 
-<script type="text/javascript">
-    
+    function hide() {
+
+        if (!hidden) {
+            notes.classList.add('d-none');
+            button.textContent = "View Notes";
+            hidden = true;
+        }
+        else {
+            notes.classList.remove('d-none');
+            button.textContent = "Hide Notes"
+            hidden = false;
+        }
+    }
+
     const goButton = document.querySelector('#go');
-    const dropDownMenu = document.querySelector('#dropdown');
-    dropDownMenu.addEventListener('change', (event) => {
-        goButton.getAttribute("href");
-        goButton.setAttribute("href", event.target.value);
-        alert(goButton.getAttribute("href"));
-    });
+    const dropDown = document.querySelector('#dropdown');
 
+    dropDown.addEventListener('change', () => setHrefVal());   
+
+    function setHrefVal() {
+
+       goButton.setAttribute("href", dropDown.value);
+    }
 </script>
+
+
+
+
+
+
+
+
 

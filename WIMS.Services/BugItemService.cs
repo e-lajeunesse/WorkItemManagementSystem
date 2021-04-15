@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WIMS.Data;
 using WIMS.Models;
 using WIMS.Models.BugItemModels;
+using WIMS.Models.NoteModels;
 using WIMS.MVC.Data;
 using WIMS.MVC.Models;
 
@@ -27,8 +28,10 @@ namespace WIMS.Services
             BugItem item = new BugItem
             {
                 Description = model.Description,
+                DetailedDescription = model.DetailedDescription,
                 Size = model.Size,
-                IsComplete = false,
+                Priority = model.Priority,
+                Status = Status.Open,                
                 DateCreated = DateTime.Now,
                 DateCompleted = null,
                 CreatorName = fullName,
@@ -44,11 +47,13 @@ namespace WIMS.Services
         public async Task<List<WorkItemListItem>> GetBugItems()
         {
 
-            return await _context.BugItems.Where(i => i.IsComplete == false)
+            return await _context.BugItems.Where(i => i.Status != Status.Complete)
                 .Select(i => new WorkItemListItem
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
+                Status = i.Status,
+                Priority = i.Priority,
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
@@ -60,11 +65,12 @@ namespace WIMS.Services
         //Gets all completed Bug Items
         public async Task<List<CompletedItemListItem>> GetCompletedBugItems()
         {
-            return await _context.BugItems.Where(i => i.IsComplete)
+            return await _context.BugItems.Where(i => i.Status == Status.Complete)
                 .Select(i => new CompletedItemListItem
                 {
                     ItemId = i.ItemId,
                     Description = i.Description,
+                    Priority = i.Priority,
                     Type = i.Type,
                     Size = i.Size,
                     DateCompleted = i.DateCompleted,
@@ -80,6 +86,8 @@ namespace WIMS.Services
             {
                 ItemId = i.ItemId,
                 Description = i.Description,
+                Status = i.Status,
+                Priority = i.Priority,
                 Type = i.Type,
                 Size = i.Size,
                 DaysPending = i.DaysPending,
@@ -99,6 +107,8 @@ namespace WIMS.Services
                 {
                     ItemId = i.ItemId,
                     Description = i.Description,
+                    Status = i.Status,
+                    Priority = i.Priority,
                     Type = i.Type,
                     Size = i.Size,
                     DaysPending = i.DaysPending,
@@ -115,12 +125,22 @@ namespace WIMS.Services
             {
                 ItemId = item.ItemId,
                 Description = item.Description,
+                DetailedDescription = item.DetailedDescription,
+                Status = item.Status,
+                Priority = item.Priority,
                 Type = item.Type,
                 Size = item.Size,
                 DateCreated = item.DateCreated,
-                DaysPending = item.DaysPending,
-                IsComplete = item.IsComplete,
+                DaysPending = item.DaysPending,                
                 CreatorName = item.CreatorName,
+                Notes = item.Notes.Select(n => new NoteDetail
+                {
+                    NoteText = n.NoteText,
+                    NoteId = n.NoteId,
+                    DateCreated = n.DateCreated,
+                    DateModified = n.DateModified,
+                    AuthorName = n.ApplicationUser.FullName
+                }).ToList()
 /*                ApplicationUserId = item.ApplicationUserId,
                 FullName = item.ApplicationUser.FullName*/
             };
@@ -138,6 +158,9 @@ namespace WIMS.Services
             BugItem itemToEdit = await _context.BugItems.SingleAsync(i => i.ItemId == model.ItemId);
             itemToEdit.Description = model.Description;
             itemToEdit.Size = model.Size;
+            itemToEdit.Priority = model.Priority;
+            itemToEdit.Status = model.Status;
+            itemToEdit.DetailedDescription = model.DetailedDescription;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
@@ -146,28 +169,46 @@ namespace WIMS.Services
         public async Task<bool> DeleteBugItem(int itemId)
         {
             BugItem itemToDelete = await _context.BugItems.SingleAsync(i => i.ItemId == itemId);
+            if (itemToDelete.Notes.Any())
+            {
+                foreach (var note in itemToDelete.Notes)
+                {
+                    _context.Notes.Remove(note);
+                }
+            }
             _context.BugItems.Remove(itemToDelete);
             int changes = await _context.SaveChangesAsync();
-            return changes == 1;
+            return changes > 0;
         }
 
         //Reassign Bug Item
         public async Task<bool> ReassignBugItem(int itemId, WorkItemReassign model)
         {
             BugItem item = await _context.BugItems.FindAsync(itemId);
-            item.IsComplete = false;
+            if (item.Status == Status.Complete)
+            {
+                item.Status = Status.Reopened;
+            }            
             item.ApplicationUserId = model.ApplicationUserId;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;
         }
 
         //Complete Bug Item
-        public async Task<bool> CompleteBugItem(int itemId)
+        public async Task<bool> CompleteBugItem(int itemId, string userId)
         {
             BugItem item = await _context.BugItems.FindAsync(itemId);
-            item.IsComplete = true;
+            item.Status = Status.Complete;
             item.DateCompleted = DateTime.Now;
-            item.CompletedByName = item.ApplicationUser.FullName;
+            if (userId == item.ApplicationUserId)
+            {
+                item.CompletedByName = item.ApplicationUser.FullName;
+            }
+            else
+            {
+                var currentUser = await _context.Users.FindAsync(userId);
+                item.CompletedByName = currentUser.FullName;
+            }
             item.ApplicationUserId = null;
             int changes = await _context.SaveChangesAsync();
             return changes == 1;

@@ -20,8 +20,9 @@ body {
 
 /**/
 #navbar {
-    background-color: #00458B ;
-   /* color: white !important;*/
+
+    background-color: #3e434a;
+    /* color: white !important;*/
 }
 
 .table-container{
@@ -30,13 +31,20 @@ body {
 .table {
     background-color: white;
 }
+.table td{
+   color:#707070; 
+}
 
 .table-header {
-    background-color: #ACBFE6;
+    
+    background-color: #00458B;
+    color: white;
+    /*background-color: #ACBFE6;*/
+    /*background-color:lightcoral;*/
 }
-    .table-header a {
+    /*.table-header a {
         background-color: #00458B;
-    }
+    }*/
 
 
 
@@ -72,7 +80,7 @@ body {
 /* Work Item Views*/
 
 .table-container {
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 
@@ -81,14 +89,24 @@ body {
     font-weight: 500;
 }
 
-.item-edit, .item-details , .item-complete, .item-delete, .item-create{
+.item-edit, .item-complete, .item-delete, .item-create{
     margin-top:15%;
     width:75%;    
 }
 
-.item-reassign{
-    width:75%;
-    margin-top:10%;
+.item-details{
+    
+    width:45%;
+}
+
+.item-reassign {
+    width: 75%;
+    margin-top: 10%;
+}
+
+#details-container{
+    margin-top:15%;
+    
 }
 
 
@@ -103,7 +121,7 @@ body {
     margin-top: 15%;
 }
 
-#team-detail, #team-delete{
+#team-detail, #team-delete, .team-create{
     width:75%;
     margin-top:15%;
 }
@@ -121,7 +139,8 @@ body {
 }
 
 .role-card-header {
-    background-color:#ACBFE6 ;
+    background-color: #00458B;
+    color:white;
 }
 
 #create-role-btn{
@@ -136,4 +155,15 @@ body {
 #role-delete {
     width: 75%;
     margin-top: 15%;
+}
+
+
+/* Notes */
+
+#note-container{
+    width:45%;
+}
+.note-delete, .note-edit{
+    width:75%;
+    margin-top:15%;
 }

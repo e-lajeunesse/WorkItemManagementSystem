@@ -1,0 +1,17 @@
+﻿@model WIMS.Models.BugItemModels.BugItemDetail
+    
+
+@{
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+        <button type="button" class="close" data-dismiss="alert"> X</button>
+    </div>
+}
+
+<a class="btn btn-primary" href="@Url.Action("BugItemDetails", "WorkItem", new { id = Model.ItemId  })">
+    Return to Item
+</a>

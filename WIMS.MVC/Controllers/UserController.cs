@@ -10,7 +10,7 @@ using WIMS.Models.UserModels;
 
 namespace WIMS.MVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -36,9 +36,9 @@ namespace WIMS.MVC.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         //Post: User/CreateRole
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRole(UserRoleCreate model)
         {
@@ -79,7 +79,7 @@ namespace WIMS.MVC.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(string id)
         {
-           var role = await _roleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
@@ -89,16 +89,22 @@ namespace WIMS.MVC.Controllers
             var model = new UserRoleEdit
             {
                 RoleId = role.Id,
-                RoleName = role.Name                
+                RoleName = role.Name
             };
 
-            foreach (var user in _userManager.Users)
+          /*  foreach (var user in _userManager.Users)
             {
-                if (await _userManager.IsInRoleAsync(user,role.Name))
+                if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
                     model.Users.Add(user.FullName);
                 }
+                
+            }*/
+            foreach (var user in await _userManager.GetUsersInRoleAsync(role.Name))
+            {
+                model.Users.Add(user.FullName);
             }
+            
             return View(model);
         }
 
@@ -121,12 +127,14 @@ namespace WIMS.MVC.Controllers
                 {
                     return RedirectToAction("GetRoles");
                 }
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
                 return View(model);
-            }            
+            }
+
+
         }
 
         //GET: User/EditUsersInRole
@@ -143,17 +151,22 @@ namespace WIMS.MVC.Controllers
             }
 
             var model = new List<UsersInRoleEdit>();
-            foreach(var user in _userManager.Users)
+            foreach(var user in _userManager.Users.ToList())
             {
                 var userModel = new UsersInRoleEdit
                 {
                     UserId = user.Id,
                     FullName = user.FullName
                 };
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                var roles = await _userManager.GetRolesAsync(user) ;
+                if (roles.Contains(role.Name))
                 {
                     userModel.IsSelected = true;
                 }
+               /* if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userModel.IsSelected = true;
+                }*/
                 else
                 {
                     userModel.IsSelected = false;
@@ -179,6 +192,7 @@ namespace WIMS.MVC.Controllers
             foreach(var userModel in model)
             {
                 var user = await _userManager.FindByIdAsync(userModel.UserId);
+                //var roles = await _userManager.GetRolesAsync()
                 IdentityResult result = null;
 
                 if (userModel.IsSelected && !(await _userManager.IsInRoleAsync(user,role.Name)))
