@@ -10,13 +10,14 @@
     ViewData["Title"] = "Index";
     int i = 0;
     int j = 0;
+    decimal averageDaysPending = (decimal)Model.WorkItems.Select(i => i.DaysPending).Sum() / (Model.WorkItems.ToList().Count);
 }
 
 
 <div class="row">
     <div class="row col-11 mx-auto">    
 
-        <div class="row mt-5 pt-5 col-11 ">
+        <div class="row mt-2 pt-4 col-11 ">
             <div class="card  w-100">
                 <div class="card-header table-header w-100 h4">
 
@@ -70,7 +71,7 @@
 
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Average Days Pending
-                            <span class="badge badge-secondary  px-3 py-2">@((double) Model.WorkItems.Select(i => i.DaysPending).Sum()/(Model.WorkItems.ToList().Count))</span>
+                            <span class="badge badge-secondary  px-3 py-2">@Decimal.Round(averageDaysPending,2)</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Priority Items
@@ -152,7 +153,6 @@
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().DaysPending)
                         <a href="@Url.Action("Index",new { order = ViewBag.AgeSortParam, currentFilter=ViewBag.CurrentFilter })"> <i class="pl-1 fas fa-arrows-alt-v"></i></a>
                     </th>
-
                     <th>
                         Actions
                     </th>
