@@ -206,7 +206,7 @@ namespace WIMS.MVC.Controllers
                     model.WorkItems = allItems.OrderBy(i => i.Priority).ToList();
                     break;
             }
-            int pageSize = 5;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             model.WorkItems = model.WorkItems.ToPagedList(pageNumber, pageSize);
             return View(model);
@@ -285,7 +285,7 @@ namespace WIMS.MVC.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             allItems = allItems.ToPagedList(pageNumber, pageSize);
             return View(allItems);
@@ -373,7 +373,7 @@ namespace WIMS.MVC.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             allItems = allItems.ToPagedList(pageNumber, pageSize);
             return View(allItems);

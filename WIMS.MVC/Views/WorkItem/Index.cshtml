@@ -14,10 +14,12 @@
 
 
 <div class="row">
-    <div class="row ">
-        <div class="offset-1 col-5  mt-5 pt-5">
-            <div class="card w-100 ">
+    <div class="row col-11 mx-auto">    
+
+        <div class="row mt-5 pt-5 col-11 ">
+            <div class="card  w-100">
                 <div class="card-header table-header w-100 h4">
+
                     @if (Model.User.IsManager && (Model.User.Team != null))
                     {
                         <p>
@@ -32,61 +34,63 @@
 
                     }
                 </div>
-                <ul class="list-group list-group-flush w-100" style="font-size:20px;">
-                    @if (!Model.User.IsManager)
-                    {
-                        <li class="list-group-item d-flex justify-content-between align-items-center ">
-                            Team
-                            @if (Model.User.Team != null)
+                <div class="d-flex flex-row">
+                    <ul class="list-group w-50 " style="font-size:20px;">
+                        @if (!Model.User.IsManager)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center ">
+                                Team
+                                @if (Model.User.Team != null)
+                                {
+                                    <span class="   ml-5 p-2">@Model.User.Team.TeamName</span>
+                                }
+
+                            </li>
+                        }
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Manager
+                            @if ((Model.User.Team != null) && (Model.User.Team.ManagerName != null))
                             {
-                                <span class="   ml-5 p-2">@Model.User.Team.TeamName</span>
+                                @* <span class="badge badge-secondary ml-5 p-2">@Model.User.Team.ManagerName</span>*@
+                                <span class=" ml-5 p-2">@Model.User.Team.ManagerName</span>
                             }
 
                         </li>
-                    }
+                        <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            Assigned Bug Items
+                            <span class="badge badge-secondary  ml-5 px-3 py-2">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center ">
+                            Assigned Feature Items
+                            <span class="badge badge-secondary  px-3 py-2">
+                                @Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Feature).Count()
+                            </span>
+                        </li>
 
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Manager
-                        @if ((Model.User.Team != null) && (Model.User.Team.ManagerName != null))
-                        {
-                           @* <span class="badge badge-secondary ml-5 p-2">@Model.User.Team.ManagerName</span>*@
-                            <span class=" ml-5 p-2">@Model.User.Team.ManagerName</span>
-                        }
-
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Assigned Bug Items
-                        <span class="badge badge-secondary  ml-5 px-3 py-2">@Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Bug).Count()</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center ">
-                        Assigned Feature Items
-                        <span class="badge badge-secondary  px-3 py-2">
-                            @Model.WorkItems.Where(i => i.Type == WIMS.Data.ItemType.Feature).Count()
-                        </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Priority Items
-                        <span class="badge badge-secondary  px-3 py-2">
-                            @Model.WorkItems.Where(i => i.Priority == WIMS.Data.Priority.High).Count()
-                        </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Average Days Pending
-                        <span class="badge badge-secondary  px-3 py-2">@((double) Model.WorkItems.Select(i => i.DaysPending).Sum()/(Model.WorkItems.ToList().Count))</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-5 mx-auto mt-5 pt-5 ">
-            <div class="card w-100 text-center">
-                <div class="card-header table-header h4">Work Items Index</div>
-                <div class="card-body text-center">
-                    <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
-                    <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
-                    <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">View Pending Items</a>
-                    <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1"> View Completed Items</a>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Average Days Pending
+                            <span class="badge badge-secondary  px-3 py-2">@((double) Model.WorkItems.Select(i => i.DaysPending).Sum()/(Model.WorkItems.ToList().Count))</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Priority Items
+                            <span class="badge badge-danger  px-3 py-2">
+                                @Model.WorkItems.Where(i => i.Priority == WIMS.Data.Priority.High).Count()
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="list-group   pt-2" style="font-size:20px;">
+                    </ul>
+                    <div class="card-body text-center border w-25">
+                        <a href='@Url.Action( "CreateBugItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Bug</a>
+                        <a href='@Url.Action( "CreateFeatureItem", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">Add New Feature</a>
+                        <a href='@Url.Action( "ViewAllItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1">View Pending Items</a>
+                        <a href='@Url.Action( "ViewCompletedItems", "WorkItem")' class="w-50 my-2 btn btn-primary align-self-center mx-1"> View Completed Items</a>
+                    </div>
                 </div>
+
+
+                
             </div>
         </div>
 
@@ -119,9 +123,7 @@
         <table class="table border  table-hover py-0 my-0 h6 ">
             <thead class="h6 bg-light">
                 <tr>
-                    @*<th>
-                    @Html.DisplayNameFor(Model => Model.WorkItems.FirstOrDefault().ItemId)
-                </th>*@
+                   
                     <th>
                         @Html.DisplayNameFor(model => model.WorkItems.FirstOrDefault().Description)
                     </th>
@@ -187,10 +189,10 @@
                             </td>
                         }
 
-                        <td class="px-3" width="10%">
+                        <td class="px-3" width="8%">
                             @Html.DisplayFor(modelItem => item.Status)
                         </td>
-                        <td width="5%">
+                        <td width="8%">
                             @Html.DisplayFor(modelItem => item.Size)
                         </td>
                         <td width="8%">

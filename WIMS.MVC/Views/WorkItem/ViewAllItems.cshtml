@@ -134,17 +134,18 @@
                         }
                         else
                         {
-                            <select id="@($"featureDropDown{j}")">
-                                <option value="">Select</option>
-                                <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
-                                @if (isManager)
-                                {
-                                    <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
-                                    <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
-                                }
+                    <select id="@($"featureDropDown{j}")">
+                        <option value="">Select</option>
+                        <option value=@($"/WorkItem/FeatureItemDetails/{item.ItemId}")>Item Details</option>
+                        @if (isManager)
+                        {
+                            <option value=@($"/WorkItem/EditBugItem/{item.ItemId}")>Edit Item</option>
+                            <option value=@($"/WorkItem/DeleteFeatureItem/{item.ItemId}")>Delete Item</option>
+                            <option value=@($"/WorkItem/ReassignFeatureItem/{item.ItemId}")>Reassign Item</option>
+                        }
 
 
-                            </select>
+                    </select>
                             <a href="" id="@($"featureGo{j}")" class="btn-sm btn-primary">Go</a>
                             j++;
                         }

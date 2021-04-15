@@ -197,7 +197,7 @@ namespace WIMS.Services
             item.DateCompleted = DateTime.Now;
             if (userId == item.ApplicationUserId)
             {
-                item.CompletedByName = userId;
+                item.CompletedByName = item.ApplicationUser.FullName;
             }
             else
             {

@@ -20,8 +20,9 @@ body {
 
 /**/
 #navbar {
-    background-color: #00458B ;
-   /* color: white !important;*/
+
+    background-color: #3e434a;
+    /* color: white !important;*/
 }
 
 .table-container{
@@ -35,9 +36,11 @@ body {
 }
 
 .table-header {
-    background-color: #ACBFE6;
-    /*background-color:lightcoral;*/
     
+    background-color: #00458B;
+    color: white;
+    /*background-color: #ACBFE6;*/
+    /*background-color:lightcoral;*/
 }
     /*.table-header a {
         background-color: #00458B;
@@ -136,7 +139,8 @@ body {
 }
 
 .role-card-header {
-    background-color:#ACBFE6 ;
+    background-color: #00458B;
+    color:white;
 }
 
 #create-role-btn{

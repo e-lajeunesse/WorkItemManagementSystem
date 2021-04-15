@@ -16,10 +16,10 @@ namespace WIMS.Models
         public Priority Priority { get; set; }
         public string Description { get; set; }
 
-        [Display(Name ="Assigned To")]
+        [Display(Name ="Assignee")]
         public string OwnerName { get; set; }
 
-        [Display(Name ="Days Pending")]
+        [Display(Name ="Days Old")]
         public int DaysPending { get; set; }
 
     }
