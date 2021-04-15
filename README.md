@@ -41,6 +41,7 @@ The following packages will need to be installed:
 - X.PagedList.Mvc.Core (version 8.0.7 should be installed on WIMS.MVC)
 
 The following package may be optionally installed. It allows you to see changes in the browser made from editing the projects cshtml files without needing to restart the application.
+
 -Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation (if desired install version 3.1.11 under WIMS.MVC)
 
 ### Using the Application
